@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+inst/tutorials/.DS_Store
+inst/.DS_Store
+.DS_Store
