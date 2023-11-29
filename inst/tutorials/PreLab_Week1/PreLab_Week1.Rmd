@@ -28,7 +28,7 @@ data(plants)  # Assume you have a dataset called 'plants' with columns 'year', '
 
 Let's start by examining the plant counts and flowering rates. We can access the data for male and female counts separately.
 
-```{r view_boys, exercise = T}
+```{r view_males, exercise = T}
 plants$male_count
 ```
 
@@ -82,7 +82,7 @@ With `ggplot()`:
 
 For instance, if you wanted to visualize the above plot using a line graph, you would replace `geom_point()` with `geom_line()`.
 
-```{r plot-girls-vs-year-line, exercise = T}
+```{r plot-females-vs-year-line, exercise = T}
 ggplot(data = plants, aes(x = year, y = females)) + 
   geom_line()
 ```
@@ -93,7 +93,7 @@ To learn what a function does and its arguments that are available to you, use t
 
 
 How would you create a plot that would help you answer the following question:
-Is there an apparent trend in the number of boys baptized over the years? 
+Is there an apparent trend in the number of males flowering over the years? 
 
 ```{r plotmales, exercise = TRUE}
 ggplot(data = ___, aes(x = ___, y = ___)) + 
@@ -102,7 +102,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 
 
 ```{r plotmales-solution}
-ggplot(data = arbuthnot, aes(x =year, y = boys)) + 
+ggplot(data = plant, aes(x =year, y = males)) + 
   geom_point()
 ```
 
@@ -119,7 +119,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) + ___
 ```
 
 ```{r plotmalespoint-solution}
-ggplot(data = arbuthnot, aes(x = year, y = boys)) + 
+ggplot(data = plant, aes(x = year, y = males)) + 
   geom_line()
 ```
 
@@ -139,11 +139,11 @@ We can type in mathematical expressions like
 5218 + 4683
 ```
 
-to see the total number of baptisms in 1629. We could repeat this once for each year, but there is a faster way. 
-If we add the vector for baptisms for boys to that of girls, R will compute all sums simultaneously.
+to see the total number of flowers in 1629. We could repeat this once for each year, but there is a faster way. 
+If we add the vector for flowers for males to that of females, R will compute all sums simultaneously.
 
 ```{r calc-total-bapt-vars, exercise = T}
-arbuthnot$boys + arbuthnot$girls
+plant$males + plant$females
 ```
 
 What you will see are 82 numbers (in that packed display, because we aren’t looking at a data frame here), each one representing the sum we’re after. 
@@ -154,20 +154,20 @@ Take a look at a few of them and verify that they are right.
 We'll be using this new vector to generate some plots, so we'll want to save it as a permanent column in our data frame.
 
 ```{r calc-total-bapt-vars-save, exercise = T}
-arbuthnot <- arbuthnot %>%
-  mutate(total = boys + girls)
+plant <- plant %>%
+  mutate(total = males + females)
 ```
 
 The `%>%` operator is called the **piping** operator. It takes the output of the previous expression and pipes it into the first argument of the function in the following one. 
 To continue our analogy with mathematical functions, `x %>% f(y)` is equivalent to `f(x, y)`.
 
 
-**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `arbuthnot` dataset and **pipe** it into the `mutate` function. 
-Mutate the `arbuthnot` data set by creating a new variable called `total` that is the sum of the variables called `boys` and `girls`. 
+**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `plant` dataset and **pipe** it into the `mutate` function. 
+Mutate the `plant` data set by creating a new variable called `total` that is the sum of the variables called `males` and `females`. 
 
-Then assign the resulting dataset to the object called `arbuthnot`, i.e. overwrite the old `arbuthnot` dataset with the new one containing the new variable."*
+Then assign the resulting dataset to the object called `plant`, i.e. overwrite the old `plant` dataset with the new one containing the new variable."*
   
-This is equivalent to going through each row and adding up the `boys` and `girls` counts for that year and recording that value in a new column called `total`.
+This is equivalent to going through each row and adding up the `males` and `females` counts for that year and recording that value in a new column called `total`.
 
 
 **Where is the new variable?** When you make changes to variables in your dataset, click on the name of the dataset again to update it in the data viewer.
@@ -176,104 +176,104 @@ This is equivalent to going through each row and adding up the `boys` and `girls
 You'll see that there is now a new column called `total` that has been tacked onto the data frame.
 
 The special symbol `<-` performs an *assignment*, taking the output of one line of code and saving it into an object in your environment. 
-In this case, you already have an object called `arbuthnot`, so this command updates that data set with the new mutated column.
+In this case, you already have an object called `plant`, so this command updates that data set with the new mutated column.
 
-You can make a line plot of the total number of baptisms per year with the command
+You can make a line plot of the total number of flowers per year with the command
 
 ```{r plottotalvsyear-setup}
-arbuthnot <- arbuthnot %>%
-  mutate(total = boys + girls)
+plant <- plant %>%
+  mutate(total = males + females)
 ```
 
 ```{r plottotalvsyear, exercise = TRUE}
-ggplot(data = arbuthnot, aes(x = year, y = total)) + 
+ggplot(data = plant, aes(x = year, y = total)) + 
   geom_line()
 ```
 
-Just as you computed the total number of births, you can compute the ratio of the number of boys to the number of girls baptized in 1629 with
+Just as you computed the total number of germinations, you can compute the ratio of the number of males to the number of females flowering in 1629 with
 
-```{r calc-prop-boys-to-girls-numbers, exercise = T}
+```{r calc-prop-males-to-females-numbers, exercise = T}
 5218 / 4683
 ```
 
 or you can act on the complete columns with the expression
 
-```{r calc-prop-boys-to-girls-vars, exercise = T}
-arbuthnot <- arbuthnot %>%
-  mutate(boy_to_girl_ratio = boys / girls)
+```{r calc-prop-males-to-females-vars, exercise = T}
+plant <- plant %>%
+  mutate(male_to_female_ratio = males / females)
 ```
 
-You can also compute the proportion of newborns that are boys in 1629
+You can also compute the proportion of newborns that are males in 1629
 
-```{r calc-prop-boys-numbers, exercise = T}
+```{r calc-prop-males-numbers, exercise = T}
 5218 / (5218 + 4683)
 ```
 
 or you can compute this for all years simultaneously and append it to the dataset
 
-```{r calcpropboysvars-setup}
-arbuthnot <- arbuthnot %>% mutate(total = boys + girls) %>%
-  mutate(boy_ratio = boys / total)
+```{r calcpropmalesvars-setup}
+plant <- plant %>% mutate(total = males + females) %>%
+  mutate(male_ratio = males / total)
 ```
 
-```{r calcpropboysvars, exercise = TRUE}
-arbuthnot <- arbuthnot %>%
-  mutate(boy_ratio = boys / total)
+```{r calcpropmalesvars, exercise = TRUE}
+plant <- plant %>%
+  mutate(male_ratio = males / total)
 ```
 
 Note that we are using the new `total` variable we created earlier in our calculations.
 
-Generate a line plot of the proportion of boys born over time. What do you see? 
+Generate a line plot of the proportion of males born over time. What do you see? 
 
-```{r plotboysprop-setup}
-arbuthnot <- arbuthnot %>% mutate(total = boys + girls) %>%
-  mutate(boy_ratio = boys / total)
+```{r plotmalesprop-setup}
+plant <- plant %>% mutate(total = males + females) %>%
+  mutate(male_ratio = males / total)
 ```
 
 
-```{r plotboysprop, exercise = TRUE}
+```{r plotmalesprop, exercise = TRUE}
 ggplot(data = ___, aes(x = ___, y = ___)) + 
   geom_line()
 ```
 
-```{r plotboysprop-solution}
-ggplot(data = arbuthnot, aes(x =year, y = boy_ratio)) + 
+```{r plotmalesprop-solution}
+ggplot(data = plant, aes(x =year, y = male_ratio)) + 
   geom_line()
 ```
 
-```{r plotboysprop-check}
+```{r plotmalesprop-check}
 # check code
 gradethis::grade_code()
 ```
 
 
 Finally, in addition to simple mathematical operators like subtraction and division, you can ask R to make comparisons like greater than, `>`, less than, `<`, and equality, `==`. 
-For example, we can ask if the number of births of boys outnumber that of girls in each year with the expression
+For example, we can ask if the number of germinations of males outnumber that of females in each year with the expression
 
-```{r boys-more-than-girls, exercise = T}
-arbuthnot <- arbuthnot %>%
-  mutate(more_boys = boys > girls)
+```{r males-more-than-females, exercise = T}
+plant <- plant %>%
+  mutate(more_males = males > females)
 ```
 
-This command adds a new variable to the `arbuthnot` dataframe containing the values of either `TRUE` if that year had more boys than girls, or `FALSE` if that year did not (the answer may surprise you). 
+This command adds a new variable to the `plant` dataframe containing the values of either `TRUE` if that year had more males than females, or `FALSE` if that year did not (the answer may surprise you). 
 This variable contains a different kind of data than we have encountered so far. 
-All other columns in the `arbuthnot` data frame have values that are numerical (the year, the number of boys and girls). 
+All other columns in the `plant` data frame have values that are numerical (the year, the number of males and females). 
 Here, we've asked R to create *logical* data, data where the values are either `TRUE` or `FALSE`. 
 In general, data analysis will involve many different kinds of data types, and one reason for using R is that it is able to represent and compute with many of them.
 
 ## More Practice
 
-In the previous few exercises, you recreated some of the displays and preliminary analysis of Arbuthnot's baptism data. 
-Your assignment involves repeating these steps, but for present day birth records in the United States. 
+In the previous few exercises, you recreated some of the displays and preliminary analysis of plant's flower data. 
+Your assignment involves repeating these steps, but for present day germinations records in the United States. 
 The data are stored in a data frame called `present`. These data come from reports by the Centers for Disease Control. 
 You can learn more about them by bringing up the help file using the command `?present`.
 
 To find the minimum and maximum values of columns, you can use the functions `min` and `max` within a `summarise()` call, which you will learn more about in the following lab. 
-Here's an example of how to find the minimum and maximum amount of boy births in a year for the `arbuthnot` data:
+Here's an example of how to find the minimum and maximum amount of male germinations in a year for the `plant` data:
   
 ```{r summarize_min_and_max, exercise = T}
-arbuthnot %>%
-  summarise(min = min(boys), max = max(boys))
+plant %>%
+  summarise(min = min(males), max = max(males))
 ```
 
 What years are included in the `present` data set? 
@@ -326,22 +326,22 @@ names(present)
 gradethis::grade_code()
 ```
 
-How do these counts compare to Arbuthnot's? 
+How do these counts compare to plant's? 
 
 ```{r comparecounts, exercise = TRUE}
-arbuthnot %>%
-  summarise(min = min(boys), max = max(boys))
+plant %>%
+  summarise(min = min(males), max = max(males))
 
 ___ %>% 
-   summarise(min = min(boys), max = max(boys))
+   summarise(min = min(males), max = max(males))
 ```
 
 ```{r comparecounts-solution}
-arbuthnot %>%
-  summarise(min = min(boys), max = max(boys))
+plant %>%
+  summarise(min = min(males), max = max(males))
 
 present %>% 
-   summarise(min = min(boys), max = max(boys))
+   summarise(min = min(males), max = max(males))
 ```
 
 ```{r comparecounts-check}
@@ -353,7 +353,7 @@ gradethis::grade_code()
 ```{r magnitude}
 question("Are they of a similar magnitude?",
     answer("Yes"),
-    answer("No, Arbuthnot's are greater."),
+    answer("No, plant's are greater."),
     answer("No, the US's are greater.", correct = T),
     allow_retry = TRUE,
     random_answer_order = F
@@ -361,24 +361,24 @@ question("Are they of a similar magnitude?",
 ```
 
 
-Make a plot that displays the proportion of boys born over time.
+Make a plot that displays the proportion of males born over time.
 
-```{r plotboyspresent, exercise = TRUE}
-present <- present %>% mutate(boy_ratio = ___)
+```{r plotmalespresent, exercise = TRUE}
+present <- present %>% mutate(male_ratio = ___)
 
 ggplot(data = ___, aes(x = ___, y = ___)) + 
   geom_line()
 ```
 
 
-```{r plotboyspresent-solution}
-present <- present %>% mutate(boy_ratio = boys/(boys+girls))
+```{r plotmalespresent-solution}
+present <- present %>% mutate(male_ratio = males/(males+females))
 
-ggplot(data = present, aes(x = year, y = boy_ratio)) + 
+ggplot(data = present, aes(x = year, y = male_ratio)) + 
   geom_line()
 ```
 
-```{r plotboyspresent-check}
+```{r plotmalespresent-check}
 # check code
 gradethis::grade_code()
 ```
@@ -386,7 +386,7 @@ gradethis::grade_code()
 
 
 ```{r obs-hold}
-question("Does Arbuthnot's observation about boys being born in greater proportion than girls hold up in the U.S.?",
+question("Does plant's observation about males being born in greater proportion than females hold up in the U.S.?",
     answer("Yes",correct = T),
     answer("No"),
     allow_retry = TRUE,
@@ -395,12 +395,12 @@ question("Does Arbuthnot's observation about boys being born in greater proporti
 ```
 
 
-In what year did we see the most total number of births in the U.S.? *Hint:*
+In what year did we see the most total number of germinations in the U.S.? *Hint:*
 First calculate the totals and save it as a new variable. Then, sort your
 dataset in descending order based on the total column. We can arrange the data 
 in a descending order with another function: `desc` (for descending order).
 
-```{r mostbirths, exercise = TRUE}
+```{r mostgerminations, exercise = TRUE}
 present <- present %>%
   mutate(total = ___)
 
@@ -409,16 +409,16 @@ present %>%
 ```
 
 
-```{r mostbirths-solution}
+```{r mostgerminations-solution}
 # solution code
 present <- present %>%
-  mutate(total = boys + girls)
+  mutate(total = males + females)
 
 present %>%
   arrange(desc(total))
 ```
 
-```{r mostbirths-check}
+```{r mostgerminations-check}
 # check code
 gradethis::grade_code()
 ```
