@@ -1,6 +1,6 @@
-Package: BIOL710_AdvBiometry
+Package: BIOL710AdvBiometry
 Title: learnr labs for BIOL 710 Advanced Biometry at SFSU
-Version: 0.0.0.000
+Version: 0.01
 Authors@R: 
     person(given = "Jenna",
            family = "Ekwealor",

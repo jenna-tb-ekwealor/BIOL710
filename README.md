@@ -1,4 +1,4 @@
-# BIOL710_AdvBiometry
+# BIOL710AdvBiometry
 ## learnr labs for advanced biometry
 adapted from Sara Stoudt and labs for Open Intro ISRS
 
@@ -15,7 +15,7 @@ adapted from Sara Stoudt and labs for Open Intro ISRS
 
 `remotes::install_github("rstudio-education/gradethis")`
 
-`remotes::install_github("jenna-tb-ekwealor/BIOL710_AdvBiometry")`
+`remotes::install_github("jenna-tb-ekwealor/BIOL710AdvBiometry")`
 
 
 2. Thanks to Marney for this one: after install is complete (I know this seems weird, but go with it):
@@ -34,7 +34,7 @@ Exit RStudio and then open it again.
 
 ### Launch a lesson:
 
-1. In the console (bottom left) type: `learnr::run_tutorial("PreLab_Week1", "BIOL710_AdvBiometry")`
+1. In the console (bottom left) type: `learnr::run_tutorial("PreLab_Week1", "BIOL710AdvBiometry")`
 
 ### Stop a lesson 
 
