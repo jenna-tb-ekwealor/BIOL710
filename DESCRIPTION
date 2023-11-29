@@ -1,5 +1,5 @@
 Package: BIOL710_AdvBiometry
-Title: llearnr labs for BIOL 710 Advanced Biometry at SFSU
+Title: learnr labs for BIOL 710 Advanced Biometry at SFSU
 Version: 0.0.0.000
 Authors@R: 
     person(given = "Jenna",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "ekwealor@sfsu.edu",
            comment = c(ORCID = "0000-0001-9014-8786"))
-Description: learnr tutorials for biometry (modified from Open Intro labs)
+Description: learnr tutorials for advanced biometry (modified from Sara Stoudt and Open Intro labs)
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8
