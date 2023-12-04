@@ -1,5 +1,5 @@
 ---
-title: "The normal distribution"
+title: "Introduction to data"
 output: 
   learnr::tutorial:
     progressive: true
@@ -13,44 +13,34 @@ library(learnrhash)
 library(tidyverse)
 library(gradethis)
 library(openintro)
-library(infer)
 tutorial_options(
   # use gradethis for checking
   exercise.checker = gradethis::grade_learnr
   )
 knitr::opts_chunk$set(echo = FALSE)
 
-mcdonalds <- fastfood %>%
-  filter(restaurant == "Mcdonalds")
-dairy_queen <- fastfood %>%
-  filter(restaurant == "Dairy Queen")
-dqmean <- mean(dairy_queen$cal_fat)
-dqsd   <- sd(dairy_queen$cal_fat)
+la_bird_obss <- nycbirds %>%
+  filter(dest == "la")
+
+sf_feb_bird_obss <- nycbirds %>%
+  filter(dest == "sf", month == 2)
 ```
 
-## Logistics
+## Getting started
 
-This lab will occur remotely and in groups of three. You will work with your final project team so that if you finish early you can work on your project together. For those of you participating synchronously, you will find the Zoom room information on [Moodle](https://moodle.smith.edu/). I will assign you to a breakout room with your partner(s) from last week. 
-
-For those participating syncronously I will be available in the main Zoom room to answer questions. If you have a question or technical problem, click the "Ask for Help" button (it looks like a question mark) in the meeting controls, and I will be alerted to join your breakout room.  
-
-For those of you participating asynchronously, alert me to technical challengs over Slack DM, and I will get back to you as soon as possible. For questions about the content of the lab, please sign up for an office hour time block. 
-
-Each of you should be writing and running code, examining output, and answering the exercises throughout the lab. However, you only need to turn in one final lab report. To be clear, everyone submits files to Moodle, but the files can be the same within a group. Today one of you should be the main recorder of answers in the lab document. You will share this document with your teammates. As you work it may be helpful to share your screen. It may be helpful to share your screen. 
-
-You all should also feel free to ask and answer questions amongst yourselves via Zoom if participating synchronously or via Slack if participating asynchronously. Please note at the end of the lab document who you consulted for help.
-
-## Getting Started
-
-In this lab, you'll investigate the probability distribution that is most central
-to statistics: the normal distribution.  If you are confident that your data are 
-nearly normal, that opens the door to many powerful statistical methods.  Here 
-we'll use the graphical tools of R to assess the normality of our data and also 
-learn how to generate random numbers from a normal distribution.
+Some define statistics as the field that focuses on turning information into
+knowledge. The first step in that process is to summarize and describe the raw
+information -- the data. In this lab we explore migratory birds, specifically a random
+sample of migratory birds that were spotted in
+New York in 2013. We will generate simple graphical and numerical 
+summaries of data on these birds and explore variation in timing. Since this is a large 
+data set, along the way you'll also learn the indispensable skills of data 
+processing and subsetting.
 
 ### Load packages
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages as well as the **openintro** package.
+In this lab, we will explore and visualize the data using the **tidyverse** suite of 
+packages. The data can be found in the companion package for OpenIntro labs, **openintro**.
 
 Let's load the packages.
 
@@ -60,233 +50,373 @@ library(openintro)
 ```
 
 
-### The data
+## The data
 
-This week you'll be working with fast food data.  This data set contains data on
-515 menu items from some of the most popular fast food restaurants worldwide.
-Let's take a quick peek at the first few rows of the data.
-
-Either you can use `glimpse` like before, or `head` to do this.
+First, we'll view the `nycbirds` data frame. Type the following in your console
+to load the data:
 
 ```{r load-data, exercise = T}
-glimpse(fastfood)
-head(fastfood)
+data(nycbirds)
 ```
 
-You'll see that for every observation there are 17 measurements, many of which are
-nutritional facts.
+The data set `nycbirds` that shows up in your workspace is a *data matrix*, 
+with each row representing an *observation* and each column representing a 
+*variable*. R calls this data format a **data frame**, which is a term that will 
+be used throughout the labs. For this data set, each *observation* is a single bird_obs.
 
-You'll be focusing on just three columns to get started: restaurant, calories, 
-calories from fat.
+To view the names of the variables, type the command
 
-Let's first focus on just products from McDonalds and Dairy Queen.
-
-```{r male-female, exercise = T}
-mcdonalds <- fastfood %>%
-  filter(restaurant == "Mcdonalds")
-dairy_queen <- fastfood %>%
-  filter(restaurant == "Dairy Queen")
+```{r names, exercise = T}
+names(nycbirds)
 ```
 
-Make plots to visualize the distributions of the amount of calories
-from fat of the options from these two restaurants.  How do their centers, shapes,
-and spreads compare?
+This returns the names of the variables in this data frame. The **codebook**
+(description of the variables) can be accessed by pulling up the help file:
 
-```{r dghqyduwvsgyzshm, exercise = TRUE}
-ggplot(mcdonalds, aes(x = ___)) + ___
-ggplot(dairy_queen, aes(x = ___)) + ___
+```{r help, exercise = T}
+?nycbirds
 ```
 
-```{r dghqyduwvsgyzshm-solution}
-ggplot(mcdonalds, aes(x = cal_fat)) + geom_histogram()
-ggplot(dairy_queen, aes(x = cal_fat)) + geom_histogram()
+One of the variables refers to the order of the bird observed (bird_obs), which 
+is coded according to the following system.
+
+- `carrier`: Two letter carrier abbreviation.
+    + `9E`:           Ducks
+    + `AA`:           Flamingos 
+    + `AS`:           Doves
+    + `B6`:           Cuckoos
+    + `DL`:           Nightjars
+    + `EV`:           Swifts
+    + `F9`:           Cranes
+    + `FL`:           Shore Birds
+    + `HA`:           Tropicbirds
+    + `MQ`:           Loons
+    + `OO`:           Tube-nosed Swimmers
+    + `UA`:           Storks
+    + `US`:           Cormorants
+    + `VX`:           Pelicans
+    + `WN`:           Hawks
+    + `YV`:           Owls
+    Trogons
+    Motmots
+    Woodpeckers
+    Falcons
+    Perching Birds
+
+
+We can use `glimpse` to take a quick peek at your data to 
+understand its contents better.
+
+```{r glimpse, exercise = T}
+glimpse(nycbirds)
 ```
 
-```{r dghqyduwvsgyzshm-check}
-# check code
-gradethis::grade_code()
+
+## Making plots to explore the data
+
+We use the `ggplot()` function to build plots. 
+If you run the plotting code in your console, you should see the plot appear under the *Plots* tab of the lower right panel of RStudio. If you run the chunk, the plot will appear beneath the code chunk.
+ 
+With `ggplot()`:
+
+- The first argument is always the dataset. 
+- Next, you provide the variables from the dataset to be assigned to `aes`thetic elements of the plot, e.g. the x and the y axes. 
+- Finally, you use another layer, separated by a `+` to specify the `geom`etric object for the plot. Since we want to scatterplot, we use `geom_point()`.
+
+For instance, if you wanted to visualize the above plot using a line graph, you would replace `geom_point()` with `geom_line()`.
+
+### Departure delays
+
+Let's start by examing the distribution of departure delays of all bird_obss with a 
+histogram.
+
+```{r hist-dep-delay, exercise = T}
+ggplot(data = nycbirds, aes(x = dep_delay)) +
+  geom_histogram()
 ```
 
-## The normal distribution
+This function says to plot the `dep_delay` variable from the `nycbirds` data 
+frame on the x-axis. It also defines a `geom` (short for geometric object), 
+which describes the type of plot you will produce. 
 
-In your description of the distributions, did you use words like *bell-shaped* 
-or *normal*?  It's tempting to say so when faced with a unimodal symmetric 
-distribution.
+Histograms are generally a very good way to see the shape of a single 
+distribution of numerical data, but that shape can change depending on how the 
+data is split between the different bins. You can easily define the binwidth you 
+want to use:
 
-To see how accurate that description is, you can plot a normal distribution curve 
-on top of a histogram to see how closely the data follow a normal distribution. 
-This normal curve should have the same mean and standard deviation as the data. 
-You'll be focusing on calories from fat from Dairy Queen products, so let's store
-them as a separate object and then calculate some statistics that will be referenced 
-later. 
-
-```{r female-hgt-mean-sd, exercise = T}
-dqmean <- mean(dairy_queen$cal_fat)
-dqsd   <- sd(dairy_queen$cal_fat)
+```{r hist-dep-delay-bins, exercise = T}
+ggplot(data = nycbirds, aes(x = dep_delay)) +
+  geom_histogram(binwidth = 15)
+ggplot(data = nycbirds, aes(x = dep_delay)) +
+  geom_histogram(binwidth = 150)
 ```
 
-Next, you make a density histogram to use as the backdrop and use the `lines` 
-function to overlay a normal probability curve. The difference between a 
-frequency histogram and a density histogram is that while in a frequency 
-histogram the *heights* of the bars add up to the total number of observations, 
-in a density histogram the *areas* of the bars add up to 1. The area of each bar
-can be calculated as simply the height *times* the width of the bar. Using a 
-density histogram allows us to properly overlay a normal distribution curve over
-the histogram since the curve is a normal probability density function that also
-has area under the curve of 1. Frequency and density histograms both display the
-same exact shape; they only differ in their y-axis. You can verify this by
-comparing the frequency histogram you likely constructed earlier and the density
-histogram created by the commands below.
+Look carefully at these three histograms. How do they compare? 
 
-```{r hist-height, exercise = T}
-ggplot(data = dairy_queen, aes(x = cal_fat)) +
-        geom_blank() +
-        geom_histogram(aes(y = ..density..)) +
-        stat_function(fun = dnorm, args = c(mean = dqmean, sd = dqsd), col = "tomato")
+```{r bandwidth}
+question("Are features revealed in one that are obscured in another?",
+    answer("No, they look the same."),
+    answer("Yes, more detail is shown with a binwidth of 15.", correct = T),
+    answer("Yes, more detail is shown with a binwidth of 150."),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
 ```
 
-After initializing a blank plot with `geom_blank()`, the `ggplot2` package (within
-the `tidyverse`) allows us to add additional layers. The first layer is a density 
-histogram. `..density..` is a special term that tells `ggplot` to calculate the density for the specified variable (here `cal_fat`) and use it to define the value on chosen axis. The second layer is a statistical function -- the density of the normal
-curve, `dnorm`. We specify that we want the curve to have the same mean and 
-standard deviation as the calories from fat in the dairy queen data. The argument `col` simply sets
-the color for the line to be drawn. If we left it out, the line would be drawn in
-black.
+## Piping
 
+The `%>%` operator is called the **piping** operator. It takes the output of the previous expression and pipes it into the first argument of the function in the following one. 
+To continue our analogy with mathematical functions, `x %>% f(y)` is equivalent to `f(x, y)`.
 
-## Evaluating the normal distribution
+If you want to visualize only on delays of bird_obss headed to Los Angeles, you need 
+to first `filter` the data for bird_obss with that destination (`dest == "la"`)
+and then make a histogram of the departure delays of only those bird_obss. Note that a common mistake is not using the double equal signs. Remember one equal sign assigns "la" to the variable `dest` while two equal signs asks the question "does each value in `dest` match 'la'?".
 
-Eyeballing the shape of the histogram is one way to determine if the data appear
-to be nearly normally distributed, but it can be frustrating to decide just how 
-close the histogram is to the curve. An alternative approach involves 
-constructing a normal probability plot, also called a normal Q-Q plot for 
-"quantile-quantile".
+```{r la-bird_obss-hist, exercise = T}
+la_bird_obss <- nycbirds %>%
+  filter(dest == "la")
 
-```{r qq, exercise = T}
-ggplot(data = dairy_queen, aes(sample = cal_fat)) + 
-  geom_qq() + geom_qq_line(alpha = 0.7, color = "red", linetype = "dashed")
+ggplot(data = la_bird_obss, aes(x = dep_delay)) +
+  geom_histogram()
 ```
 
-This time, you can use the `geom_qq()` layer, while specifying that you will 
-be creating a Q-Q plot with the `stat` argument. It's important to note that here,
-instead of using `x` instead `aes()`, you need to use `sample`.
+**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `nycbirds` dataset and **pipe** it into the `filter` function. 
+Filter the `nycbirds` data set so that we only have rows where the destination is la.
 
-The x-axis values correspond to the quantiles of a theoretically normal curve 
-with mean 0 and standard deviation 1 (i.e., the standard normal distribution).  The 
-y-axis values correspond to the quantiles of the original unstandardized sample 
-data. However, even if we were to standardize the sample data values, the Q-Q
-plot would look identical. A data set that is nearly normal will result in a
-probability plot where the points closely follow a diagonal line.  Any deviations
-from normality leads to deviations of these points from that line.  `geom_qq_line()` provides a guide line to help you assess whether points deviate from a line.
+With all of that in mind, let's decipher these two commands (OK, so it might look like four lines, but
+the first two physical lines of code are actually part of the same command. It's 
+common to add a break to a new line after `%>%` to help readability).
 
-The plot for Dairy Queen's calories from fat shows points that tend to follow the
-line but with some errant points towards the upper tail.  You're left with the same
-problem that we encountered with the histogram above: how close is close enough?
+- Command 1: Take the `nycbirds` data frame, `filter` for bird_obss headed to la, and 
+save the result as a new data frame called `la_bird_obss`.
+    + `==` means "if it's equal to".
+    + `la` is in quotation marks since it is a character string.
+- Command 2: Basically the same `ggplot` call from earlier for making a histogram, 
+except that it uses the smaller data frame for bird_obss headed to la instead of all
+bird_obss.
 
-A useful way to address this question is to rephrase it as: what do probability 
-plots look like for data that I *know* came from a normal distribution?  We can 
-answer this by simulating data from a normal distribution using `rnorm`.
+<div id="boxedtext">
+**Logical operators: ** Filtering for certain observations (e.g. bird_obss from a 
+particular airport) is often of interest in data frames where we might want to 
+examine observations with certain characteristics separately from the rest of 
+the data. To do so, you can use the `filter` function and a series of 
+**logical operators**. The most commonly used logical operators for data 
+analysis are as follows:
 
-```{r sim-norm, exercise = T}
-sim_norm <- data.frame(sim_val = rnorm(n = nrow(dairy_queen), mean = dqmean, sd = dqsd))
+- `==` means "equal to"
+- `!=` means "not equal to"
+- `>` or `<` means "greater than" or "less than"
+- `>=` or `<=` means "greater than or equal to" or "less than or equal to"
+</div>
+
+You can also obtain numerical summaries for these bird_obss:
+
+```{r la-bird_obss-summ, exercise = T}
+la_bird_obss %>%
+  summarise(mean_dd   = mean(dep_delay), 
+            median_dd = median(dep_delay), 
+            n         = n())
 ```
 
-The first argument indicates how many numbers you'd like to generate, which we 
-specify to be the same number of menu items in the `dairy_queen` data set using the 
-`nrow()` function.  The last two arguments determine the mean and standard 
-deviation of the normal distribution from which the simulated sample will be 
-generated.  You can take a look at the shape of our simulated data set, `sim_norm`, 
-as well as its normal probability plot.
+Note that in the `summarise` function you created a list of three different
+numerical summaries that you were interested in. The names of these elements are 
+user defined, like `mean_dd`, `median_dd`, `n`, and you can customize these names 
+as you like (just don't use spaces in your names). Calculating these summary 
+statistics also requires that you know the function calls. Note that `n()` reports
+the sample size. Note you can also use `summarize()` instead of `summarise()` if you prefer that spelling.
 
-2.  Make a normal probability plot (qq-plot) of `sim_norm`.  Do all of the points fall on 
-    the line?  How does this plot compare to the probability plot for the real 
-    data? (Since `sim_norm` is not a dataframe, it can be put directly into the 
-    `sample` argument and the `data` argument can be dropped.)
+<div id="boxedtext">
+**Summary statistics: ** Some useful function calls for summary statistics for a 
+single numerical variable are as follows:
+
+- `mean`
+- `median`
+- `sd`
+- `var`
+- `IQR`
+- `min`
+- `max`
+
+Note that each of these functions takes a single vector as an argument and 
+returns a single value. 
+</div>
+
+## More filtering
+
+You can also filter based on multiple criteria. Suppose you are interested in
+bird_obss headed to San Francisco (sf) in February:
+
+```{r sf-feb-bird_obss, exercise = T}
+sf_feb_bird_obss <- nycbirds %>%
+  filter(dest == "sf", month == 2)
+```
+
+Note that you can separate the conditions using commas (or "&") if you want bird_obss that
+are both headed to sf **and** in February. If you are interested in either
+bird_obss headed to sf **or** in February, you can use the `|` instead of the comma. (This is located above the backslash.)
+
+Create a new data frame that includes bird_obss headed to sf in June, 
+    and save this data frame as `sf_june_bird_obss`. 
     
-```{r vuqymqrklhvinkjz-setup}
-sim_norm <- data.frame(sim_val = rnorm(n = nrow(dairy_queen), mean = dqmean, sd = dqsd))
+```{r filterfeb, exercise = TRUE}
+___ <- ___ %>% ___(dest == ___, month == ___)
+```
+
+```{r filterfeb-solution}
+sf_june_bird_obss <- nycbirds %>% filter(dest == "sf", month == 6)
+```
+
+```{r filterfeb-check}
+# check code
+gradethis::grade_code()
 ```
     
-```{r vuqymqrklhvinkjz, exercise = TRUE}
-ggplot(data = ___, aes(sample = ___)) + 
-  geom_qq() + geom_qq_line(alpha = 0.7, color = "red", linetype = "dashed")
+How many bird_obss meet these criteria? **Hint:** How many rows are in `sf_june_bird_obss`? To learn what a function does and its arguments that are available to you, use the "Help" tab in the bottom right. Try this for `dim` and `nrow`. 
+
+```{r dimbird_obss-setup}
+sf_june_bird_obss <- nycbirds %>% filter(dest == "sf", month == 6)
+
+```
+
+```{r dimbird_obss, exercise = TRUE}
+dim(___)
+
+nrow(___)
 ```
 
 
-```{r vuqymqrklhvinkjz-solution}
-ggplot(data = sim_norm, aes(sample = sim_val)) + 
-  geom_qq() + geom_qq_line(alpha = 0.7, color = "red", linetype = "dashed")
+```{r dimbird_obss-solution}
+dim(sf_june_bird_obss)
+
+nrow(sf_june_bird_obss)
 ```
 
-```{r vuqymqrklhvinkjz-check}
-# check code
-gradethis::grade_code()
-```
-
-Even better than comparing the original plot to a single plot generated from a 
-normal distribution is to compare it to many more plots using the following 
-function. It shows the Q-Q plot corresponding to the original data in the top
-left corner, and the Q-Q plots of 8 different simulated normal data.
-
-```{r qqnormsim, exercise = T}
-qqnormsim(sample = cal_fat, data = dairy_queen)
-```
-
-Using the same technique, determine whether or not the calories from McDonald's menu appear to come from a normal distribution.
-
-```{r gbmknvwczbalsxme, exercise = TRUE}
-qqnormsim(sample = ___, data = ___)
-```
-
-```{r gbmknvwczbalsxme-solution}
-qqnormsim(sample = cal_fat, data = mcdonalds)
-```
-
-```{r gbmknvwczbalsxme-check}
+```{r dimbird_obss-check}
 # check code
 gradethis::grade_code()
 ```
 
 
-## Normal probabilities
+## Summary statistics
 
-Okay, so now you have a slew of tools to judge whether or not a variable is 
-normally distributed.  Why should you care?
+Another useful technique is quickly calculating summary statistics for various 
+groups in your data frame. For example, we can modify the above command using 
+the `group_by` function to get the same summary stats for each origin airport:
 
-It turns out that statisticians know a lot about the normal distribution.  Once 
-you decide that a random variable is approximately normal, you can answer all 
-sorts of questions about that variable related to probability.  Take, for 
-example, the question of, "What is the probability that a randomly chosen Dairy 
-Queen product has more than 600 calories from fat?"
-
-If we assume that the calories from fat from Dairy Queen's menu are normally 
-distributed (a very close approximation is also okay), we can find this probability
-by calculating a Z score and consulting a Z table (also called a normal probability
-table).  In R, this is done in one step with the function `pnorm()`.
-
-```{r pnorm, exercise = T}
-1 - pnorm(q = 600, mean = dqmean, sd = dqsd)
+```{r summary-custom-list-origin, exercise = T}
+sf_feb_bird_obss %>%
+  group_by(origin) %>%
+  summarise(median_dd = median(dep_delay), iqr_dd = IQR(dep_delay), n_bird_obss = n())
 ```
 
-Note that the function `pnorm()` gives the area under the normal curve below a 
-given value, `q`, with a given mean and standard deviation.  Since we're 
-interested in the probability that a Dairy Queen item has more than 600 calories
-from fat, we have to take one minus that probability.
+Here, we first grouped the data by `origin` and then calculated the summary 
+statistics.
 
-Assuming a normal distribution has allowed us to calculate a theoretical 
-probability.  If we want to calculate the probability empirically, we simply 
-need to determine how many observations fall above 600 then divide this number 
-by the total sample size. This is what we did when we were computing p-values ourselves.
+Calculate the median and interquartile range for `arr_delay`s of bird_obss in the `sf_feb_bird_obss` data frame, grouped by carrier. 
 
-```{r probability, exercise = T}
-dairy_queen %>% 
-  filter(cal_fat > 600) %>%
-  summarise(percent = n() / nrow(dairy_queen))
+
+```{r summarycarrier, exercise = TRUE}
+___ %>%
+  ___(___) %>%
+  ___(median_dd = ___(___), iqr_dd = ___(___))
 ```
 
-Although the probabilities are not exactly the same, they are reasonably close. 
-The closer that your distribution is to being normal, the more accurate the 
-theoretical probabilities will be.
+```{r summarycarrier-hint-1}
+sf_feb_bird_obss %>%
+  ___(___) %>%
+  summarise(median_dd = ___(arr_delay), iqr_dd = ___(arr_delay))
+```
+
+```{r summarycarrier-solution}
+sf_feb_bird_obss %>%
+  group_by(carrier) %>%
+  summarise(median_dd = median(arr_delay), iqr_dd = IQR(arr_delay))
+
+```
+
+```{r summarycarrier-check}
+# check code
+gradethis::grade_code()
+```
+
+
+
+```{r whichcarrier}
+question("Which carrier has the most variable arrival delays?",
+    answer("AA"),
+    answer("B6"),
+    answer("DL and UA", correct = T),
+    answer("VX"),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
+
+
+
+### On time departure rate for NYC airports
+
+Suppose you will be flying out of NYC and want to know which of the 
+three major NYC airports has the best on time departure rate of departing bird_obss. 
+Also supposed that for you, a bird_obs that is delayed for less than 5 minutes is 
+basically "on time."" You consider any bird_obs delayed for 5 minutes of more to be 
+"delayed".
+
+In order to determine which airport has the best on time departure rate, 
+you can 
+
+- first classify each bird_obs as "on time" or "delayed",
+- then group bird_obss by origin airport,
+- then calculate on time departure rates for each origin airport,
+- and finally arrange the airports in descending order for on time departure
+percentage.
+
+Let's start with classifying each bird_obs as "on time" or "delayed" by
+creating a new variable with the `mutate` function.
+
+```{r dep-type, exercise = T}
+nycbirds <- nycbirds %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+```
+
+The first argument in the `mutate` function is the name of the new variable
+we want to create, in this case `dep_type`. Then if `dep_delay < 5`, we classify 
+the bird_obs as `"on time"` and `"delayed"` if not, i.e. if the bird_obs is delayed 
+for 5 or more minutes.
+
+Note that we are also overwriting the `nycbirds` data frame with the new 
+version of this data frame that includes the new `dep_type` variable.
+
+We can handle all of the remaining steps in one code chunk:
+
+```{r otdeprate-setup}
+nycbirds <- nycbirds %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+```
+
+```{r otdeprate, exercise = TRUE}
+nycbirds %>%
+  group_by(origin) %>%
+  summarise(ot_dep_rate = sum(dep_type == "on time") / n()) %>%
+  arrange(desc(ot_dep_rate))
+```
+
+    
+```{r select-airport}
+question("If you were selecting an airport simply based on the on time departure 
+    percentage, which NYC airport would you choose to fly out of?",
+    answer("LGA", correct =T),
+    answer("JFK"),
+    answer("EWR"),
+    answer("None of the above."),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
+
+
+
+***
 
 ## Submit checkpoint
 
@@ -319,41 +449,63 @@ reports for this lab, and all future labs:
 
 ## Questions for Lab Report
 
-Answer in an Rmd file based on the lab report template. Remember you will need to load appropriate packages, set a seed, and load data. 
+Answer in an Rmd file based on the lab report template.
 
-1. It would be nice if multiple simulated datasets were all on the same plot to better judge whether our data fits within the simulated data. We repurpose some of the code that makes up the `qqnormsim` function. To see the source code for a function (what's going on behind the scenes when you use a function), you just specify the name without any parentheses or arguments.
+1.  Suppose you really dislike departure delays and you want to schedule 
+    your travel in a month that minimizes your potential departure delay leaving 
+    NYC. One option is to choose the month with the lowest mean departure delay.
+    Another option is to choose the month with the lowest median departure delay. 
+    What are the pros and cons of these two choices?
+    
+2. The `nycbirds` data frame is a massive trove of information. Pick one of the following questions and tell me which R functions you would use to investigate the question.
 
-```{r, eval = F}
-qqnormsim
+- How delayed were bird_obss that were headed to Los Angeles?
+- How do departure delays vary by month?
+- Which of the three major NYC airports has the best on time percentage for 
+departing bird_obss?
+
+**Hint** Example: Which month would you expect to have the highest average delay departing from an NYC airport?
+
+Let's think about how you could answer this question:
+
+- First, calculate monthly averages for departure delays. With the new language
+you are learning, you could
+    + `group_by` months, then
+    + `summarise` mean departure delays.
+- Then, you could to `arrange` these average delays in `desc`ending order
+
+```{r mean-dep-delay-months, eval = F, echo = T}
+nycbirds %>%
+  group_by(month) %>%
+  summarise(mean_dd = mean(dep_delay)) %>%
+  arrange(desc(mean_dd))
 ```
 
-We'll grab the parts we need, and adjust the parts we want to change. It is common practice to build off of pre-existing code when we develop new functions. It is not crucial that you understand every line of this chunk; just focus on the resulting plot. 
+3.  Describe the distribution (center, variation, range, skewness/symmetry) of the **arrival** delays of these bird_obss. Would the mean or median be a more appropriate measure of center? Would the standard deviation or the interquartile range be a more appropriate measure of variability. Why?
 
-```{r, eval = F}
-y <- dairy_queen$cal_fat
-simnorm <- rnorm(
-  n = length(y) * 8, mean = mean(y),
-  sd = sd(y)
-)
-df <- data.frame(x = c(y, simnorm), plotnum = rep(c(
-  "data",
-  "sim 1", "sim 2", "sim 3", "sim 4", "sim 5", "sim 6",
-  "sim 7", "sim 8"
-), each = length(y)))
+```{r}
+sf_feb_bird_obss <- nycbirds %>%
+  filter(dest == "sf", month == 2)
 
-original <- df %>% filter(plotnum == "data")
-df <- df %>% filter(plotnum != "data")
-
-ggplot(data = df, aes(sample = x, group = plotnum)) + geom_qq(alpha = 0.6) + geom_qq(data = original, aes(sample = x), col = "red", size = 2)
+ggplot(data = sf_feb_bird_obss, aes(x = arr_delay)) +
+  geom_histogram(binwidth = 5)
 ```
 
-2. In the plot above does the normal probability plot for the calories from fat in Dairy Queen items look similar to the plots created for the simulated data?  That is, do the plots provide evidence that the calories from fat are nearly normal? Explain.
+4.  Load the `nycbirds` dataset and replicate the following plot. **Hint:** The data frame plotted only
+    contains bird_obss from American Airlines, Delta Airlines, and United
+    Airlines, and the points are `color`ed by `carrier`. Once you replicate
+    the plot, determine (roughly) what the cutoff point is for departure
+    delays where you can still expect to get to your destination on time.
 
-3. Write out a probability question that you would like to answer about any 
-    of the restaurants in this dataset that would take advantage of `pnorm`.  Calculate that probability.
+```{r plot-to-replicate, echo=FALSE, fig.show="asis", fig.width=7, fig.height=4}
+dl_aa_ua <- nycbirds %>%
+  filter(carrier == "AA" | carrier == "DL" | carrier == "UA")
+ggplot(data = dl_aa_ua, aes(x = dep_delay, y = arr_delay, color = carrier)) +
+  geom_point()
+```
 
-4.  Write out a question that you would like to answer about any 
-    of the restaurants in this dataset that would take advantage of `qnorm`.  Calculate that quantile.
+You may want to refer to the [ggplot cheatsheet](https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf) and the [dplyr cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf).
+
 
 ## Deliverables
 
@@ -363,12 +515,13 @@ When you are finished editing your Markdown document click the "Knit" button and
 
 Submit your Markdown document and knitted file to [Moodle](https://moodle.smith.edu/) as:
 
-LastName-LastName-LastName-L-10.Rmd  (add a third last name if applicable)
+LastName-LastName-LastName-L-02.Rmd  (add a third last name if applicable)
 
-LastName-LastName-LastName-L-10.html
+LastName-LastName-LastName-L-02.html
 
-*Due*: Monday (beginning of class time, Eastern time)
+*Due*: Monday,  (beginning of class time, Eastern time)
+
 
 * * *
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> and was adapted and learnr-ified by Sara Stoudt.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> then was adapted and learnr-ified by Sara Stoudt, and further adapted and biologified by Jenna Ekwealor.

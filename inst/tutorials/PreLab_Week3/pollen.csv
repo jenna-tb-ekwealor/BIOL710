@@ -1,0 +1,516 @@
+"","plant_group","item","calories","protein"
+"1","mints","Artisan Grilled Chicken Sandwich",380,6
+"2","mints","Single Bacon Smokehouse Burger",840,41
+"3","mints","Double Bacon Smokehouse Burger",1130,60
+"4","mints","Grilled Bacon Smokehouse Chicken Sandwich",750,28
+"5","mints","Crispy Bacon Smokehouse Chicken Sandwich",920,41
+"6","mints","Big Mac",540,25
+"7","mints","Cheeseburger",300,10
+"8","mints","Classic Chicken Sandwich",510,21
+"9","mints","Double Cheeseburger",430,19
+"10","mints","Double Quarter Pounder® with Cheese",770,40
+"11","mints","Filet-O-Fish®",380,17
+"12","mints","Garlic White Cheddar Burger",620,30
+"13","mints","Grilled Garlic White Cheddar Chicken Sandwich",530,18
+"14","mints","Crispy Garlic White Cheddar Chicken Sandwich",700,30
+"15","mints","Hamburger",250,7
+"16","mints","Lobster Roll",290,5
+"17","mints","Maple Bacon Dijon 1/4 lb Burger",640,33
+"18","mints","Grilled Maple Bacon Dijon Chicken Sandwich",580,19
+"19","mints","Crispy Maple Bacon Dijon Chicken Sandwich",740,31
+"20","mints","McChicken",350,13
+"21","mints","McDouble",380,16
+"22","mints","McRib",480,20
+"23","mints","Pico Guacamole 1/4 lb Burger",580,30
+"24","mints","Grilled Pico Guacamole Chicken Sandwich",520,16
+"25","mints","Crispy Pico Guacamole Chicken Sandwich",680,28
+"26","mints","Premium Buttermilk Crispy Chicken Deluxe Sandwich",570,20
+"27","mints","Premium Crispy Chicken Deluxe Sandwich",530,20
+"28","mints","Quarter Pounder® with Cheese",530,24
+"29","mints","Signature Sriracha Burger",670,32
+"30","mints","Grilled Signature Sriracha Chicken Sandwich",560,18
+"31","mints","Crispy Signature Sriracha Chicken Sandwich",730,30
+"32","mints","Sweet BBQ Bacon 1/4 lb Burger",690,34
+"33","mints","Grilled Sweet BBQ Bacon Chicken Sandwich",630,20
+"34","mints","Crispy Sweet BBQ Bacon Chicken Sandwich",800,32
+"35","mints","3 piece Buttermilk Crispy Chicken Tenders",370,19
+"36","mints","4 piece Buttermilk Crispy Chicken Tenders",480,25
+"37","mints","6 piece Buttermilk Crispy Chicken Tenders",760,39
+"38","mints","10 piece Buttermilk Crispy Chicken Tenders",1210,63
+"39","mints","12 piece Buttermilk Crispy Chicken Tenders",1510,79
+"40","mints","20 piece Buttermilk Crispy Chicken Tenders",2430,127
+"41","mints","4 Piece Chicken McNuggets",180,10
+"42","mints","6 Piece Chicken McNuggets",270,14
+"43","mints","10 Piece Chicken McNuggets",440,24
+"44","mints","20 Piece Chicken McNuggets",890,48
+"45","mints","40 piece Chicken McNuggets",1770,96
+"46","mints","4 piece Sweet N' Spicy Honey BBQ Glazed Tenders",640,24
+"47","mints","6 piece Sweet N' Spicy Honey BBQ Glazed Tenders",960,36
+"48","mints","10 piece Sweet N' Spicy Honey BBQ Glazed Tenders",1600,60
+"49","mints","Premium Asian Salad w/o Chicken",140,7
+"50","mints","Premium Asian Salad w/ Grilled Chicken",270,8
+"51","mints","Premium Asian Salad w/ Crispy Chicken",490,25
+"52","mints","Premium Bacon Ranch Salad w/o Chicken",190,11
+"53","mints","Premium Bacon Ranch Salad w/ Grilled Chicken",320,12
+"54","mints","Premium Bacon Ranch Salad w/ Crispy Chicken",490,25
+"55","mints","Premium Southwest Salad w/o Chicken",220,9
+"56","mints","Premium Southwest Salad w/ Grilled Chicken",350,10
+"57","mints","Premium Southwest Salad w/ Crispy Chicken",520,23
+"58","grasses","Chargrilled Chicken Club Sandwich",430,14.4
+"59","grasses","Chargrilled Chicken Sandwich",310,5.4
+"60","grasses","Chick-n-Slider",270,9.9
+"61","grasses","1 Piece Chick-n-Strips",120,5.4
+"62","grasses","2 Piece Chick-n-Strips",230,10.8
+"63","grasses","3 Piece Chick-n-Strips",350,15.3
+"64","grasses","4 piece Chick-n-Strips",470,20.7
+"65","grasses","Chicken Deluxe",500,20.7
+"66","grasses","4 piece Chicken Nuggets",130,5.4
+"67","grasses","6 piece Chicken Nuggets",190,8.1
+"68","grasses","8 piece Chicken Nuggets",260,11
+"69","grasses","12 piece Chicken Nuggets",390,16.2
+"70","grasses","30 piece Chicken Nuggets",970,41.4
+"71","grasses","Chicken Salad Sandwich",490,17
+"72","grasses","Chicken Sandwich",440,17.1
+"73","grasses","4 Piece Grilled Chicken Nuggets",70,1.8
+"74","grasses","6 Piece Grilled Chicken Nuggets",110,2.7
+"75","grasses","8 piece Grilled Chicken Nuggets",140,3.6
+"76","grasses","12 Piece Grilled Chicken Nuggets",210,4.5
+"77","grasses","Spicy Grilled Chicken Sub Sandwich",430,10.8
+"78","grasses","Regular Grilled Chicken Sub Sandwich",450,11.7
+"79","grasses","Smokehouse BBQ Bacon Sandwich",500,16.2
+"80","grasses","Spicy Chicken Sandwich",450,17.1
+"81","grasses","Spicy Deluxe",540,22.5
+"82","grasses","Chargrilled Chicken Cool Wrap",350,12.6
+"83","grasses","Chicken Enchiladas Meal Kit",860,42.3
+"84","grasses","Chicken Parmesan Meal Kit",720,27.9
+"85","carrots","Hatch Green Chile Cheeseburger",710,38
+"86","carrots","Jalapeno Burger",640,33
+"87","carrots","Jr. Burger",340,15
+"88","carrots","Jr. Chili Cheeseburger",410,22
+"89","carrots","Jr. Deluxe Burger",380,20
+"90","carrots","Jr. Deluxe Cheeseburger",450,25
+"91","carrots","Jr. Double Cheeseburger",600,35
+"92","carrots","Sonic Bacon Cheeseburger (w/mayo)",870,53
+"93","carrots","Sonic Burger W/ Mustard",640,33
+"94","carrots","Sonic Burger W/ Ketchup",650,34
+"95","carrots","Sonic Burger W/ Mayonnaise",740,43
+"96","carrots","Sonic Cheeseburger W/ Mustard",710,38
+"97","carrots","Sonic Cheeseburger W/ Ketchup",720,38
+"98","carrots","Sonic Cheeseburger W/ Mayonnaise",800,48
+"99","carrots","Super Sonic Bacon Double Cheeseburger (w/mayo)",1280,83
+"100","carrots","Super Sonic Double Cheeseburger W/ Mustard",1120,68
+"101","carrots","Super Sonic Double Cheeseburger W/ Ketchup",1130,68
+"102","carrots","Super Sonic Double Cheeseburger W/ Mayo",1220,78
+"103","carrots","Super Sonic Jalapeno Double Cheeseburger",1120,68
+"104","carrots","Veggie Burger W/ Ketchup",450,13
+"105","carrots","Veggie Burger With Mustard",450,13
+"106","carrots","Veggie Burger W/ Mustard",450,13
+"107","carrots","Grilled Asiago Caesar Chicken Club Sandwich",610,27
+"108","carrots","Crispy Asiago Caesar Chicken Club Sandwich",680,35
+"109","carrots","Grilled Chicken Sandwich",430,18
+"110","carrots","Crispy Chicken Sandwich",570,30
+"111","carrots","Chicken Strip Sandwich",450,22
+"112","carrots","3 Piece Crispy Chicken Tender Dinner",280,13
+"113","carrots","5 Piece Crispy Chicken Tender Dinner",470,22
+"114","carrots","Deluxe Ultimate Chicken Sandwich",740,35
+"115","carrots","Buffalo Dunked Ultimate Chicken Sandwich",1000,55
+"116","carrots","Garlic Parmesan Dunked Ultimate Chicken Sandwich",1350,90
+"117","carrots","Small Jumbo Popcorn Chicken",380,19
+"118","carrots","Large Jumbo Popcorn Chicken",560,29
+"119","carrots","Small Spicy Jumbo Popcorn Chicken",350,15
+"120","carrots","Large Spicy Jumbo Popcorn Chicken",610,27
+"121","carrots","3 Piece Super Crunch Chicken Strip Dinner",970,41
+"122","carrots","4 Piece Super Crunch Chicken Strip Dinner",1080,46
+"123","carrots","5 Piece Super Crunch Chicken Strip Dinner",1190,51
+"124","carrots","3 Piece Super Crunch Chicken Strips",330,14
+"125","carrots","4 Piece Super Crunch Chicken Strips",440,19
+"126","carrots","5 Piece Super Crunch Chicken Strips",550,24
+"127","carrots","Traditional Ultimate Chicken Sandwich",730,35
+"128","carrots","Ultimate Chicken Club",100,58
+"129","carrots","All Beef All-american Style Dog – 6""",370,16
+"130","carrots","All Beef Chicago Dog – 6""",430,18
+"131","carrots","All Beef Chili Cheese Coney – 6""",410,23
+"132","carrots","All Beef New York Dog – 6""",340,17
+"133","carrots","All Beef Regular Hot Dog – 6""",320,16
+"134","carrots","Cheesy Bacon Pretzel Dog - 6 In.",500,24
+"135","carrots","Corn Dog",210,10
+"136","carrots","Footlong Quarter Pound Coney",830,49
+"137","carrots","The Original Pretzel Dog",320,16
+"138","legumes","Arby's Melt",330,10
+"139","legumes","Arby-Q Sandwich",400,9
+"140","legumes","Beef 'n Cheddar Classic",450,18
+"141","legumes","Beef 'n Cheddar Mid",630,29
+"142","legumes","Bourbon BBQ Brisket Sandwich",650,30
+"143","legumes","Bourbon BBQ Chicken Sandwich",690,28
+"144","legumes","Bourbon BBQ Steak Sandwich",690,28
+"145","legumes","Buttermilk Buffalo Chicken Sandwich",540,22
+"146","legumes","Buttermilk Chicken Bacon & Swiss",650,28
+"147","legumes","Buttermilk Chicken Cordon Bleu Sandwich",690,31
+"148","legumes","Buttermilk Crispy Chicken Sandwich",550,23
+"149","legumes","Classic French Dip & Swiss/Au Jus",540,21
+"150","legumes","Classic Roast Beef",360,12
+"151","legumes","Double Roast Beef",510,21
+"152","legumes","Fire-Roasted Philly Steak",640,29
+"153","legumes","Grand Turkey Club",480,22
+"154","legumes","Greek Gyro",710,39
+"155","legumes","Half Pound Beef 'n Cheddar Sandwich",740,35
+"156","legumes","Half Pound French Dip & Swiss",750,33
+"157","legumes","Half Pound Roast Beef Sandwich",610,27
+"158","legumes","Ham & Swiss Melt",300,8
+"159","legumes","Loaded Italian Sandwich",680,36
+"160","legumes","Pecan Chicken Salad Flatbread",710,41
+"161","legumes","Pecan Chicken Salad Sandwich",840,40
+"162","legumes","2 piece Prime-Cut Chicken Tenders",240,10
+"163","legumes","3 piece Prime-Cut Chicken Tenders",360,15
+"164","legumes","5 piece Prime-Cut Chicken Tenders",600,25
+"165","legumes","Reuben Sandwich",680,28
+"166","legumes","Roast Beef Gyro",550,26
+"167","legumes","Roast Turkey & Swiss Sandwich",710,26
+"168","legumes","Roast Turkey & Swiss Wrap",520,24
+"169","legumes","Roast Turkey, Ranch & Bacon Sandwich",800,31
+"170","legumes","Roast Turkey, Ranch & Bacon Wrap",620,31
+"171","legumes","Smoke Mountain w/ Beef Short Rib",740,32
+"172","legumes","Smokehouse Beef Short Rib Sandwich",590,25
+"173","legumes","Smokehouse Brisket",600,31
+"174","legumes","Super Roast Beef",430,16
+"175","legumes","Three Cheese Steak Sandwich",650,32
+"176","legumes","Triple Decker Sandwich",1030,45.9
+"177","legumes","Turkey Avocado Club",730,25.2
+"178","legumes","Turkey Gyro",470,18
+"179","legumes","Ultimate BLT",980,49.5
+"180","legumes","Buffalo Chicken Slider",290,12
+"181","legumes","Chicken Tender 'n Cheese Slider",290,11
+"182","legumes","Corned Beef 'n Cheese Slider",220,8
+"183","legumes","Ham 'n Cheese Slider",210,7
+"184","legumes","Jalapeno Roast Beef 'n Cheese Slider",240,9
+"185","legumes","Pizza Slider",300,15
+"186","legumes","Roast Beef 'n Cheese Slider",240,9
+"187","legumes","Turkey 'n Cheese Slider",200,6
+"188","legumes","Chopped Side Salad",70,4.5
+"189","legumes","Crispy Chicken Farmhouse Salad",430,22
+"190","legumes","Greek Gyro Salad",420,34
+"191","legumes","Roast Turkey Farmhouse Salad",230,12
+"192","legumes","Super Greek Salad",720,48
+"193","nightshades","American Brewhouse King",1550,113.4
+"194","nightshades","Bacon & Swiss Sourdough King",1000,58.5
+"195","nightshades","Bacon Cheeseburger",330,14
+"196","nightshades","Bacon Cheeseburger Deluxe",290,12
+"197","nightshades","Bacon King",1040,63
+"198","nightshades","Bacon King Jr",730,35.1
+"199","nightshades","BBQ Bacon King",1100,67.5
+"200","nightshades","Cheeseburger",300,13
+"201","nightshades","Double Bacon Cheeseburger",520,28
+"202","nightshades","Double Cheeseburger",450,23
+"203","nightshades","Double Hamburger",360,16
+"204","nightshades","Double Quarter Pound King",900,48.6
+"205","nightshades","Extra Long Cheeseburger",580,30
+"206","nightshades","Farmhouse King",1220,72
+"207","nightshades","Hamburger",260,9
+"208","nightshades","Homestyle Cheeseburger",550,25
+"209","nightshades","Jalapeno King Sandwich",990,58.5
+"210","nightshades","Mushroom & Swiss King",940,56.7
+"211","nightshades","Rodeo Burger",310,11
+"212","nightshades","Rodeo King",1250,73.8
+"213","nightshades","Sourdough King Single",730,38.7
+"214","nightshades","Sourdough King Double",970,54.9
+"215","nightshades","Steakhouse King",1100,66.6
+"216","nightshades","Bacon & Cheese Whopper",770,43.2
+"217","nightshades","DOUBLE WHOPPER w/o Cheese",900,51
+"218","nightshades","DOUBLE WHOPPER w/ Cheese",990,58
+"219","nightshades","WHOPPER w/o Cheese",660,36
+"220","nightshades","WHOPPER w/ Cheese",760,43
+"221","nightshades","WHOPPER JR. w/o Cheese",340,17
+"222","nightshades","WHOPPER JR. w/ Cheese",380,21
+"223","nightshades","Bacon Cheddar Ranch Chicken Salad w/ grilled Chicken & Dressing",590,36
+"224","nightshades","Bacon Cheddar Ranch Chicken Salad w/ crispy Chicken & Dressing",720,45
+"225","nightshades","Chicken BLT Salad w/ Grilled Chicken",550,33
+"226","nightshades","Chicken BLT Salad w/ Crispy Chicken",690,43
+"227","nightshades","Chicken Caesar Salad w/ Grilled Chicken",530,29
+"228","nightshades","Chicken Caesar Salad w/ Crispy Chicken",670,38
+"229","nightshades","Chicken, Apple & Cranberry Salad w/ Grilled Chicken",560,27
+"230","nightshades","Chicken, Apple & Cranberry Salad w/ Crispy Chicken",700,37
+"231","nightshades","Garden Grilled Chicken Salad w/ Grilled Chicken, no dressing",320,12
+"232","nightshades","Garden Grilled Chicken Salad w/ Crispy Chicken, no dressing",450,22
+"233","nightshades","Side Caesar Salad with dressing",220,18
+"234","nightshades","Side Garden Salad and Avocado Ranch Dressing",230,19
+"235","nightshades","Bacon Cheddar Ranch Crispy Chicken Sandwich",830,46.8
+"236","nightshades","BBQ Bacon Crispy Chicken Sandwich",440,24.3
+"237","nightshades","Big Fish Sandwich",530,25
+"238","nightshades","BK VEGGIE Burger",410,15
+"239","nightshades","Chicken Burger",480,22
+"240","nightshades","Chicken Cordon Bleu Sandwich",730,35.1
+"241","nightshades","Chicken Fries",290,15
+"242","nightshades","4 Piece Chicken Nuggets",190,10
+"243","nightshades","6 Piece Chicken Nuggets",290,15
+"244","nightshades","20 Piece Chicken Nuggets",950,50
+"245","nightshades","Chicken Nuggets (10pc)",470,26
+"246","nightshades","Chicken Parmesan Sandwich",570,22.5
+"247","nightshades","Crispy Buffalo Chicken Melt",580,25.2
+"248","nightshades","Crispy Chicken Jr.",430,25
+"249","nightshades","Crispy Chicken Sandwich",670,37
+"250","nightshades","Grilled Chicken Sandwich",470,17
+"251","nightshades","Grilled Chili Cheese Dog",330,17
+"252","nightshades","Grilled Hot Dog",310,14
+"253","nightshades","Jalapeno Chicken Fries",300,16
+"254","nightshades","Original Chicken Sandwich",630,35
+"255","nightshades","Pretzel Chicken Fries",340,18.9
+"256","nightshades","Rodeo Crispy Chicken Sandwich",410,15
+"257","nightshades","Sourdough Chicken Club",840,45.9
+"258","nightshades","4 Piece Spicy Chicken Nuggets",210,13.5
+"259","nightshades","Spicy Chicken Nuggets",530,33.3
+"260","nightshades","Spicy Crispy Chicken Jr.",410,22
+"261","nightshades","Spicy Crispy Chicken Sandwich",700,37.8
+"262","nightshades","Spicy Crispy Jalapeno Chicken Sandwich",760,40.5
+"263","daisies","1/2 lb. FlameThrower® GrillBurger",1000,66
+"264","daisies","1/2 lb. GrillBurger with Cheese",800,46
+"265","daisies","1/4 lb. Bacon Cheese GrillBurger",630,33
+"266","daisies","1/4 lb. GrillBurger with Cheese",540,27
+"267","daisies","1/4 lb. Mushroom Swiss GrillBurger",570,31
+"268","daisies","Original Cheeseburger",400,16
+"269","daisies","Original Double Cheeseburger",630,31
+"270","daisies","4 Piece Chicken Strip Basket w/ Country Gravy",1030,48
+"271","daisies","6 Piece Chicken Strip Basket w/ Country Gravy",1260,59
+"272","daisies","Bacon Cheese Dog",420,24
+"273","daisies","Cheese Dog",390,22
+"274","daisies","Chili Cheese Dog",380,22
+"275","daisies","Chili Dog",330,18
+"276","daisies","Hot Dog",290,16
+"277","daisies","Relish Dog",350,18
+"278","daisies","Barbecue Pork Sandwich",310,8
+"279","daisies","Breaded Mushrooms",250,8
+"280","daisies","Regular Cheese Curds",550,41
+"281","daisies","Large Cheese Curds",1050,67
+"282","daisies","Chili Cheese Mega Dog",760,44
+"283","daisies","Corn Dog",260,14
+"284","daisies","Crispy Fish Sandwich",470,20
+"285","daisies","Deluxe Cheeseburger",400,16
+"286","daisies","Deluxe Double Cheeseburger",640,31
+"287","daisies","Deluxe Double Hamburger",540,24
+"288","daisies","Deluxe Hamburger",350,13
+"289","daisies","DQ Ultimate® Burger",780,43
+"290","daisies","Pork Tenderloin Sandwich",580,31
+"291","daisies","Steak Finger Basket",910,43
+"292","daisies","3 chicken strips Chicken Strips",350,18
+"293","daisies","Chicken Bacon Ranch Sandwich",500,18
+"294","daisies","Chicken Mozzarella Sandwich",640,22
+"295","daisies","Crispy Chicken BLT Salad",520,28
+"296","daisies","Crispy Chicken Garden Greens Salad",280,12
+"297","daisies","Crispy Chicken Sandwich",600,27
+"298","daisies","Crispy Chicken Wrap",350,19
+"299","daisies","Grilled Chicken BLT Salad",380,17
+"300","daisies","Grilled Chicken Garden Greens Salad",150,2
+"301","daisies","Grilled Chicken Sandwich",360,14
+"302","daisies","Grilled Chicken Wrap",280,13
+"303","daisies","Side Salad",20,0
+"304","daisies","Turkey BLT Sandwich",550,24
+"305","lilies","6"" B.L.T.",320,8
+"306","lilies","Footlong B.L.T.",640,16
+"307","lilies","6"" BBQ Rib Sandwich",430,16
+"308","lilies","Footlong BBQ Rib Sandwich",860,32
+"309","lilies","6"" Big Hot Pastrami",580,31
+"310","lilies","Footlong Big Hot Pastrami",1160,62
+"311","lilies","6"" Big Philly Cheesesteak",500,15
+"312","lilies","Footlong Big Philly Cheesesteak",1000,30
+"313","lilies","Kids Mini Sub Black Forest Ham",180,2
+"314","lilies","6"" Black Forest Ham",290,4
+"315","lilies","Footlong Black Forest Ham",580,8
+"316","lilies","6"" Carved Turkey",330,4.5
+"317","lilies","Footlong Carved Turkey",660,9
+"318","lilies","6"" Carved Turkey & Bacon w/ Cheese",570,23
+"319","lilies","Footlong Carved Turkey & Bacon w/ Cheese",1140,46
+"320","lilies","6"" Chicken & Bacon Ranch Melt",570,25
+"321","lilies","Footlong Chicken & Bacon Ranch Melt",1140,50
+"322","lilies","6"" Chicken Pizziola Melt",460,14
+"323","lilies","Footlong Chicken Pizziola Melt",920,28
+"324","lilies","6"" Cold Cut Combo",370,12
+"325","lilies","Footlong Cold Cut Combo",740,24
+"326","lilies","6"" Corned Beef Reuben",470,13
+"327","lilies","Footlong Corned Beef Reuben",940,26
+"328","lilies","6"" Italian B.M.T.",410,15
+"329","lilies","Footlong Italian B.M.T.",820,30
+"330","lilies","6"" Italian Hero",550,26
+"331","lilies","Footlong Italian Hero",1100,52
+"332","lilies","6"" Meatball Marinara",480,16
+"333","lilies","Footlong Meatball Marinara",960,32
+"334","lilies","6"" Oven Roasted Chicken",320,4
+"335","lilies","Footlong Oven Roasted Chicken",640,8
+"336","lilies","Kids Mini Sub Roast Beef",200,2.5
+"337","lilies","6"" Roast Beef",320,4
+"338","lilies","Footlong Roast Beef",640,8
+"339","lilies","6"" Rotisserie Style Chicken",350,5
+"340","lilies","Footlong Rotisserie Style Chicken",700,10
+"341","lilies","6"" Spicy Italian",480,22
+"342","lilies","Footlong Spicy Italian",960,44
+"343","lilies","6"" Steak and Cheese",380,9
+"344","lilies","Footlong Steak and Cheese",760,18
+"345","lilies","6"" Subway Club",310,4
+"346","lilies","Footlong Subway Club",620,8
+"347","lilies","6"" Subway Melt (includes cheese)",370,10
+"348","lilies","Footlong Subway Melt (includes cheese)",740,20
+"349","lilies","6"" Subway Seafood Sensation",420,17
+"350","lilies","Footlong Subway Seafood Sensation",840,34
+"351","lilies","6"" Sweet Onion Chicken Teriyaki",380,4
+"352","lilies","Footlong Sweet Onion Chicken Teriyaki",760,8
+"353","lilies","6"" Tuna",470,21
+"354","lilies","Footlong Tuna",940,42
+"355","lilies","6"" Turkey & Bacon Avocado",390,11
+"356","lilies","Footlong Turkey & Bacon Avocado",780,22
+"357","lilies","Kids Mini Sub Turkey Breast",180,2
+"358","lilies","6"" Turkey Breast",280,3
+"359","lilies","Footlong Turkey Breast",560,6
+"360","lilies","6"" Turkey Breast & Ham",280,3.5
+"361","lilies","Footlong Turkey Breast & Ham",560,7
+"362","lilies","6"" Turkey Italiano Melt (with Provolone)",490,21
+"363","lilies","Footlong Turkey Italiano Melt (with Provolone)",980,42
+"364","lilies","Kids Mini Sub Veggie Delite",150,1.5
+"365","lilies","6"" Veggie Delite",230,2
+"366","lilies","Footlong Veggie Delite",460,4
+"367","lilies","6"" Veggie Patty",390,7
+"368","lilies","Footlong Veggie Patty",780,14
+"369","lilies","Autumn Carved Turkey Salad",300,8
+"370","lilies","B.L.T. Salad",150,7
+"371","lilies","Big Hot Pastrami Melt Salad",400,30
+"372","lilies","Big Philly Cheesesteak Salad",330,14
+"373","lilies","Black Forest Ham Salad",110,2.5
+"374","lilies","Buffalo Chicken Salad (with Ranch dressing)",360,23
+"375","lilies","Carved Turkey & Bacon w/ Cheese Salad",280,11
+"376","lilies","Carved Turkey Salad",150,3
+"377","lilies","Chicken & Bacon Ranch Melt Salad (includes Ranch dressing)",510,34
+"378","lilies","Cold Cut Combo Salad",180,9.5
+"379","lilies","Double Chicken Salad",220,3.5
+"380","lilies","Italian B.M.T.® Salad",230,13.5
+"381","lilies","Italian Hero Salad",230,14
+"382","lilies","Meatball Marinara Salad",310,15
+"383","lilies","Oven Roasted Chicken Salad",140,2.5
+"384","lilies","Roast Beef Salad",140,3
+"385","lilies","Spicy Italian Salad",310,20.5
+"386","lilies","Steak & Cheese Salad",210,7.5
+"387","lilies","Subway Club Salad",140,3
+"388","lilies","Subway Melt® Salad",200,8.5
+"389","lilies","Sweet Onion Chicken Teriyaki Salad",200,2.5
+"390","lilies","Tuna Salad",310,21.5
+"391","lilies","Turkey Breast & Ham Salad",110,2
+"392","lilies","Turkey Breast Salad",110,2
+"393","lilies","Veggie Delite Salad",50,1
+"394","lilies","Chipotle Southwest Steak & Cheese Wrap",760,33
+"395","lilies","Rotisserie-Style Chicken Caesar Wrap",730,31
+"396","lilies","Turkey, Bacon & Guacamole Wrap",810,38
+"397","lilies","Cheese & Veggies Pizza",740,23
+"398","lilies","Cheese Pizza",680,20
+"399","lilies","Pepperoni Pizza",790,29
+"400","lilies","Sausage Pizza",820,31
+"401","roses","1/2 lb.* Cheesy Potato Burrito",540,23
+"402","roses","1/2 lb.* Combo Burrito",460,17
+"403","roses","7-Layer Burrito",510,17
+"404","roses","Bean Burrito",370,10
+"405","roses","Beefy 5-Layer Burrito",550,20
+"406","roses","Beefy Fritos® Burrito",440,16
+"407","roses","Black Bean Burrito",410,11
+"408","roses","Burrito Supreme® – Beef",420,14
+"409","roses","Burrito Supreme® - Chicken",390,11
+"410","roses","Burrito Supreme® - Steak",390,12
+"411","roses","Cantina Power Burrito - Chicken",760,24
+"412","roses","Cantina Power Burrito - Steak",780,25
+"413","roses","Cantina Power Burrito - Veggie",740,23
+"414","roses","Cheesy Bean and Rice Burrito",420,16
+"415","roses","Chili Cheese Burrito",380,15
+"416","roses","Chicken Crunchy Cheesy Core Burrito",610,21
+"417","roses","Steak Crunchy Cheesy Core Burrito",610,22
+"418","roses","Beef Crunchy Cheesy Core Burrito",630,24
+"419","roses","Loaded Taco Burrito",550,26
+"420","roses","Chicken Quesarito",620,27
+"421","roses","Steak Quesarito",630,28
+"422","roses","Beef Quesarito",650,30
+"423","roses","Shredded Chicken Burrito",400,16
+"424","roses","Smothered Burrito - Beef",710,32
+"425","roses","Smothered Burrito - Shredded Chicken",650,25
+"426","roses","Smothered Burrito - Steak",670,26
+"427","roses","Chicken Spicy Cheesy Core Burrito",540,18
+"428","roses","Steak Spicy Cheesy Core Burrito",550,19
+"429","roses","Beef Spicy Cheesy Core Burrito",570,21
+"430","roses","Triple Melt Burrito",410,14
+"431","roses","XXL Grilled Stuft Burrito - Beef",880,38
+"432","roses","XXL Grilled Stuft Burrito - Chicken",830,32
+"433","roses","XXL Grilled Stuft Burrito - Steak",820,32
+"434","roses","Chicken Soft Taco",170,5
+"435","roses","Cool Ranch® Doritos® Double Decker® Taco",320,12
+"436","roses","Cool Ranch® Doritos® Locos Taco",160,9
+"437","roses","Cool Ranch® Doritos® Locos Taco Supreme",200,10
+"438","roses","Crunchy Taco",170,9
+"439","roses","Crunchy Taco Supreme®",200,11
+"440","roses","Double Decker® Taco",320,12
+"441","roses","DOUBLE DECKER® Taco Supreme®",350,14
+"442","roses","Spicy Sweet Double Stacked Taco",340,16
+"443","roses","Cool Ranch Habanero Double Stacked Taco",350,18
+"444","roses","Nacho Crunch Double Stacked Taco",380,17
+"445","roses","Fiery Doritos® Double Decker® Taco",320,12
+"446","roses","Fiery Doritos® Locos Taco",170,9
+"447","roses","Fiery Doritos® Locos Taco Supreme",200,11
+"448","roses","Grilled Steak Soft Taco",250,13
+"449","roses","Nacho Cheese Doritos® Double Decker® Taco",320,12
+"450","roses","Nacho Cheese Doritos® Locos Tacos",170,8
+"451","roses","Nacho Cheese Doritos® Locos Tacos Supreme",200,10
+"452","roses","Soft Taco Supreme® – Beef",230,10
+"453","roses","Soft Taco-Beef",200,8
+"454","roses","Spicy Potato Soft Taco",250,12
+"455","roses","Chalupa Supreme® - Chicken",340,16
+"456","roses","Chalupa Supreme® - Steak",340,17
+"457","roses","Chalupa Supreme®–Beef",370,19
+"458","roses","Double Chalupa",600,31
+"459","roses","Wild Naked Chicken Chalupa",420,25
+"460","roses","Mild Naked Chicken Chalupa",440,27
+"461","roses","Spicy Double Chalupa",600,31
+"462","roses","Fresco Bean Burrito",350,8
+"463","roses","Fresco Burrito Supreme® – Chicken",340,8
+"464","roses","Fresco Burrito Supreme® – Steak",340,8
+"465","roses","Fresco Chicken Soft Taco",150,3.5
+"466","roses","Fresco Crunchy Taco",140,7
+"467","roses","Fresco Grilled Steak Soft Taco",150,3.5
+"468","roses","Fresco Soft Taco",170,6
+"469","roses","Cheesy Gordita Crunch",490,26
+"470","roses","Doritos® Cheesy Gordita Crunch - Cool Ranch",490,25
+"471","roses","Doritos® Cheesy Gordita Crunch - Fiery",490,25
+"472","roses","Doritos® Cheesy Gordita Crunch - Nacho Cheese",490,25
+"473","roses","Double Cheesy Gordita Crunch",570,29
+"474","roses","Gordita Supreme® – Beef",300,12
+"475","roses","Gordita Supreme® - Chicken",270,9
+"476","roses","Gordita Supreme® - Steak",270,9
+"477","roses","Nacho Fries Bellgrande",710,36
+"478","roses","Nachos BellGrande®",760,36
+"479","roses","Nachos Supreme",430,21
+"480","roses","Triple Layer Nachos",320,14
+"481","roses","Triple Melt Nachos",260,14
+"482","roses","Beefy Cheddar Crunchwrap Slider",410,17
+"483","roses","Beefy Mini Quesadilla",210,11
+"484","roses","Beefy Nacho Griller",420,17
+"485","roses","BLT Crunchwrap Slider",430,21
+"486","roses","Cantina Power Bowl - Chicken",560,20
+"487","roses","Cantina Power Bowl - Steak",580,21
+"488","roses","Cantina Power Bowl - Veggie",540,19
+"489","roses","Cheese Quesadilla",480,24
+"490","roses","Cheese Roll-Up",190,8
+"491","roses","Chicken Quesadilla",520,25
+"492","roses","Chickstar",620,34
+"493","roses","Chili Cheese Burrito",380,15
+"494","roses","Chipotle Crispy Chicken Griller",290,17
+"495","roses","Crispy Chicken Quesadilla",650,34
+"496","roses","Crunchwrap Supreme®",540,19
+"497","roses","Double Tostada",270,10
+"498","roses","Express Taco Salad w/ Chips",580,26
+"499","roses","Loaded Potato Griller",470,20
+"500","roses","Mexican Pizza",540,27
+"501","roses","MexiMelt®",270,13
+"502","roses","Steak Quesalupa",440,21
+"503","roses","Chicken Quesalupa",440,20
+"504","roses","Beef Quesalupa",460,24
+"505","roses","Shredded Chicken Mini Quesadilla",180,7
+"506","roses","Spicy Chicken Crunchwrap Slider",400,18
+"507","roses","Spicy Tostada",200,9
+"508","roses","Stacker",390,17
+"509","roses","Steak Quesadilla",520,25
+"510","roses","Original Triple Double Crunchwrap",700,27
+"511","roses","Spicy Triple Double Crunchwrap",780,34
+"512","roses","Express Taco Salad w/ Chips",580,26
+"513","roses","Fiesta Taco Salad-Beef",780,38
+"514","roses","Fiesta Taco Salad-Chicken",720,32
+"515","roses","Fiesta Taco Salad-Steak",720,32
