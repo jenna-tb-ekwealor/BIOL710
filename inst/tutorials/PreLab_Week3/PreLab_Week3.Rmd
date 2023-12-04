@@ -20,6 +20,8 @@ tutorial_options(
   )
 knitr::opts_chunk$set(echo = FALSE)
 
+pollen <- read.csv("pollen.csv", header = T)
+
 mints <- pollen %>%
   filter(plant_group == "mint")
 daisies <- pollen %>%
