@@ -75,8 +75,7 @@ daisies <- pollen %>%
   filter(plant_group == "daisies")
 ```
 
-Make plots to visualize the distributions of the amount of calories
-and grams of protein of the options from these two plant groups.  How do their centers, shapes,
+Make plots to visualize the distributions of the grams of protein from these two plant groups. How do their centers, shapes,
 and spreads compare?
 
 ```{r dghqyduwvsgyzshm, exercise = TRUE}
