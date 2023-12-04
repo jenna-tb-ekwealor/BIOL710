@@ -63,13 +63,10 @@ glimpse(pollen)
 head(pollen)
 ```
 
-You'll see that for every observation there are 17 measurements, many of which are
-nutritional data.
-
-You'll be focusing on just three columns to get started: plant_group, calories, 
+You'll see that for every plant taxon there are 2 nutritional measurements: calories and
 grams of protein.
 
-Let's first focus on just products from mints and daisies.
+Let's first focus on just mint and daisy taxa.
 
 ```{r male-female, exercise = T}
 mints <- pollen %>%
@@ -79,7 +76,7 @@ daisies <- pollen %>%
 ```
 
 Make plots to visualize the distributions of the amount of calories
-from protein of the options from these two plant_groups.  How do their centers, shapes,
+and grams of protein of the options from these two plant groups.  How do their centers, shapes,
 and spreads compare?
 
 ```{r dghqyduwvsgyzshm, exercise = TRUE}
