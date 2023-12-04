@@ -25,7 +25,7 @@ pollen <- read.csv("pollen.csv", header = T)
 mints <- pollen %>%
   filter(plant_group == "mint")
 daisies <- pollen %>%
-  filter(plant_group == "daisy")
+  filter(plant_group == "daisies")
 daisymean <- mean(daisies$protein)
 daisysd   <- sd(daisies$protein)
 ```
