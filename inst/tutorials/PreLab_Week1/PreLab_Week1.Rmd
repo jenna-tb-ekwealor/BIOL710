@@ -31,7 +31,7 @@ data(plants)
 Let's start by examining the plant counts. We can access the data for male and female counts separately.
 
 ```{r view_males, exercise = T}
-plants$male
+plants$males
 ```
 
 This command will only show the number of male plants each day. 
@@ -104,7 +104,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 
 
 ```{r plotmales-solution}
-ggplot(data = plant, aes(x =day, y = males)) + 
+ggplot(data = plants, aes(x =day, y = males)) + 
   geom_point()
 ```
 
@@ -121,7 +121,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) + ___
 ```
 
 ```{r plotmalespoint-solution}
-ggplot(data = plant, aes(x = day, y = males)) + 
+ggplot(data = plants, aes(x = day, y = males)) + 
   geom_line()
 ```
 
@@ -133,16 +133,16 @@ gradethis::grade_code()
 
 ## R as a big calculator
 
-Now, suppose we want to plot the total number of flowers 
+Now, suppose we want to plot the total number of flowers. 
 To compute this, we could use the fact that R is really just a big calculator. 
 We can type in mathematical expressions like
 
 ```{r calc-total-bapt-numbers, exercise = T}
-5218 + 4683
+47 + 52
 ```
 
-to see the total number of flowers in 1629. We could repeat this once for each day, but there is a faster way. 
-If we add the vector for flowers for males to that of females, R will compute all sums simultaneously.
+to see the total number of flowers on day 0. We could repeat this once for each day, but there is a faster way. 
+If we add the vector for male flowers to that of females, R will compute all sums simultaneously.
 
 ```{r calc-total-bapt-vars, exercise = T}
 plant$males + plant$females
@@ -156,7 +156,7 @@ Take a look at a few of them and verify that they are right.
 We'll be using this new vector to generate some plots, so we'll want to save it as a permanent column in our data frame.
 
 ```{r calc-total-bapt-vars-save, exercise = T}
-plant <- plant %>%
+plants <- plants %>%
   mutate(total = males + females)
 ```
 
@@ -164,10 +164,10 @@ The `%>%` operator is called the **piping** operator. It takes the output of the
 To continue our analogy with mathematical functions, `x %>% f(y)` is equivalent to `f(x, y)`.
 
 
-**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `plant` dataset and **pipe** it into the `mutate` function. 
-Mutate the `plant` data set by creating a new variable called `total` that is the sum of the variables called `males` and `females`. 
+**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `plants` dataset and **pipe** it into the `mutate` function. 
+Mutate the `plants` data set by creating a new variable called `total` that is the sum of the variables called `males` and `females`. 
 
-Then assign the resulting dataset to the object called `plant`, i.e. overwrite the old `plant` dataset with the new one containing the new variable."*
+Then assign the resulting dataset to the object called `plants`, i.e. overwrite the old `plants` dataset with the new one containing the new variable."*
   
 This is equivalent to going through each row and adding up the `males` and `females` counts for that day and recording that value in a new column called `total`.
 
@@ -178,37 +178,37 @@ This is equivalent to going through each row and adding up the `males` and `fema
 You'll see that there is now a new column called `total` that has been tacked onto the data frame.
 
 The special symbol `<-` performs an *assignment*, taking the output of one line of code and saving it into an object in your environment. 
-In this case, you already have an object called `plant`, so this command updates that data set with the new mutated column.
+In this case, you already have an object called `plants`, so this command updates that data set with the new mutated column.
 
 You can make a line plot of the total number of flowers per day with the command
 
 ```{r plottotalvsday-setup}
-plant <- plant %>%
+plants <- plants %>%
   mutate(total = males + females)
 ```
 
 ```{r plottotalvsday, exercise = TRUE}
-ggplot(data = plant, aes(x = day, y = total)) + 
+ggplot(data = plants, aes(x = day, y = total)) + 
   geom_line()
 ```
 
-Just as you computed the total number of germinations, you can compute the ratio of the number of males to the number of females flowering in 1629 with
+Just as you computed the total number of germinations, you can compute the ratio of the number of males to the number of females flowering on day 0 with
 
 ```{r calc-prop-males-to-females-numbers, exercise = T}
-5218 / 4683
+522 / 468
 ```
 
 or you can act on the complete columns with the expression
 
 ```{r calc-prop-males-to-females-vars, exercise = T}
-plant <- plant %>%
+plants <- plants %>%
   mutate(male_to_female_ratio = males / females)
 ```
 
-You can also compute the proportion of newborns that are males in 1629
+You can also compute the proportion of flowers that are males on day 0
 
 ```{r calc-prop-males-numbers, exercise = T}
-5218 / (5218 + 4683)
+52 / (52 + 47)
 ```
 
 or you can compute this for all days simultaneously and append it to the dataset
