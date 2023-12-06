@@ -32,7 +32,7 @@ Let's start by examining the plant counts. We can access the data for male and f
 
 ```{r view_males, exercise = T}
 plants$males
-```
+``` 
 
 This command will only show the number of male plants each day. 
 The dollar sign basically says "go to the data frame that comes before me, and find the variable that comes after me".
@@ -145,7 +145,7 @@ to see the total number of flowers on day 0. We could repeat this once for each 
 If we add the vector for male flowers to that of females, R will compute all sums simultaneously.
 
 ```{r calc-total-bapt-vars, exercise = T}
-plant$males + plant$females
+plants$males + plants$females
 ```
 
 What you will see are 82 numbers (in that packed display, because we aren’t looking at a data frame here), each one representing the sum we’re after. 
@@ -195,7 +195,7 @@ ggplot(data = plants, aes(x = day, y = total)) +
 Just as you computed the total number of germinations, you can compute the ratio of the number of males to the number of females flowering on day 0 with
 
 ```{r calc-prop-males-to-females-numbers, exercise = T}
-522 / 468
+52 / 47
 ```
 
 or you can act on the complete columns with the expression
@@ -214,12 +214,12 @@ You can also compute the proportion of flowers that are males on day 0
 or you can compute this for all days simultaneously and append it to the dataset
 
 ```{r calcpropmalesvars-setup}
-plant <- plant %>% mutate(total = males + females) %>%
+plants <- plants %>% mutate(total = males + females) %>%
   mutate(male_ratio = males / total)
 ```
 
 ```{r calcpropmalesvars, exercise = TRUE}
-plant <- plant %>%
+plants <- plants %>%
   mutate(male_ratio = males / total)
 ```
 
@@ -228,7 +228,7 @@ Note that we are using the new `total` variable we created earlier in our calcul
 Generate a line plot of the proportion of males born over time. What do you see? 
 
 ```{r plotmalesprop-setup}
-plant <- plant %>% mutate(total = males + females) %>%
+plants <- plants %>% mutate(total = males + females) %>%
   mutate(male_ratio = males / total)
 ```
 
@@ -253,7 +253,7 @@ Finally, in addition to simple mathematical operators like subtraction and divis
 For example, we can ask if the number of germinations of males outnumber that of females in each day with the expression
 
 ```{r males-more-than-females, exercise = T}
-plant <- plant %>%
+plants <- plants %>%
   mutate(more_males = males > females)
 ```
 
@@ -265,8 +265,8 @@ In general, data analysis will involve many different kinds of data types, and o
 
 ## More Practice
 
-In the previous few exercises, you recreated some of the displays and preliminary analysis of plant's flower data. 
-Your assignment involves repeating these steps, but for present day germinations records in the United States. 
+In the previous few exercises, you recreated some of the displays and preliminary analysis of historical spring flower data. 
+Your assignment involves repeating these steps, but for present day germination records in the United States. 
 The data are stored in a data frame called `present`. These data come from reports by the Centers for Disease Control. 
 You can learn more about them by bringing up the help file using the command `?present`.
 
@@ -274,7 +274,7 @@ To find the minimum and maximum values of columns, you can use the functions `mi
 Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `plant` data:
   
 ```{r summarize_min_and_max, exercise = T}
-plant %>%
+plants %>%
   summarise(min = min(males), max = max(males))
 ```
 
