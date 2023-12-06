@@ -2,10 +2,10 @@
 \alias{pollen}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+%%   pollen
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+%% Pseudodata on pollen nutritional info. 
 }
 \usage{data("pollen")}
 \format{
@@ -16,10 +16,10 @@
   }
 }
 \details{
-%%  ~~ If necessary, more details than the __description__ above ~~
+%%  Data is artifical.
 }
 \source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+%%  A modified version of the fastfood dataset.
 }
 \references{
 %%  ~~ possibly secondary sources and usages ~~

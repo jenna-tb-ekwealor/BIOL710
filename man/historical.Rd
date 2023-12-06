@@ -2,10 +2,10 @@
 \alias{historical}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+%%   historical
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+%% A pseudodataset for historical plant sex counts.
 }
 \usage{data("historical")}
 \format{
@@ -16,13 +16,13 @@
   }
 }
 \details{
-%%  ~~ If necessary, more details than the __description__ above ~~
+%%  Artificial data. 
 }
 \source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+%%  Modified from arbuthnot baptism data.
 }
 \references{
-%%  ~~ possibly secondary sources and usages ~~
+%%  
 }
 \examples{
 data(historical)
