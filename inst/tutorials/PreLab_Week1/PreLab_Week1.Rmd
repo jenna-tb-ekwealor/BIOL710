@@ -25,16 +25,16 @@ plants <- read.csv("plants.csv", header = T)
 ## Let's Explore
 
 ```{r load-data, exercise = T}
-data(plants)  # Assume you have a dataset called 'plants' with columns 'year', 'male_count', 'female_count', 'male_flowering_rate', and 'female_flowering_rate'
+data(plants)
 ```
 
-Let's start by examining the plant counts and flowering rates. We can access the data for male and female counts separately.
+Let's start by examining the plant counts. We can access the data for male and female counts separately.
 
 ```{r view_males, exercise = T}
-plants$male_count
+plants$male
 ```
 
-This command will only show the number of male plants each year. 
+This command will only show the number of male plants each day. 
 The dollar sign basically says "go to the data frame that comes before me, and find the variable that comes after me".
 
 Now, what command would you use to extract just the counts of female plants? Try
@@ -46,7 +46,7 @@ ____$____  # Replace the blanks to extract female counts
 
 ```{r viewfemales-solution}
 # solution code
-plants$female_count
+plants$females
 ```
 
 ```{r viewfemales-check}
@@ -64,10 +64,10 @@ And if `[n]` starts a line, then that would mean the first number on that line w
 
 ## Data visualization
 
-R has some powerful functions for making graphics. We can create a simple plot of the number of females flowering per year with the command
+R has some powerful functions for making graphics. We can create a simple plot of the number of females counted per day with the command
 
-```{r plot-females-vs-year, exercise = T}
-ggplot(data = plants, aes(x = year, y = females)) + 
+```{r plot-females-vs-day, exercise = T}
+ggplot(data = plants, aes(x = day, y = females)) + 
   geom_point()
 ```
 
@@ -84,8 +84,8 @@ With `ggplot()`:
 
 For instance, if you wanted to visualize the above plot using a line graph, you would replace `geom_point()` with `geom_line()`.
 
-```{r plot-females-vs-year-line, exercise = T}
-ggplot(data = plants, aes(x = year, y = females)) + 
+```{r plot-females-vs-day-line, exercise = T}
+ggplot(data = plants, aes(x = day, y = females)) + 
   geom_line()
 ```
 
@@ -95,7 +95,7 @@ To learn what a function does and its arguments that are available to you, use t
 
 
 How would you create a plot that would help you answer the following question:
-Is there an apparent trend in the number of males flowering over the years? 
+Is there an apparent trend in the number of males flowering over the days? 
 
 ```{r plotmales, exercise = TRUE}
 ggplot(data = ___, aes(x = ___, y = ___)) + 
@@ -104,7 +104,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 
 
 ```{r plotmales-solution}
-ggplot(data = plant, aes(x =year, y = males)) + 
+ggplot(data = plant, aes(x =day, y = males)) + 
   geom_point()
 ```
 
@@ -121,7 +121,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) + ___
 ```
 
 ```{r plotmalespoint-solution}
-ggplot(data = plant, aes(x = year, y = males)) + 
+ggplot(data = plant, aes(x = day, y = males)) + 
   geom_line()
 ```
 
@@ -141,7 +141,7 @@ We can type in mathematical expressions like
 5218 + 4683
 ```
 
-to see the total number of flowers in 1629. We could repeat this once for each year, but there is a faster way. 
+to see the total number of flowers in 1629. We could repeat this once for each day, but there is a faster way. 
 If we add the vector for flowers for males to that of females, R will compute all sums simultaneously.
 
 ```{r calc-total-bapt-vars, exercise = T}
@@ -169,7 +169,7 @@ Mutate the `plant` data set by creating a new variable called `total` that is th
 
 Then assign the resulting dataset to the object called `plant`, i.e. overwrite the old `plant` dataset with the new one containing the new variable."*
   
-This is equivalent to going through each row and adding up the `males` and `females` counts for that year and recording that value in a new column called `total`.
+This is equivalent to going through each row and adding up the `males` and `females` counts for that day and recording that value in a new column called `total`.
 
 
 **Where is the new variable?** When you make changes to variables in your dataset, click on the name of the dataset again to update it in the data viewer.
@@ -180,15 +180,15 @@ You'll see that there is now a new column called `total` that has been tacked on
 The special symbol `<-` performs an *assignment*, taking the output of one line of code and saving it into an object in your environment. 
 In this case, you already have an object called `plant`, so this command updates that data set with the new mutated column.
 
-You can make a line plot of the total number of flowers per year with the command
+You can make a line plot of the total number of flowers per day with the command
 
-```{r plottotalvsyear-setup}
+```{r plottotalvsday-setup}
 plant <- plant %>%
   mutate(total = males + females)
 ```
 
-```{r plottotalvsyear, exercise = TRUE}
-ggplot(data = plant, aes(x = year, y = total)) + 
+```{r plottotalvsday, exercise = TRUE}
+ggplot(data = plant, aes(x = day, y = total)) + 
   geom_line()
 ```
 
@@ -211,7 +211,7 @@ You can also compute the proportion of newborns that are males in 1629
 5218 / (5218 + 4683)
 ```
 
-or you can compute this for all years simultaneously and append it to the dataset
+or you can compute this for all days simultaneously and append it to the dataset
 
 ```{r calcpropmalesvars-setup}
 plant <- plant %>% mutate(total = males + females) %>%
@@ -239,7 +239,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 ```
 
 ```{r plotmalesprop-solution}
-ggplot(data = plant, aes(x =year, y = male_ratio)) + 
+ggplot(data = plant, aes(x =day, y = male_ratio)) + 
   geom_line()
 ```
 
@@ -250,16 +250,16 @@ gradethis::grade_code()
 
 
 Finally, in addition to simple mathematical operators like subtraction and division, you can ask R to make comparisons like greater than, `>`, less than, `<`, and equality, `==`. 
-For example, we can ask if the number of germinations of males outnumber that of females in each year with the expression
+For example, we can ask if the number of germinations of males outnumber that of females in each day with the expression
 
 ```{r males-more-than-females, exercise = T}
 plant <- plant %>%
   mutate(more_males = males > females)
 ```
 
-This command adds a new variable to the `plant` dataframe containing the values of either `TRUE` if that year had more males than females, or `FALSE` if that year did not (the answer may surprise you). 
+This command adds a new variable to the `plant` dataframe containing the values of either `TRUE` if that day had more males than females, or `FALSE` if that day did not (the answer may surprise you). 
 This variable contains a different kind of data than we have encountered so far. 
-All other columns in the `plant` data frame have values that are numerical (the year, the number of males and females). 
+All other columns in the `plant` data frame have values that are numerical (the day, the number of males and females). 
 Here, we've asked R to create *logical* data, data where the values are either `TRUE` or `FALSE`. 
 In general, data analysis will involve many different kinds of data types, and one reason for using R is that it is able to represent and compute with many of them.
 
@@ -271,14 +271,14 @@ The data are stored in a data frame called `present`. These data come from repor
 You can learn more about them by bringing up the help file using the command `?present`.
 
 To find the minimum and maximum values of columns, you can use the functions `min` and `max` within a `summarise()` call, which you will learn more about in the following lab. 
-Here's an example of how to find the minimum and maximum amount of male germinations in a year for the `plant` data:
+Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `plant` data:
   
 ```{r summarize_min_and_max, exercise = T}
 plant %>%
   summarise(min = min(males), max = max(males))
 ```
 
-What years are included in the `present` data set? 
+What days are included in the `present` data set? 
 
 ```{r summarisepresent, exercise = TRUE}
 ___ %>%
@@ -287,7 +287,7 @@ ___ %>%
 
 ```{r summarisepresent-solution}
 present %>%
-  summarise(min = min(year), max = max(year))
+  summarise(min = min(day), max = max(day))
 ```
 
 ```{r summarisepresent-check}
@@ -376,7 +376,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 ```{r plotmalespresent-solution}
 present <- present %>% mutate(male_ratio = males/(males+females))
 
-ggplot(data = present, aes(x = year, y = male_ratio)) + 
+ggplot(data = present, aes(x = day, y = male_ratio)) + 
   geom_line()
 ```
 
@@ -397,7 +397,7 @@ question("Does plant's observation about males being born in greater proportion 
 ```
 
 
-In what year did we see the most total number of germinations in the U.S.? *Hint:*
+In what day did we see the most total number of germinations in the U.S.? *Hint:*
 First calculate the totals and save it as a new variable. Then, sort your
 dataset in descending order based on the total column. We can arrange the data 
 in a descending order with another function: `desc` (for descending order).
