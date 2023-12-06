@@ -53,7 +53,7 @@ library(openintro)
 ### The data
 
 This week you'll be working with pollen nutritional data.  This data set contains pollen data from
-515 species from different plant families.
+421 genera from different plant families.
 Let's take a quick peek at the first few rows of the data.
 
 Either you can use `glimpse` like before, or `head` to do this.
