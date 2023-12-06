@@ -19,7 +19,7 @@ tutorial_options(
   )
 knitr::opts_chunk$set(echo = FALSE)
 
-historical <- read.csv("historical.csv", header = T)
+historical <- read.csv("inst/extdata/historical.csv", header = T)
 ```
 
 ## Let's Explore
