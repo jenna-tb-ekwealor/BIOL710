@@ -19,19 +19,19 @@ tutorial_options(
   )
 knitr::opts_chunk$set(echo = FALSE)
 
-plants <- read.csv("plants.csv", header = T)
+historical <- read.csv("historical.csv", header = T)
 ```
 
 ## Let's Explore
 
 ```{r load-data, exercise = T}
-data(plants)
+data(historical)
 ```
 
 Let's start by examining the plant counts. We can access the data for male and female counts separately.
 
 ```{r view_males, exercise = T}
-plants$males
+historical$males
 ``` 
 
 This command will only show the number of male plants each day. 
@@ -46,7 +46,7 @@ ____$____  # Replace the blanks to extract female counts
 
 ```{r viewfemales-solution}
 # solution code
-plants$females
+historical$females
 ```
 
 ```{r viewfemales-check}
@@ -67,7 +67,7 @@ And if `[n]` starts a line, then that would mean the first number on that line w
 R has some powerful functions for making graphics. We can create a simple plot of the number of females counted per day with the command
 
 ```{r plot-females-vs-day, exercise = T}
-ggplot(data = plants, aes(x = day, y = females)) + 
+ggplot(data = historical, aes(x = day, y = females)) + 
   geom_point()
 ```
 
@@ -85,7 +85,7 @@ With `ggplot()`:
 For instance, if you wanted to visualize the above plot using a line graph, you would replace `geom_point()` with `geom_line()`.
 
 ```{r plot-females-vs-day-line, exercise = T}
-ggplot(data = plants, aes(x = day, y = females)) + 
+ggplot(data = historical, aes(x = day, y = females)) + 
   geom_line()
 ```
 
@@ -104,7 +104,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 
 
 ```{r plotmales-solution}
-ggplot(data = plants, aes(x =day, y = males)) + 
+ggplot(data = historical, aes(x =day, y = males)) + 
   geom_point()
 ```
 
@@ -121,7 +121,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) + ___
 ```
 
 ```{r plotmalespoint-solution}
-ggplot(data = plants, aes(x = day, y = males)) + 
+ggplot(data = historical, aes(x = day, y = males)) + 
   geom_line()
 ```
 
@@ -145,7 +145,7 @@ to see the total number of flowers on day 0. We could repeat this once for each 
 If we add the vector for male flowers to that of females, R will compute all sums simultaneously.
 
 ```{r calc-total-bapt-vars, exercise = T}
-plants$males + plants$females
+historical$males + historical$females
 ```
 
 What you will see are 82 numbers (in that packed display, because we aren’t looking at a data frame here), each one representing the sum we’re after. 
@@ -156,7 +156,7 @@ Take a look at a few of them and verify that they are right.
 We'll be using this new vector to generate some plots, so we'll want to save it as a permanent column in our data frame.
 
 ```{r calc-total-bapt-vars-save, exercise = T}
-plants <- plants %>%
+historical <- historical %>%
   mutate(total = males + females)
 ```
 
@@ -164,10 +164,10 @@ The `%>%` operator is called the **piping** operator. It takes the output of the
 To continue our analogy with mathematical functions, `x %>% f(y)` is equivalent to `f(x, y)`.
 
 
-**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `plants` dataset and **pipe** it into the `mutate` function. 
-Mutate the `plants` data set by creating a new variable called `total` that is the sum of the variables called `males` and `females`. 
+**A note on piping:** Note that we can read these two lines of code as the following: *"Take the `historical` dataset and **pipe** it into the `mutate` function. 
+Mutate the `historical` data set by creating a new variable called `total` that is the sum of the variables called `males` and `females`. 
 
-Then assign the resulting dataset to the object called `plants`, i.e. overwrite the old `plants` dataset with the new one containing the new variable."*
+Then assign the resulting dataset to the object called `historical`, i.e. overwrite the old `historical` dataset with the new one containing the new variable."*
   
 This is equivalent to going through each row and adding up the `males` and `females` counts for that day and recording that value in a new column called `total`.
 
@@ -178,17 +178,17 @@ This is equivalent to going through each row and adding up the `males` and `fema
 You'll see that there is now a new column called `total` that has been tacked onto the data frame.
 
 The special symbol `<-` performs an *assignment*, taking the output of one line of code and saving it into an object in your environment. 
-In this case, you already have an object called `plants`, so this command updates that data set with the new mutated column.
+In this case, you already have an object called `historical`, so this command updates that data set with the new mutated column.
 
 You can make a line plot of the total number of flowers per day with the command
 
 ```{r plottotalvsday-setup}
-plants <- plants %>%
+historical <- historical %>%
   mutate(total = males + females)
 ```
 
 ```{r plottotalvsday, exercise = TRUE}
-ggplot(data = plants, aes(x = day, y = total)) + 
+ggplot(data = historical, aes(x = day, y = total)) + 
   geom_line()
 ```
 
@@ -201,7 +201,7 @@ Just as you computed the total number of germinations, you can compute the ratio
 or you can act on the complete columns with the expression
 
 ```{r calc-prop-males-to-females-vars, exercise = T}
-plants <- plants %>%
+historical <- historical %>%
   mutate(male_to_female_ratio = males / females)
 ```
 
@@ -214,12 +214,12 @@ You can also compute the proportion of flowers that are males on day 0
 or you can compute this for all days simultaneously and append it to the dataset
 
 ```{r calcpropmalesvars-setup}
-plants <- plants %>% mutate(total = males + females) %>%
+historical <- historical %>% mutate(total = males + females) %>%
   mutate(male_ratio = males / total)
 ```
 
 ```{r calcpropmalesvars, exercise = TRUE}
-plants <- plants %>%
+historical <- historical %>%
   mutate(male_ratio = males / total)
 ```
 
@@ -228,7 +228,7 @@ Note that we are using the new `total` variable we created earlier in our calcul
 Generate a line plot of the proportion of males born over time. What do you see? 
 
 ```{r plotmalesprop-setup}
-plants <- plants %>% mutate(total = males + females) %>%
+historical <- historical %>% mutate(total = males + females) %>%
   mutate(male_ratio = males / total)
 ```
 
@@ -239,7 +239,7 @@ ggplot(data = ___, aes(x = ___, y = ___)) +
 ```
 
 ```{r plotmalesprop-solution}
-ggplot(data = plant, aes(x =day, y = male_ratio)) + 
+ggplot(data = historical, aes(x =day, y = male_ratio)) + 
   geom_line()
 ```
 
@@ -253,22 +253,21 @@ Finally, in addition to simple mathematical operators like subtraction and divis
 For example, we can ask if the number of germinations of males outnumber that of females in each day with the expression
 
 ```{r males-more-than-females, exercise = T}
-plants <- plants %>%
+historical <- historical %>%
   mutate(more_males = males > females)
 ```
 
 This command adds a new variable to the `plant` dataframe containing the values of either `TRUE` if that day had more males than females, or `FALSE` if that day did not (the answer may surprise you). 
 This variable contains a different kind of data than we have encountered so far. 
-All other columns in the `plant` data frame have values that are numerical (the day, the number of males and females). 
+All other columns in the `historical` data frame have values that are numerical (the day, the number of males and females). 
 Here, we've asked R to create *logical* data, data where the values are either `TRUE` or `FALSE`. 
 In general, data analysis will involve many different kinds of data types, and one reason for using R is that it is able to represent and compute with many of them.
 
 ## More Practice
 
-In the previous few exercises, you recreated some of the displays and preliminary analysis of historical spring flower data. 
-Your assignment involves repeating these steps, but for present day germination records in the United States. 
-The data are stored in a data frame called `present`. These data come from reports by the Centers for Disease Control. 
-You can learn more about them by bringing up the help file using the command `?present`.
+In the previous few exercises, you recreated some of the displays and preliminary analysis of historical  flowering data. 
+Your assignment involves repeating these steps, but for present day flowering records for the same  population. 
+The data are stored in a data frame called `present`.
 
 To find the minimum and maximum values of columns, you can use the functions `min` and `max` within a `summarise()` call, which you will learn more about in the following lab. 
 Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `plant` data:
