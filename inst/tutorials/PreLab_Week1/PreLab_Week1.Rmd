@@ -18,6 +18,7 @@ tutorial_options(
   exercise.checker = gradethis::grade_learnr
   )
 knitr::opts_chunk$set(echo = FALSE)
+
 plants <- read.csv("plants.csv", header = T)
 ```
 
