@@ -1,12 +1,8 @@
 \name{present}
 \alias{present}
 \docType{data}
-\title{
-%%   present
-}
-\description{
-%% A pseudodataset for present plant sex counts.
-}
+\title{present}
+\description{A pseudodataset for present plant sex counts.}
 \usage{data("present")}
 \format{
   A data frame with 0 observations on the following 2 variables.
@@ -18,12 +14,8 @@
 \details{
 %%  Artificial data. 
 }
-\source{
-%%  Modified from arbuthnot baptism data.
-}
-\references{
-%%  
-}
+\source{Modified from arbuthnot baptism data.}
+\references{}
 \examples{
 data(present)
 ## maybe str(present) ; plot(present) ...
