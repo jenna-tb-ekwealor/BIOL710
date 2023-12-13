@@ -273,7 +273,7 @@ To find the minimum and maximum values of columns, you can use the functions `mi
 Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `plant` data:
   
 ```{r summarize_min_and_max, exercise = T}
-plants %>%
+historical %>%
   summarise(min = min(males), max = max(males))
 ```
 
