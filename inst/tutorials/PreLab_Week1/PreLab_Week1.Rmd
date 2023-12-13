@@ -270,23 +270,23 @@ Your assignment involves repeating these steps, but for present day flowering re
 The data are stored in a data frame called `present`.
 
 To find the minimum and maximum values of columns, you can use the functions `min` and `max` within a `summarise()` call, which you will learn more about in the following lab. 
-Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `historical` data:
+Here's an example of how to find the minimum and maximum amount of male plants in a day for the `historical` data:
   
 ```{r summarize_min_and_max, exercise = T}
 historical %>%
-  summarise(min = min(males), max = max(males))
+  summarize(min = min(males), max = max(males))
 ```
 
-What days are included in the `present` data set? 
+How many days are included in the `present` data set? 
 
 ```{r summarisepresent, exercise = TRUE}
 ___ %>%
-  summarise(min = min(___), max = max(___))
+  summarize(max = max(___))
 ```
 
 ```{r summarisepresent-solution}
 present %>%
-  summarise(min = min(day), max = max(day))
+  summarize(max = max(day))
 ```
 
 ```{r summarisepresent-check}
@@ -331,18 +331,18 @@ How do these counts compare to the historical data?
 
 ```{r comparecounts, exercise = TRUE}
 historical %>%
-  summarise(min = min(males), max = max(males))
+  summarise(min = min(c(males, females)), max = max(c(males, females)))
 
 ___ %>% 
-   summarise(min = min(males), max = max(males))
+   summarise(min = min(c(males, females)), max = max(c(males, females)))
 ```
 
 ```{r comparecounts-solution}
 historical %>%
-  summarise(min = min(males), max = max(males))
+  summarise(min = min(c(males, females)), max = max(c(males, females)))
 
 present %>% 
-   summarise(min = min(males), max = max(males))
+   summarise(min = min(c(males, females)), max = max(c(males, females)))
 ```
 
 ```{r comparecounts-check}
