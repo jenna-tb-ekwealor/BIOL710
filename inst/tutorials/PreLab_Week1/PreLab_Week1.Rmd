@@ -257,7 +257,7 @@ historical <- historical %>%
   mutate(more_males = males > females)
 ```
 
-This command adds a new variable to the `plant` dataframe containing the values of either `TRUE` if that day had more males than females, or `FALSE` if that day did not (the answer may surprise you). 
+This command adds a new variable to the `historical` dataframe containing the values of either `TRUE` if that day had more males than females, or `FALSE` if that day did not (the answer may surprise you). 
 This variable contains a different kind of data than we have encountered so far. 
 All other columns in the `historical` data frame have values that are numerical (the day, the number of males and females). 
 Here, we've asked R to create *logical* data, data where the values are either `TRUE` or `FALSE`. 
@@ -270,7 +270,7 @@ Your assignment involves repeating these steps, but for present day flowering re
 The data are stored in a data frame called `present`.
 
 To find the minimum and maximum values of columns, you can use the functions `min` and `max` within a `summarise()` call, which you will learn more about in the following lab. 
-Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `plant` data:
+Here's an example of how to find the minimum and maximum amount of male germinations in a day for the `historical` data:
   
 ```{r summarize_min_and_max, exercise = T}
 historical %>%
@@ -327,10 +327,10 @@ names(present)
 gradethis::grade_code()
 ```
 
-How do these counts compare to plant's? 
+How do these counts compare to the historical data? 
 
 ```{r comparecounts, exercise = TRUE}
-plant %>%
+historical %>%
   summarise(min = min(males), max = max(males))
 
 ___ %>% 
@@ -338,7 +338,7 @@ ___ %>%
 ```
 
 ```{r comparecounts-solution}
-plant %>%
+historical %>%
   summarise(min = min(males), max = max(males))
 
 present %>% 
@@ -354,8 +354,8 @@ gradethis::grade_code()
 ```{r magnitude}
 question("Are they of a similar magnitude?",
     answer("Yes"),
-    answer("No, plant's are greater."),
-    answer("No, the US's are greater.", correct = T),
+    answer("No, the historial population is larger", correct = T),
+    answer("No, the present population is larger"),
     allow_retry = TRUE,
     random_answer_order = F
   )
@@ -387,7 +387,7 @@ gradethis::grade_code()
 
 
 ```{r obs-hold}
-question("Does plant's observation about males being born in greater proportion than females hold up in the U.S.?",
+question("Are males still more abundant than females in the present population?",
     answer("Yes",correct = T),
     answer("No"),
     allow_retry = TRUE,
@@ -396,7 +396,7 @@ question("Does plant's observation about males being born in greater proportion 
 ```
 
 
-In what day did we see the most total number of germinations in the U.S.? *Hint:*
+On what day of spring did we see the most total number of individuals in present population? *Hint:*
 First calculate the totals and save it as a new variable. Then, sort your
 dataset in descending order based on the total column. We can arrange the data 
 in a descending order with another function: `desc` (for descending order).
