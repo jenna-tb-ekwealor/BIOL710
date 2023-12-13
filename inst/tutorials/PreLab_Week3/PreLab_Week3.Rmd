@@ -23,9 +23,9 @@ knitr::opts_chunk$set(echo = FALSE)
 pollen <- data(pollen)
 
 mints <- pollen %>%
-  filter(plant_group == "mints")
+  dplyr::filter(plant_group == "mints")
 daisies <- pollen %>%
-  filter(plant_group == "daisies")
+  dplyr::filter(plant_group == "daisies")
 daisymean <- mean(daisies$protein)
 daisysd   <- sd(daisies$protein)
 ```
