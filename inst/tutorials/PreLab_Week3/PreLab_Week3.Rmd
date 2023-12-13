@@ -21,7 +21,7 @@ tutorial_options(
   )
 knitr::opts_chunk$set(echo = FALSE)
 
-pollen <- data(pollen)
+# pollen <- data(pollen)
 
 mints <- pollen %>%
   dplyr::filter(plant_group == "mints")
