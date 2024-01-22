@@ -18,6 +18,14 @@ tutorial_options(
   exercise.checker = gradethis::grade_learnr
   )
 knitr::opts_chunk$set(echo = FALSE)
+# stuff to load in secret
+data(nycbirds)
+la_bird_obs <- nycbirds %>%
+  filter(dest == "LA")
+sf_bird_obs <- nycbirds %>%
+  filter(dest == "SF")
+sf_feb_bird_obs <- nycbirds %>%
+  filter(dest == "SF", month == 2)
 ```
 
 ## Getting started
@@ -241,7 +249,7 @@ migratory bird observations headed to San Francisco (SF) in February:
 
 ```{r sf-feb-bird_obs, exercise = T}
 sf_feb_bird_obs <- nycbirds %>%
-  filter(dest == "sf", month == 2)
+  filter(dest == "SF", month == 2)
 ```
 
 Note that you can separate the conditions using commas (or "&") if you want migratory bird observations that
@@ -256,7 +264,7 @@ ___ <- ___ %>% ___(dest == ___, month == ___)
 ```
 
 ```{r filterfeb-solution}
-sf_june_bird_obs <- nycbirds %>% filter(dest == "sf", month == 6)
+sf_june_bird_obs <- nycbirds %>% filter(dest == "SF", month == 6)
 ```
 
 ```{r filterfeb-check}
@@ -267,7 +275,7 @@ gradethis::grade_code()
 How many migratory bird observations meet these criteria? **Hint:** How many rows are in `sf_june_bird_obs`? To learn what a function does and its arguments that are available to you, use the "Help" tab in the bottom right. Try this for `dim` and `nrow`. 
 
 ```{r dimbird_obs-setup}
-sf_june_bird_obs <- nycbirds %>% filter(dest == "sf", month == 6)
+sf_june_bird_obs <- nycbirds %>% filter(dest == "SF", month == 6)
 
 ```
 
