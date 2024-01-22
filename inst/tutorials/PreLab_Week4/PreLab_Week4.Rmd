@@ -1,5 +1,5 @@
 ---
-title: "Foundations for statistical inference - Sampling distributions"
+title: "Multiple linear regression"
 output: 
   learnr::tutorial:
     progressive: true
@@ -8,7 +8,6 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE,message=FALSE}
-library(BIOL710AdvBiometry)
 library(learnr)
 library(learnrhash)
 library(tidyverse)
@@ -21,502 +20,302 @@ tutorial_options(
   )
 knitr::opts_chunk$set(echo = FALSE)
 
-global_monitor <- tibble(
-  scientist_work = c(rep("Benefits", 80000), rep("Doesn't benefit", 20000))
-)
+
 ```
 
-## Getting started
+## Logistics
 
-In this lab, you will investigate the ways in which the statistics from a random 
-sample of data can serve as point estimates for population parameters. We're 
-interested in formulating a *sampling distribution* of our estimate in order 
-to learn about the properties of the estimate, such as its distribution.
+This lab will occur remotely and in groups of three. You will work with your final project team. For those of you participating synchronously, you will find the Zoom room information on [Moodle](https://moodle.smith.edu/). I will assign you to a breakout room with your partner(s) from last week. 
 
+For those participating syncronously I will be available in the main Zoom room to answer questions. If you have a question or technical problem, click the "Ask for Help" button (it looks like a question mark) in the meeting controls, and I will be alerted to join your breakout room.  
+
+For those of you participating asynchronously, alert me to technical challengs over Slack DM, and I will get back to you as soon as possible. For questions about the content of the lab, please sign up for an office hour time block. 
+
+Each of you should be writing and running code, examining output, and answering the exercises throughout the lab. However, you only need to turn in one final lab report. To be clear, everyone submits files to Moodle, but the files can be the same within a group. Today one of you should be the main recorder of answers in the lab document. You will share this document with your teammates. As you work it may be helpful to share your screen. It may be helpful to share your screen. 
+
+You all should also feel free to ask and answer questions amongst yourselves via Zoom if participating synchronously or via Slack if participating asynchronously. Please note at the end of the lab document who you consulted for help.
+
+
+## Getting Started
+
+Many college courses conclude by giving students the opportunity to evaluate 
+the course and the instructor anonymously. However, the use of these student 
+evaluations as an indicator of course quality and teaching effectiveness is 
+often criticized because these measures may reflect the influence of 
+non-teaching related characteristics, such as the physical appearance of the 
+instructor. The article titled, "Beauty in the classroom: instructors' 
+pulchritude and putative pedagogical productivity" by Hamermesh and Parker 
+found that instructors who are viewed to be better looking receive higher 
+instructional ratings. 
+
+Here, you will analyze the data from this study in order to learn what goes 
+into a positive professor evaluation. The goal is to show you how to fit and evaluate the models that you will be using in your final project.
 
 ### Load packages
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages. 
-We will also use the **infer** package for resampling.
+In this lab, you will explore and visualize the data using the **tidyverse** suite of 
+packages. The data can be found in the companion package for OpenIntro resources, **openintro**.
 
 Let's load the packages.
 
 ```{r load-packages, exercise = T}
 library(tidyverse)
 library(openintro)
-library(infer)
 ```
 
-### Random samples
+### The data
 
-We will take some random samples and build sampling distributions
-in this lab. This means that each time you rerun the sampling code, you will get different answers. This is not ideal as your answers would have to change each time you reran code. By "setting a seed" at the start of your lab you tell the random number generator where to start in its sequence of random numbers (so you'll get the same answer each time you rerun the code in the same order). You can think of the number you pick for `set.seed()` as a bookmark for the sampling algorithm.
+The data were gathered from end of semester student evaluations for a large 
+sample of professors from the University of Texas at Austin. In addition, six 
+students rated the professors' physical appearance. The result is a data frame 
+where each row contains a different course and columns represent variables about 
+the courses and professors. It's called `evals`.
 
-Talking more about this is beyond the scope of the class, but if you are interested, I point you to Kellie Ottoboni's cool work on [sampling in R](http://www.kellieottoboni.com/posts/2019/01/random-problems-with-r/).
-
-```{r set-seed, exercise = T}
-set.seed(818155)
+```{r look, exercise = T}
+glimpse(evals)
 ```
 
-## The data
+We have observations on 21 different variables, some categorical and some 
+numerical. The meaning of each variable can be found by bringing up the help file:
 
-A 2019 Gallup report states the following:
+```{r help-evals, exercise = T}
+?evals
+```
 
->The premise that scientific progress benefits people has been embodied in discoveries throughout the ages -- from the development of vaccinations to the explosion of technology in the past few decades, resulting in billions of supercomputers now resting in the hands and pockets of people worldwide. Still, not everyone around the world feels science benefits them personally. 
->
->**Source:** [World Science Day: Is Knowledge Power?](https://news.gallup.com/opinion/gallup/268121/world-science-day-knowledge-power.aspx)
+## Exploring the data
 
-The Wellcome Global Monitor finds that 20% of people globally do not believe that the work scientists do benefits people like them.
-In this lab, you will assume this 20% is a true population proportion and learn about how sample proportions can vary from sample to sample by taking smaller samples from the population. 
-We will first create our population assuming a population size of 100,000. 
-This means 20,000 (20%) of the population think the work scientists do does not 
-benefit them personally and the remaining 80,000 think it does.
+Make a plot of the distribution of `score`. 
 
-```{r, data, exercise = T}
-global_monitor <- tibble(
-  scientist_work = c(rep("Benefits", 80000), rep("Doesn't benefit", 20000))
+```{r nvzlxsivbjxdhbqy, exercise = TRUE}
+ggplot(___, aes(x = ___)) +  ___
+```
+
+
+```{r nvzlxsivbjxdhbqy-solution}
+ggplot(evals, aes(x = score )) + geom_histogram()
+```
+
+```{r nvzlxsivbjxdhbqy-check}
+# check code
+gradethis::grade_code()
+```
+
+```{r isskew}
+question("Is the distribution skewed?",
+    answer("No, the distribution is symmetric."),
+    answer("Yes, the distribution is skewed right."),
+    answer("Yes, the distribution is skewed left.", correct = T),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
+
+
+Make a plot of the relationship between `score` and  beauty score `bty_avg` (we want to use beauty score to help us understand score) and describe this relationship. 
+
+```{r wvmlhvlgkbnhonag, exercise = TRUE}
+ggplot(___, aes(x = ___, y = ___))+___
+
+```
+
+```{r wvmlhvlgkbnhonag-solution}
+ggplot(evals, aes(x = bty_avg, y = score))+geom_point()
+```
+
+```{r wvmlhvlgkbnhonag-check}
+# check code
+gradethis::grade_code()
+```
+
+Adapt your plot from above by using `col = gender` within `aes` to see how the relationship differs by gender of the faculty member. 
+
+```{r wvmlhvlgkbnhonag2, exercise = TRUE}
+ggplot(___, aes(x = ___, y = ___, col = gender))+___
+
+```
+
+```{r wvmlhvlgkbnhonag2-solution}
+ggplot(evals, aes(x = bty_avg, y = score, col = gender))+geom_point()
+```
+
+```{r wvmlhvlgkbnhonag2-check}
+# check code
+gradethis::grade_code()
+```
+
+
+## Simple linear regression
+
+```{r simpmod, exercise = T}
+base_model <- lm(score ~ bty_avg, data = evals)
+summary(base_model)
+```
+
+Using `geom_smooth` and choosing `method = "lm"` will add the simple linear regression line to the plot.
+
+```{r plotsimp, exercise = T}
+ggplot(evals, aes(x = bty_avg, y = score)) + geom_point() + geom_smooth(method = "lm", se = F)
+```
+
+```{r slopeint}
+question("Interpret this slope in context.",
+  answer("With a one unit increase in bty_avg comes a 0.067 unit increase in score."),
+  answer("A one unit increase in bty_avg is associated with a 3,88 unit increase in score on average."),
+  answer("A one unit increase in bty_avg is associated with a 0.067 unit increase in score on average.", correct = T),
+  allow_retry = TRUE,
+  random_answer_order = F
 )
 ```
 
-The `tibble()` function makes a tidy data frame. The name of the data frame is `global_monitor` and the name of the variable that contains responses to the question *"Do you believe that the work scientists do benefit people like you?"* is `scientist_work`. To populate this variable we `c`ombine the following two groups: `rep`eat "Benefits 80,000 times and `rep`eat ``Doesn't benefit" 20,000 times.
+The last column `Pr(>|t|)` gives a p-value for the hypothesis test of statistical significance for each coefficient (in this case intercept and slope for `bty_avg`). In each case the null hypothesis is that the coefficient is equal to 0 and the alternative hypothesis is that the coefficient is not equal to zero. 
 
-We can quickly visualize the distribution of these responses using a bar plot. Note that `coord_flip()` makes the bars go left to right instead of top to bottom to save space on the page.
-
-```{r bar-plot-pop, exercise = T}
-ggplot(global_monitor, aes(x = scientist_work)) +
-  geom_bar() +
-  labs(
-    x = "", y = "",
-    title = "Do you believe that the work scientists do benefit people like you?"
-  ) +
-  coord_flip() 
+```{r intsig}
+question("Is the intercept statistically significantly different from zero at the 0.01 signifcance level?",
+  answer("Yes, 2e-16 < 0.1", correct = T),
+  answer("Yes, 5.08e-05 < 0.1"),
+    answer("No, 2e-16 < 0.1"),
+  answer("No, 5.08e-05 < 0.1"),
+  allow_retry = TRUE,
+  random_answer_order = F
+)
 ```
 
-We can also obtain summary statistics to confirm we constructed the data frame correctly. `count` is a shortcut to `group_by(scientist_work) %>% summarise(n = n())`
-
-```{r summ-stat-pop, exercise = T}
-global_monitor %>%
-  count(scientist_work) 
-
-global_monitor %>%
-  count(scientist_work) %>%
-  mutate(p = n /sum(n))
-```
-
-## The unknown 
-
-In this lab, you have access to the entire population, but this is rarely the case in real life. 
-Gathering information on an entire population is often extremely costly or impossible. 
-Because of this, we often take a sample of the population and use that to understand the properties of the population.
-
-If you are interested in estimating the proportion of people who don't think the work scientists do benefits them, you can use the `slice_sample` command to survey the population.
-
-```{r samp1, exercise = T}
-samp1 <- global_monitor %>%
-  slice_sample(n = 50)
-```
-
-This command collects a simple random sample of size 50 from the `global_monitor` dataset, and assigns the result to `samp1`. 
-This is similar to randomly drawing names from a hat that contains the names of all in the population.
-Working with these 50 names is considerably simpler than working with all 100,000 people in the population.
-
-Compare the proportions in the sample to the proportions in the population. Label the proportions in the sample `p_hat` to signal that it is a sample statistic rather than the true population parameter `p`. 
-
-```{r comparesamp-setup}
-samp1 <- global_monitor %>%
-  slice_sample(n = 50)
-```
-
-```{r comparesamp, exercise = TRUE}
-global_monitor %>%
-  count(scientist_work) %>%
-  mutate(p = n /sum(n))
-
-___ %>% 
-  count(___) %>%
-  mutate(___ = n/sum(n))
-```
-
-```{r comparesamp-solution}
-global_monitor %>%
-  count(scientist_work) %>%
-  mutate(p = n /sum(n))
-
-samp1 %>% 
-  count(scientist_work) %>%
-  mutate(p_hat = n/sum(n))
-
-```
-
-```{r comparesamp-check}
-gradethis::grade_code()
-```
-
-If you're interested in estimating the proportion of all people who do not believe that the work scientists do benefits them, but you do not have access to the population data, your best single guess is the sample mean that you calculated above.
-
-## More sampling
-
-Depending on which 50 people you selected, your estimate could be a bit above 
-or a bit below the true population proportion. 
-In general, though, the sample proportion turns out to be a pretty good estimate of the true population proportion, and you were able to get it by sampling less than 1% of the population.
-
-Take a second sample, also of size 50, and call it `samp2`. 
-
-```{r anothersamp, exercise = TRUE}
-___ <- global_monitor %>%
-  slice_sample(n = ___)
-```
-
-```{r anothersamp-solution}
-samp2 <- global_monitor %>%
-  slice_sample(n = 50)
-```
-
-```{r anothersamp-check}
-# check code
-gradethis::grade_code()
-```
-
-How does the sample proportion of `samp2` compare with that of `samp1`? 
-
-```{r anothersampcompare-setup}
-samp2 <- global_monitor %>%
-  slice_sample(n = 50)
-```
-
-```{r anothersampcompare, exercise = TRUE}
-___ %>% 
-  ___(scientist_work) %>%
-  ___(p_hat = n/sum(n))
+```{r slopesig}
+question("Is the slope statistically significantly different from zero at the 0.01 signifcance level?",
+  answer("Yes, 2e-16 < 0.1"),
+  answer("Yes, 5.08e-05 < 0.1", correct = T),
+    answer("No, 2e-16 < 0.1"),
+  answer("No, 5.08e-05 < 0.1"),
+  allow_retry = TRUE,
+  random_answer_order = F
+)
 ```
 
 
-```{r anothersampcompare-solution}
-samp2 %>% 
-  count(scientist_work) %>%
-  mutate(p_hat = n/sum(n))
+## Parallel Slopes
+
+A parallel slope approach is denoted with a plus sign between two covariates.
+
+
+```{r parallel, exercise = T}
+parallel_slopes_model <- lm(score ~ bty_avg + gender, data = evals)
+summary(parallel_slopes_model)
 ```
 
-```{r anothersampcompare-check}
-# check code
-gradethis::grade_code()
-```
+We can use `geom_abline` to specify the slope and intercept for each category so that we can draw two lines on the plot. When plotting two categories, #00BFC4 is the default color for the reference category and "#F8766D" is the default color for a second category, so we specify those to match the points. In your projects, you might want to do this more automatically. See [this reference](https://moderndive.github.io/moderndive/reference/geom_parallel_slopes.html) for guidance.
 
-```{r samplesize}
-question("Suppose we took two 
-    more samples, one of size 100 and one of size 1000. Which would you think 
-    would provide a more accurate estimate of the population proportion?",
-    answer("The sample of size 100"),
-    answer("The sample of size 1000", correct = T),
-    answer("They both would provide the same level of accuracy"),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
-```
-
-## Sampling distribution
-
-Not surprisingly, every time you take another random sample, you might get a different sample proportion. 
-It's useful to get a sense of just how much variability you should expect when estimating the population mean this way. 
-The distribution of sample proportions, called the *sampling distribution (of the proportion)*, can help you understand this variability. 
-In this lab, because you have access to the population, you can build up the sampling distribution for the sample proportion by repeating the above steps many times. 
-Here, we use R to take 15,000 different samples of size 50 from the population, calculate the proportion of responses in each sample, filter for only the *Doesn't benefit* responses, and store each result in a vector called `sample_props50`. 
-Note that we specify that `replace = TRUE` since sampling distributions are constructed by sampling with replacement. We can filter the estimates that correspond to "Doesn't benefit" only as that is our main focus.
-
-```{r iterate, exercise = T}
-sample_props50 <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
-                    count(scientist_work) 
-
-head(sample_props50)
-
-sample_props50 <- sample_props50 %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-head(sample_props50)
+```{r plotparallel, exercise = T}
+ggplot(evals, aes(bty_avg, score, col = gender)) + geom_point() + geom_abline(slope = 0.07416, intercept = 3.74734 + 0.17239, col = "#00BFC4") + geom_abline(slope = 0.07416, intercept = 3.74734 , col = "#F8766D")
 ```
 
 
-And we can visualize the distribution of these proportions with a histogram.
-
-```{r showres-setup}
-sample_props50 <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
-                    count(scientist_work) 
-
-sample_props50 <- sample_props50 %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
+```{r eqf}
+question("Write the equation of the regression line for females.",
+  answer("score = 3.75 + 0.07*bty_avg"),
+  answer("score = 3.75 + 0.17 + 0.07*bty_avg"),
+  answer("score_hat = 3.75 + 0.07*bty_avg", correct = T),
+  answer("score_hat = 3.75 + 0.17 + 0.07*bty_avg"),
+  allow_retry = TRUE,
+  random_answer_order = F
+)
 ```
 
-```{r showres, exercise = T}
-ggplot(data = sample_props50, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) +
-  labs(
-    x = "p_hat (Doesn't benefit)",
-    title = "Sampling distribution of p_hat",
-    subtitle = "Sample size = 50, Number of samples = 15000"
-  )
-
-```
-
-
-### What is a sampling distribution?
-
-The idea behind the `rep_sample_n` function is *repetition*. 
-Earlier, you took a single sample of size `n` (50) from the population of all people in the population. 
-With this new function, you can repeat this sampling procedure `rep` times in order to build a distribution of a series of sample statistics, which is called the **sampling distribution**. 
-
-For some insight into how functions and names change over time, here is some [context](https://github.com/tidymodels/infer/issues/337) on the function naming. `slice_sample()` took over for an older function `sample_n()`. In the next update of the `infer` package, `rep_sample_n()` will become `rep_slice_sample()`.
-
-Note that in practice one rarely gets to build true sampling distributions, because one rarely has access to data from the entire population. 
-
-Without the `rep_sample_n` function, this would be painful. 
-We would have to manually run the following code 15,000 times 
-
-```{r sample-code, exercise = T}
-sample_props50 <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-```
-
-as well as store the resulting sample proportions each time in a separate vector.
-
-Note that for each of the 15,000 times we computed a proportion, we did so from a **different** sample!
-
-To make sure you understand how sampling distributions are built, and exactly
-    what the `rep_sample_n` function does, try modifying the code to create a
-    sampling distribution of **25 sample proportions** from **samples of size 10**, 
-    and put them in a data frame named `sample_props_small`. Print the output. 
-  
-    
-```{r repsamp, exercise = TRUE}
-sample_props___ <- global_monitor %>%
-                    rep_sample_n(size = ___, reps = ___, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-___
+```{r eqm}
+question("Write the equation of the regression line for males.",
+  answer("score = 3.75 + 0.07 * bty_avg"),
+  answer("score = 3.75 + 0.17 + 0.07 * bty_avg"),
+  answer("score_hat = 3.75 + 0.07 * bty_avg"),
+  answer("score_hat = 3.75 + 0.17 + 0.07 * bty_avg", correct = T),
+  allow_retry = TRUE,
+  random_answer_order = F
+)
 ```
 
 
-```{r repsamp-solution}
-sample_props_small <- global_monitor %>%
-                    rep_sample_n(size = 10, reps = 25, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-sample_props_small
+## Interaction Model 
+
+An interaction is denoted as a product (*) between two covariates. 
+
+```{r interaction, exercise = T}
+interaction_model <- lm(score ~ bty_avg * gender, data = evals)
+summary(interaction_model)
 ```
 
-```{r repsamp-check}
-# check code
-gradethis::grade_code()
+Using `geom_smooth` and choosing `method = "lm"` will add the interaction linear regression line to the plot (ggplot knows to make a different line per gender because the points are colored by gender).
+
+```{r plotinteration, exercise = T}
+ggplot(evals, aes(x = bty_avg, y = score, col = gender)) + geom_point() + geom_smooth(method = "lm", se = F)
 ```
 
-```{r obs}
-question("How many observations are there in this object called `sample_props_small`? Consider what each observation represents.",
-    answer("10"),
-    answer("20"),
-    answer("25", correct = T),
-    answer("50"),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
+```{r eqf2}
+question("Write the equation of the regression line for females.",
+  answer("score_hat = 3.95 + 0.03 * bty_avg", correct = T),
+  answer("score_hat = 3.95 + -0.18 + 0.03 * bty_avg"),
+  answer("score_hat = 3.95 + -0.18 + (0.03 + 0.08) * bty_avg"),
+  answer("score_hat = 3.95 + (0.03 + 0.08) * bty_avg"),
+  allow_retry = TRUE,
+  random_answer_order = F
+)
 ```
 
-    
-## Sample size 
-
-Mechanics aside, let's return to the reason we used the `rep_sample_n` function: to compute a sampling distribution, specifically, the sampling distribution of the proportions from samples of 50 people. 
-
-```{r hist-setup}
-sample_props50 <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-```
-
-```{r hist, exercise = T}
-ggplot(data = sample_props50, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02)
-```
-
-The sampling distribution that you computed tells you much about estimating the true proportion of people who think that the work scientists do doesn't benefit them. 
-Because the sample proportion is an unbiased estimator, the sampling distribution is centered at the true population proportion, and the spread of the distribution indicates how much variability is incurred by sampling only 50 people at a time from the population.
-
-In the remainder of this section, you will work on getting a sense of the effect that sample size has on your sampling distribution.
-
-```{r diffsampsize, exercise = T}
-sample_props_10 <- global_monitor %>%
-                    rep_sample_n(size = 10, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_50 <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_100 <- global_monitor %>%
-                    rep_sample_n(size = 100, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-```
-
-```{r diffsampsize2-setup}
-sample_props_10 <- global_monitor %>%
-                    rep_sample_n(size = 10, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_50 <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_100 <- global_monitor %>%
-                    rep_sample_n(size = 100, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-```
-
-```{r diffsampsize2, exercise = T}
-ggplot(data = sample_props_10, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) + xlim(0,1)
-ggplot(data = sample_props_50, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) + xlim(0,1)
-ggplot(data = sample_props_100, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) + xlim(0,1)
+```{r eqm2}
+question("Write the equation of the regression line for males.",
+  answer("score_hat = 3.95 + 0.03 * bty_avg"),
+  answer("score_hat = 3.95 + -0.18 + 0.03 * bty_avg"),
+  answer("score_hat = 3.95 + -0.18 + (0.03 + 0.08) * bty_avg", correct = T),
+  answer("score_hat = 3.95 + (0.03 + 0.08) * bty_avg"),
+  allow_retry = TRUE,
+  random_answer_order = F
+)
 ```
 
 
-```{r meanchange}
-question("How does the mean change as the sample size increases?",
-    answer("gets smaller"),
-    answer("gets larger"),
-    answer("stays about the same", correct = T),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
+## Which is best?
+
+One way to define "best" is to consider how much of the variability in the scores are explained by the model. Compare the multiple R-squared values for these three models. 
+
+```{r rsq-setup}
+base_model <- lm(score ~ bty_avg, data = evals)
+
+parallel_slopes_model <- lm(score ~ bty_avg + gender, data = evals)
+
+interaction_model <- lm(score ~ bty_avg * gender, data = evals)
 ```
 
-```{r sdchange}
-question("How does the standard error change as the sample size increases?",
-    answer("gets smaller", correct = T),
-    answer("gets larger"),
-    answer("stays about the same"),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
+```{r rsq, exercise = TRUE}
+summary(base_model)
+summary(parallel_slopes_model)
+summary(interaction_model)
 ```
 
-```{r shapechange}
-question("How does the shape of the distribution change as the sample size increases?",
-    answer("gets rougher"),
-    answer("gets smoother"),
-    answer("stays about the same", correct = T),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
+
+Note that as the models increase in complexity, the multiple R-squared value increases. This is always the case.Is that extra complexity worth it though? One way of telling is whether the extra terms (the extra intercept or extra slope term) are statistically significantly different than zero. If not, we cannot reject the null hypothesis that they are actually zero and that extra complexity may not be worth it.
+
+## Checking conditions
+
+Another way to decide which model is "best" is to determine which one meets the modeling assumptions best. Look at the different residual plots for the three models (`base_model`, `parallel_slopes_model` and `interaction_model`) and compare.
+
+```{r checkcond-setup}
+base_model <- lm(score ~ bty_avg, data = evals)
+
+parallel_slopes_model <- lm(score ~ bty_avg + gender, data = evals)
+
+interaction_model <- lm(score ~ bty_avg * gender, data = evals)
 ```
 
-## Number of replicates
+```{r checkcond, exercise = TRUE}
 
-Now we'll keep the sample size at 50 and see what happens when we change the number of replicates.
+ggplot(data = ___, aes(x = .resid)) +
+  geom_histogram() +
+  xlab("Residuals")
 
-```{r diffrepsize, exercise = T}
-sample_props_50_small <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 50, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_50_medium <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 500, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_50_large <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
+ggplot(data = ___, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted values") +
+  ylab("Residuals")
 ```
 
-```{r diffrepsize2-setup}
-sample_props_50_small <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 50, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_50_medium <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 500, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-
-sample_props_50_large <- global_monitor %>%
-                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
-                    count(scientist_work) %>%
-                    mutate(p_hat = n /sum(n)) %>%
-                    filter(scientist_work == "Doesn't benefit")
-```
-
-```{r diffrepsize2, exercise = T}
-ggplot(data = sample_props_50_small, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) + xlim(0,1)
-
-ggplot(data = sample_props_50_medium, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) + xlim(0,1)
-
-ggplot(data = sample_props_50_large, aes(x = p_hat)) +
-  geom_histogram(binwidth = 0.02) + xlim(0,1)
-
-```
-
-```{r meanchange2}
-question("How does the mean change as the number of replicates increases?",
-    answer("gets smaller"),
-    answer("gets larger"),
-    answer("stays about the same", correct = T),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
-```
-
-```{r sdchange2}
-question("How does the standard error change as the number of replicates increases?",
-    answer("gets smaller"),
-    answer("gets larger"),
-    answer("stays about the same", correct = T),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
-```
-
-```{r shapechange2}
-question("How does the shape of the distribution change as the number of replicates increases?",
-    answer("gets rougher"),
-    answer("gets smoother", correct = T),
-    answer("stays about the same"),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
-```
 
 ## Submit checkpoint
 
@@ -533,6 +332,7 @@ learnrhash::encoder_ui(
   )
 )
 ```
+
 
 * * *
 
