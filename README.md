@@ -1,8 +1,8 @@
 # BIOL710AdvBiometry
-## learnr labs for advanced biometry
+## learnR labs for advanced biometry
 adapted from Sara Stoudt and labs for Open Intro ISRS
 
-**For instructors:** the overview blog post from Sara Stoudt that taught me how to use learnr labs can be found [here](https://jenna-tb-ekwealor/.github.io/posts/2021-06-05-learnr-tutorials-intro-stat/).
+**For instructors:** the overview blog post from Sara Stoudt that taught me how to use learnR labs can be found [here](https://jenna-tb-ekwealor/.github.io/posts/2021-06-05-learnr-tutorials-intro-stat/).
 
 ### To install this package:
 
@@ -18,7 +18,7 @@ adapted from Sara Stoudt and labs for Open Intro ISRS
 `remotes::install_github("jenna-tb-ekwealor/BIOL710AdvBiometry")`
 
 
-2. Thanks to Marney for this one: after install is complete (I know this seems weird, but go with it):
+2. After install is complete (I know this seems weird, but go with it):
 
 ```remove.packages("htmltools")```
 
@@ -55,24 +55,10 @@ Click "Session" --> "Restart R" and try to run the tutorial again.
 
 ![](popups.png) 
 
-## Available Tutorials
-
-- "lesson1": Exploring data
-- "lesson2": Introduction to data
-- "lesson3": Foundations for statistical inference - Sampling distributions
-- "lesson4": Foundations for statistical inference - Confidence intervals
-- "lesson5": Probability
-- "lesson6": Inference for numerical data
-- "lesson7": Inference for categorical data
-- "lesson8": Introduction to linear regression
-- "lesson9": Multiple linear regression
-- "lesson10": The normal distribution
-- "lesson11": When the bootstrap fails
-- "roadless_collect": Collect data for [Roadless America](https://www.amstat.org/asa/files/pdfs/stew/PercentWithinMileofRoad.pdf) activity
 
 ## Lab Instructions
 
-There will be a pre-lab and a lab report for each lab. The pre-lab will be completed individually and graded for completion. This is **due by noon on Thursdays**. Then during lab you will work in a team of three to complete a lab report. If you finish early you can use the time to work on the homework due the following day.Pre-lab is submitted as a Google Form (see below). Lab report submitted to Moodle as LastName-LastName-LastName-L-LabNumber.Rmd and LastName-LastName-L-LabNumber.html The lab report is **due before class on the Monday following the lab**.
+There will be a pre-lab and a lab report for each lab. The pre-lab will be completed individually via learnR and graded for completion. This is **due by the start of class on MONDAYS, except for Week 1, which is due Wednesday January 31**. Then during lab you will work in a team of three (or so) to complete a lab report in `R`. Both pre-labs and lab reports are submitted on Canvas (see below). The lab report is **due each class day by 11:59 pm**.
 
 
 ## How to Submit Pre-Lab
@@ -80,10 +66,6 @@ There will be a pre-lab and a lab report for each lab. The pre-lab will be compl
 ![](submit-tutorial.png)
 
 #### Troubleshooting
-
-I can't see the Google Form at the end. 
-
-Open in the browser (this should happen automatically if you use `run_tutorial` ), use Google Chrome, and make sure you are logged in to your Smith e-mail in the same browser (only Smith authenticated accounts can access the form to avoid any spam).
 
 **Run into any problems not listed above? Let me know and when we figure it out we'll add to the list.**
 
