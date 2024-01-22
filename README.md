@@ -9,6 +9,8 @@ adapted from Sara Stoudt and labs for Open Intro ISRS
 
 1. One time only (may need to reinstall for updates throughout the semester):
 
+`install.packages("remotes")`
+
 `remove.packages("learnr") ## might not need this if you do not have learnr pre-installed`
 
 `remotes::install_github("rstudio/learnr")`
