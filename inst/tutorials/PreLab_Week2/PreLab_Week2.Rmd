@@ -387,7 +387,7 @@ We can handle all of the remaining steps in one code chunk:
 
 ```{r locrate-setup}
 nycbirds <- nycbirds %>%
-  mutate(class = ifelse(mig_shift > -5, "average", "early))
+  mutate(class = ifelse(mig_shift > -5, "average", "early"))
 ```
 
 ```{r locrate, exercise = TRUE}
