@@ -12,18 +12,18 @@ library(learnr)
 library(learnrhash)
 library(tidyverse)
 library(gradethis)
-library(openintro)
+#library(openintro)
 tutorial_options(
   # use gradethis for checking
   exercise.checker = gradethis::grade_learnr
   )
 knitr::opts_chunk$set(echo = FALSE)
-
-la_bird_obs <- nycbirds %>%
-  filter(dest == "LA")
-
-sf_feb_bird_obs <- nycbirds %>%
-  filter(dest == "SF", month == 2)
+# 
+# la_bird_obs <- nycbirds %>%
+#   filter(dest == "LA")
+# 
+# sf_feb_bird_obs <- nycbirds %>%
+#   filter(dest == "SF", month == 2)
 ```
 
 ## Getting started
