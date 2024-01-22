@@ -21,6 +21,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
+The goal of this exercise is to gain familiarity and confidence with using R, RStudio, and some functions in the tidyverse suite of packages. The data we will be exploring here is an artificial dataset quantifying the number of female and male plants blooming throughout the season. 
+
 ## Let's Explore
 
 ```{r load-data, exercise = T}
