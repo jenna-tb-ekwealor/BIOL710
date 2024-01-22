@@ -80,28 +80,28 @@ This returns the names of the variables in this data frame. The **codebook**
 One of the variables refers to the order of the bird observed (bird_obs), which 
 is coded according to the following system.
 
-- `carrier`: Two letter carrier abbreviation.
-    + `9E`:           Ducks
-    + `AA`:           Flamingos 
-    + `AS`:           Doves
-    + `B6`:           Cuckoos
-    + `DL`:           Nightjars
-    + `EV`:           Swifts
-    + `F9`:           Cranes
-    + `FL`:           Shore Birds
-    + `HA`:           Tropicbirds
-    + `MQ`:           Loons
-    + `OO`:           Tube-nosed Swimmers
-    + `UA`:           Storks
-    + `US`:           Cormorants
-    + `VX`:           Pelicans
-    + `WN`:           Hawks
-    + `YV`:           Owls
-    Trogons
-    Motmots
-    Woodpeckers
-    Falcons
-    Perching Birds
+- `birds`: Two letter bird abbreviation.
+    + `DU`:           Ducks
+    + `FL`:           Flamingos 
+    + `DO`:           Doves
+    + `CU`:           Cuckoos
+    + `NI`:           Nightjars
+    + `SW`:           Swifts
+    + `CR`:           Cranes
+    + `SH`:           Shore Birds
+    + `TR`:           Tropicbirds
+    + `LO`:           Loons
+    + `TU`:           Tube-nosed Swimmers
+    + `ST`:           Storks
+    + `CO`:           Cormorants
+    + `PE`:           Pelicans
+    + `HA`:           Hawks
+    + `OW`:           Owls
+    + `TG`:           Trogons
+    + `MO`:           Motmots
+    + `WO`:           Woodpeckers
+    + `FA`:           Falcons
+    + `PB`:           Perching Birds
 
 
 We can use `glimpse` to take a quick peek at your data to 
@@ -244,7 +244,7 @@ returns a single value.
 ## More filtering
 
 You can also filter based on multiple criteria. Suppose you are interested in
-bird_obss headed to San Francisco (sf) in February:
+bird_obs headed to San Francisco (sf) in February:
 
 ```{r sf-feb-bird_obss, exercise = T}
 sf_feb_bird_obss <- nycbirds %>%
