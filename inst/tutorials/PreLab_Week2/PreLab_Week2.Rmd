@@ -17,12 +17,6 @@ tutorial_options(
   exercise.checker = gradethis::grade_learnr
   )
 knitr::opts_chunk$set(echo = FALSE)
-# 
-# la_bird_obs <- nycbirds %>%
-#   filter(dest == "LA")
-# 
-# sf_feb_bird_obs <- nycbirds %>%
-#   filter(dest == "SF", month == 2)
 ```
 
 ## Getting started
@@ -34,14 +28,14 @@ sample of migratory birds that were spotted in
 New York area locations in 2013, tagged, and whose routes were followed through to their destination. We will generate simple graphical and numerical 
 summaries of data on these birds and explore variation in timing. Since this is a large 
 data set, along the way you'll also learn the indispensable skills of data 
-processing and subsetting. Please note that these data are not real and are simply for demonstrating data exploration in  R. 
+processing and subsetting. Please note that these data are not real and are simply for demonstrating data exploration in R. 
 
 ### Load packages
 
 In this lab, we will explore and visualize the data using the **tidyverse** suite of 
-packages. The data can be found in the companion package for OpenIntro labs, **openintro**.
+packages. 
 
-Let's load the packages.
+Let's load the package.
 
 ```{r load-packages, exercise = T}
 library(tidyverse)
