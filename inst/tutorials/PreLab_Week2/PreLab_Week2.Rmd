@@ -20,22 +20,22 @@ tutorial_options(
 knitr::opts_chunk$set(echo = FALSE)
 
 la_bird_obs <- nycbirds %>%
-  filter(dest == "la")
+  filter(dest == "LA")
 
 sf_feb_bird_obs <- nycbirds %>%
-  filter(dest == "sf", month == 2)
+  filter(dest == "SF", month == 2)
 ```
 
 ## Getting started
 
 Some define statistics as the field that focuses on turning information into
 knowledge. The first step in that process is to summarize and describe the raw
-information -- the data. In this lab we explore migratory birds, specifically a random
+information -- the data. In this lab we explore migratory birds, specifically an artificial random
 sample of migratory birds that were spotted in
-New York in 2013. We will generate simple graphical and numerical 
+New York area locations in 2013, tagged, and whose routes were followed through to their destination. We will generate simple graphical and numerical 
 summaries of data on these birds and explore variation in timing. Since this is a large 
 data set, along the way you'll also learn the indispensable skills of data 
-processing and subsetting.
+processing and subsetting. Please note that these data are not real and are simply for demonstrating data exploration in  **R **. 
 
 ### Load packages
 
@@ -62,7 +62,7 @@ data(nycbirds)
 The data set `nycbirds` that shows up in your workspace is a *data matrix*, 
 with each row representing an *observation* and each column representing a 
 *variable*. R calls this data format a **data frame**, which is a term that will 
-be used throughout the labs. For this data set, each *observation* is a single bird_obs.
+be used throughout the labs. For this data set, each *observation* is a single migratory bird observation.
 
 To view the names of the variables, type the command
 
@@ -127,15 +127,15 @@ For instance, if you wanted to visualize the above plot using a line graph, you 
 
 ### Departure delays
 
-Let's start by examing the distribution of departure delays of all bird_obs with a 
+Let's start by examing the distribution of migration shifts of all migratory bird observations with a 
 histogram.
 
 ```{r hist-dep-delay, exercise = T}
-ggplot(data = nycbirds, aes(x = dep_delay)) +
+ggplot(data = nycbirds, aes(x = mig_shift)) +
   geom_histogram()
 ```
 
-This function says to plot the `dep_delay` variable from the `nycbirds` data 
+This function says to plot the `mig_shift` variable from the `nycbirds` data 
 frame on the x-axis. It also defines a `geom` (short for geometric object), 
 which describes the type of plot you will produce. 
 
@@ -145,9 +145,9 @@ data is split between the different bins. You can easily define the binwidth you
 want to use:
 
 ```{r hist-dep-delay-bins, exercise = T}
-ggplot(data = nycbirds, aes(x = dep_delay)) +
+ggplot(data = nycbirds, aes(x = mig_shift)) +
   geom_histogram(binwidth = 15)
-ggplot(data = nycbirds, aes(x = dep_delay)) +
+ggplot(data = nycbirds, aes(x = mig_shift)) +
   geom_histogram(binwidth = 150)
 ```
 
@@ -168,15 +168,15 @@ question("Are features revealed in one that are obscured in another?",
 The `%>%` operator is called the **piping** operator. It takes the output of the previous expression and pipes it into the first argument of the function in the following one. 
 To continue our analogy with mathematical functions, `x %>% f(y)` is equivalent to `f(x, y)`.
 
-If you want to visualize only on delays of bird_obs headed to Los Angeles, you need 
-to first `filter` the data for bird_obs with that destination (`dest == "la"`)
-and then make a histogram of the departure delays of only those bird_obs. Note that a common mistake is not using the double equal signs. Remember one equal sign assigns "la" to the variable `dest` while two equal signs asks the question "does each value in `dest` match 'la'?".
+If you want to visualize only on delays of migratory bird observations headed to Los Angeles, you need 
+to first `filter` the data for migratory bird observations with that destination (`dest == "LA"`)
+and then make a histogram of the departure delays of only those migratory bird observations. Note that a common mistake is not using the double equal signs. Remember one equal sign assigns "la" to the variable `dest` while two equal signs asks the question "does each value in `dest` match 'la'?".
 
 ```{r la-bird_obs-hist, exercise = T}
 la_bird_obs <- nycbirds %>%
-  filter(dest == "la")
+  filter(dest == "LA")
 
-ggplot(data = la_bird_obs, aes(x = dep_delay)) +
+ggplot(data = la_bird_obs, aes(x = mig_shift)) +
   geom_histogram()
 ```
 
@@ -187,17 +187,17 @@ With all of that in mind, let's decipher these two commands (OK, so it might loo
 the first two physical lines of code are actually part of the same command. It's 
 common to add a break to a new line after `%>%` to help readability).
 
-- Command 1: Take the `nycbirds` data frame, `filter` for bird_obs headed to la, and 
+- Command 1: Take the `nycbirds` data frame, `filter` for migratory bird observations headed to LA, and 
 save the result as a new data frame called `la_bird_obs`.
     + `==` means "if it's equal to".
     + `la` is in quotation marks since it is a character string.
 - Command 2: Basically the same `ggplot` call from earlier for making a histogram, 
-except that it uses the smaller data frame for bird_obs headed to la instead of all
-bird_obs.
+except that it uses the smaller data frame for migratory bird observations headed to LA instead of all
+migratory bird observations.
 
 <div id="boxedtext">
-**Logical operators: ** Filtering for certain observations (e.g. bird_obs from a 
-particular airport) is often of interest in data frames where we might want to 
+**Logical operators: ** Filtering for certain observations (e.g. migratory bird observations from a 
+particular location) is often of interest in data frames where we might want to 
 examine observations with certain characteristics separately from the rest of 
 the data. To do so, you can use the `filter` function and a series of 
 **logical operators**. The most commonly used logical operators for data 
@@ -209,12 +209,12 @@ analysis are as follows:
 - `>=` or `<=` means "greater than or equal to" or "less than or equal to"
 </div>
 
-You can also obtain numerical summaries for these bird_obs:
+You can also obtain numerical summaries for these migratory bird observations:
 
 ```{r la-bird_obs-summ, exercise = T}
 la_bird_obs %>%
-  summarise(mean_dd   = mean(dep_delay), 
-            median_dd = median(dep_delay), 
+  summarise(mean_dd   = mean(mig_shift), 
+            median_dd = median(mig_shift), 
             n         = n())
 ```
 
@@ -244,18 +244,18 @@ returns a single value.
 ## More filtering
 
 You can also filter based on multiple criteria. Suppose you are interested in
-bird_obs headed to San Francisco (sf) in February:
+migratory bird observations headed to San Francisco (SF) in February:
 
 ```{r sf-feb-bird_obs, exercise = T}
 sf_feb_bird_obs <- nycbirds %>%
   filter(dest == "sf", month == 2)
 ```
 
-Note that you can separate the conditions using commas (or "&") if you want bird_obs that
+Note that you can separate the conditions using commas (or "&") if you want migratory bird observations that
 are both headed to sf **and** in February. If you are interested in either
 bird_obs headed to sf **or** in February, you can use the `|` instead of the comma. (This is located above the backslash.)
 
-Create a new data frame that includes bird_obs headed to sf in June, 
+Create a new data frame that includes migratory bird observations headed to SF in June, 
     and save this data frame as `sf_june_bird_obs`. 
     
 ```{r filterfeb, exercise = TRUE}
@@ -271,7 +271,7 @@ sf_june_bird_obs <- nycbirds %>% filter(dest == "sf", month == 6)
 gradethis::grade_code()
 ```
     
-How many bird_obs meet these criteria? **Hint:** How many rows are in `sf_june_bird_obs`? To learn what a function does and its arguments that are available to you, use the "Help" tab in the bottom right. Try this for `dim` and `nrow`. 
+How many migratory bird observations meet these criteria? **Hint:** How many rows are in `sf_june_bird_obs`? To learn what a function does and its arguments that are available to you, use the "Help" tab in the bottom right. Try this for `dim` and `nrow`. 
 
 ```{r dimbird_obs-setup}
 sf_june_bird_obs <- nycbirds %>% filter(dest == "sf", month == 6)
@@ -301,52 +301,52 @@ gradethis::grade_code()
 
 Another useful technique is quickly calculating summary statistics for various 
 groups in your data frame. For example, we can modify the above command using 
-the `group_by` function to get the same summary stats for each origin airport:
+the `group_by` function to get the same summary stats for each origin location:
 
 ```{r summary-custom-list-origin, exercise = T}
 sf_feb_bird_obs %>%
   group_by(origin) %>%
-  summarise(median_dd = median(dep_delay), iqr_dd = IQR(dep_delay), n_bird_obs = n())
+  summarise(median_dd = median(mig_shift), iqr_dd = IQR(mig_shift), n_bird_obs = n())
 ```
 
 Here, we first grouped the data by `origin` and then calculated the summary 
 statistics.
 
-Calculate the median and interquartile range for `arr_delay`s of bird_obs in the `sf_feb_bird_obs` data frame, grouped by carrier. 
+Calculate the median and interquartile range for `arr_shift`s of migratory bird observations in the `sf_feb_bird_obs` data frame, grouped by bird type.  
 
 
-```{r summarycarrier, exercise = TRUE}
+```{r summarybird, exercise = TRUE}
 ___ %>%
   ___(___) %>%
   ___(median_dd = ___(___), iqr_dd = ___(___))
 ```
 
-```{r summarycarrier-hint-1}
+```{r summarybird-hint-1}
 sf_feb_bird_obs %>%
   ___(___) %>%
-  summarise(median_dd = ___(arr_delay), iqr_dd = ___(arr_delay))
+  summarise(median_dd = ___(arr_shift), iqr_dd = ___(arr_shift))
 ```
 
-```{r summarycarrier-solution}
+```{r summarybird-solution}
 sf_feb_bird_obs %>%
   group_by(carrier) %>%
-  summarise(median_dd = median(arr_delay), iqr_dd = IQR(arr_delay))
+  summarise(median_dd = median(arr_shift), iqr_dd = IQR(arr_shift))
 
 ```
 
-```{r summarycarrier-check}
+```{r summarybird-check}
 # check code
 gradethis::grade_code()
 ```
 
 
 
-```{r whichcarrier}
+```{r whichbird}
 question("Which carrier has the most variable arrival delays?",
-    answer("AA"),
-    answer("B6"),
-    answer("DL and UA", correct = T),
-    answer("VX"),
+    answer("FL"),
+    answer("CU"),
+    answer("NI and ST", correct = T),
+    answer("PE"),
     allow_retry = TRUE,
     random_answer_order = F
   )
@@ -354,66 +354,48 @@ question("Which carrier has the most variable arrival delays?",
 
 
 
-### On time departure rate for NYC airports
+### Migration shifts for New York area locations
 
-Suppose you will be flying out of NYC and want to know which of the 
-three major NYC airports has the best on time departure rate of departing bird_obs. 
-Also supposed that for you, a bird_obs that is delayed for less than 5 minutes is 
-basically "on time."" You consider any bird_obs delayed for 5 minutes of more to be 
-"delayed".
+Suppose you want to test whether different New York area locations are experiencing different migration shifts. For this, any observed migration more than 5 days earlier than average will be considered
+"early".
 
-In order to determine which airport has the best on time departure rate, 
-you can 
+In order to rank the migration start date shifts by area, 
+you can:
 
-- first classify each bird_obs as "on time" or "delayed",
-- then group bird_obs by origin airport,
-- then calculate on time departure rates for each origin airport,
-- and finally arrange the airports in descending order for on time departure
-percentage.
+- first classify each observed migration as "average" or "early",
+- then group observed migration by origin location,
+- then calculate on time migration start rates for each origin location,
+- and finally arrange the locations in descending order for migration shift.
 
-Let's start with classifying each bird_obs as "on time" or "delayed" by
+Let's start with classifying each observed migration as "average" or "early" by
 creating a new variable with the `mutate` function.
 
-```{r dep-type, exercise = T}
+```{r dep-class, exercise = T}
 nycbirds <- nycbirds %>%
-  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+  mutate(class = ifelse(mig_shift > -5, "average", "early"))
 ```
 
 The first argument in the `mutate` function is the name of the new variable
-we want to create, in this case `dep_type`. Then if `dep_delay < 5`, we classify 
-the bird_obs as `"on time"` and `"delayed"` if not, i.e. if the bird_obs is delayed 
-for 5 or more minutes.
+we want to create, in this case `class`. Then if `mig_shift > -5`, we classify 
+the migratory bird observations as `"average"` and `"early"` if not, i.e. if the migratory bird observations is early 
+by 5 or more days
 
 Note that we are also overwriting the `nycbirds` data frame with the new 
-version of this data frame that includes the new `dep_type` variable.
+version of this data frame that includes the new `class` variable.
 
 We can handle all of the remaining steps in one code chunk:
 
-```{r otdeprate-setup}
+```{r locrate-setup}
 nycbirds <- nycbirds %>%
-  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+  mutate(class = ifelse(mig_shift > -5, "average", "early))
 ```
 
-```{r otdeprate, exercise = TRUE}
+```{r locrate, exercise = TRUE}
 nycbirds %>%
   group_by(origin) %>%
-  summarise(ot_dep_rate = sum(dep_type == "on time") / n()) %>%
-  arrange(desc(ot_dep_rate))
+  summarise(loc_rate = sum(class == "average") / n()) %>%
+  arrange(desc(loc_rate))
 ```
-
-    
-```{r select-airport}
-question("If you were selecting an airport simply based on the on time departure 
-    percentage, which NYC airport would you choose to fly out of?",
-    answer("LGA", correct =T),
-    answer("JFK"),
-    answer("EWR"),
-    answer("None of the above."),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
-```
-
 
 
 ***
@@ -434,92 +416,6 @@ learnrhash::encoder_ui(
 )
 ```
 
-## Creating a reproducible lab report
-
-For the rest of this lab you will R Markdown to create a reproducible lab report. 
-In RStudio, go to New File -> R Markdown... Then, choose From Template and then choose `Lab Report` from the list of templates. Make sure to name the document appropriately and pick a location for the file where you know how to find it on your computer.
-
-See the following video describing how to get started with creating these 
-reports for this lab, and all future labs:
-
-[**Basic R Markdown with an OpenIntro Lab**](https://www.youtube.com/watch?v=Pdc368lS2hk)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Pdc368lS2hk" frameborder="0" allowfullscreen></iframe>
-
-**Note: This video was made using `oilabs`. We will NOT be using `oilabs`. Be sure to pick the Lab Report template that goes with `openintro` as shown in screenshot above. Make sure you have `library(openintro)` in your first chunk not `library(oilabs)`.**
-
-## Questions for Lab Report
-
-Answer in an Rmd file based on the lab report template.
-
-1.  Suppose you really dislike departure delays and you want to schedule 
-    your travel in a month that minimizes your potential departure delay leaving 
-    NYC. One option is to choose the month with the lowest mean departure delay.
-    Another option is to choose the month with the lowest median departure delay. 
-    What are the pros and cons of these two choices?
-    
-2. The `nycbirds` data frame is a massive trove of information. Pick one of the following questions and tell me which R functions you would use to investigate the question.
-
-- How delayed were bird_obs that were headed to Los Angeles?
-- How do departure delays vary by month?
-- Which of the three major NYC airports has the best on time percentage for 
-departing bird_obs?
-
-**Hint** Example: Which month would you expect to have the highest average delay departing from an NYC airport?
-
-Let's think about how you could answer this question:
-
-- First, calculate monthly averages for departure delays. With the new language
-you are learning, you could
-    + `group_by` months, then
-    + `summarise` mean departure delays.
-- Then, you could to `arrange` these average delays in `desc`ending order
-
-```{r mean-dep-delay-months, eval = F, echo = T}
-nycbirds %>%
-  group_by(month) %>%
-  summarise(mean_dd = mean(dep_delay)) %>%
-  arrange(desc(mean_dd))
-```
-
-3.  Describe the distribution (center, variation, range, skewness/symmetry) of the **arrival** delays of these bird_obs. Would the mean or median be a more appropriate measure of center? Would the standard deviation or the interquartile range be a more appropriate measure of variability. Why?
-
-```{r}
-sf_feb_bird_obs <- nycbirds %>%
-  filter(dest == "sf", month == 2)
-
-ggplot(data = sf_feb_bird_obs, aes(x = arr_delay)) +
-  geom_histogram(binwidth = 5)
-```
-
-4.  Load the `nycbirds` dataset and replicate the following plot. **Hint:** The data frame plotted only
-    contains bird_obs from American Airlines, Delta Airlines, and United
-    Airlines, and the points are `color`ed by `carrier`. Once you replicate
-    the plot, determine (roughly) what the cutoff point is for departure
-    delays where you can still expect to get to your destination on time.
-
-```{r plot-to-replicate, echo=FALSE, fig.show="asis", fig.width=7, fig.height=4}
-dl_aa_ua <- nycbirds %>%
-  filter(carrier == "AA" | carrier == "DL" | carrier == "UA")
-ggplot(data = dl_aa_ua, aes(x = dep_delay, y = arr_delay, color = carrier)) +
-  geom_point()
-```
-
-You may want to refer to the [ggplot cheatsheet](https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf) and the [dplyr cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf).
-
-
-## Deliverables
-
-Make sure you have submitted your hash to the Google Form for the first part of the lab.
-
-When you are finished editing your Markdown document click the "Knit" button and choose "Knit to HTML" in the top left corner of RStudio. This will run all of your code and create a formatted document of the output. If you get an error, it means something in your Markdown file isn't right, either an error in code or some error in formatting. Call me into your breakout room, and we will troubleshoot.
-
-Submit your Markdown document and knitted file to [Moodle](https://moodle.smith.edu/) as:
-
-LastName-LastName-LastName-L-02.Rmd  (add a third last name if applicable)
-
-LastName-LastName-LastName-L-02.html
-
-*Due*: Monday,  (beginning of class time, Eastern time)
 
 
 * * *
