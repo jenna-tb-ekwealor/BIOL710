@@ -25,18 +25,6 @@ shot_outcomes <- c("H", "M")
 
 ```
 
-## Logistics
-
-This lab will occur remotely and in groups of three. For those of you participating synchronously, you will find the Zoom room information on [Moodle](https://moodle.smith.edu/). I will assign you to a breakout room with your partner(s) from last week. 
-
-For those participating syncronously I will be available in the main Zoom room to answer questions. If you have a question or technical problem, click the "Ask for Help" button (it looks like a question mark) in the meeting controls, and I will be alerted to join your breakout room.  
-
-For those of you participating asynchronously, alert me to technical challengs over Slack DM, and I will get back to you as soon as possible. For questions about the content of the lab, please sign up for an office hour time block. 
-
-Each of you should be writing and running code, examining output, and answering the exercises throughout the lab. However, you only need to turn in one final lab report. To be clear, everyone submits files to Moodle, but the files can be the same within a group. Today one of you should be the main recorder of answers in the lab document. You will share this document with your teammates. As you work it may be helpful to share your screen. Be sure to switch roles from last week so that someone else is the main recorder. It may be helpful to share your screen. 
-
-You all should also feel free to ask and answer questions amongst yourselves via Zoom if participating synchronously or via Slack if participating asynchronously. Please note at the end of the lab document who you consulted for help.
-
 ## Getting Started
 
 ### Load packages
@@ -471,13 +459,6 @@ learnrhash::encoder_ui(
 )
 ```
 
-## Questions for Lab Report
-
-No extra lab report this week (hooray!).
-
-## Deliverables
-
-Make sure you have submitted your hash to the Google Form for the first part of the lab.
 
 
 * * *
