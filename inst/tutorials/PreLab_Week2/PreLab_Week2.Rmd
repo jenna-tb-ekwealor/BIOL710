@@ -70,7 +70,7 @@ This returns the names of the variables in this data frame. The **codebook**
 ?nycbirds
 ```
 
-One of the variables refers to the order of the bird observed (bird_obs), which 
+One of the variables refers to the taxonomic order of the bird observed (bird_obs), which 
 is coded according to the following system.
 
 - `birds`: Two letter bird abbreviation.
