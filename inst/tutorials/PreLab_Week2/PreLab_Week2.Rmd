@@ -18,7 +18,7 @@ tutorial_options(
   exercise.checker = gradethis::grade_learnr
   )
 knitr::opts_chunk$set(echo = FALSE)
-# stuff to load in secret
+# stuff to load in secret 
 data(nycbirds)
 la_bird_obs <- nycbirds %>%
   filter(dest == "LA")
@@ -313,7 +313,7 @@ sf_feb_bird_obs %>%
 Here, we first grouped the data by `origin` and then calculated the summary 
 statistics.
 
-Calculate the median and interquartile range for `arr_shift`s of migratory bird observations in the `sf_feb_bird_obs` data frame, grouped by bird type.  
+Calculate the median and interquartile range for `arr_shift` of migratory bird observations in the `sf_feb_bird_obs` data frame, grouped by bird type.  
 
 
 ```{r summarybird, exercise = TRUE}
@@ -330,7 +330,7 @@ sf_feb_bird_obs %>%
 
 ```{r summarybird-solution}
 sf_feb_bird_obs %>%
-  group_by(carrier) %>%
+  group_by(birds) %>%
   summarise(median_dd = median(arr_shift), iqr_dd = IQR(arr_shift))
 
 ```
@@ -341,12 +341,11 @@ gradethis::grade_code()
 ```
 
 
-
 ```{r whichbird}
-question("Which carrier has the most variable arrival delays?",
+question("Which bird order has the most variable migration arrival shifts?",
     answer("FL"),
     answer("CU"),
-    answer("NI and ST", correct = T),
+    answer("NI", correct = T),
     answer("PE"),
     allow_retry = TRUE,
     random_answer_order = F
