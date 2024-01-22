@@ -377,8 +377,7 @@ nycbirds <- nycbirds %>%
 
 The first argument in the `mutate` function is the name of the new variable
 we want to create, in this case `class`. Then if `mig_shift > -5`, we classify 
-the migratory bird observations as `"average"` and `"early"` if not, i.e. if the migratory bird observations is early 
-by 5 or more days
+the migratory bird observations as `"average"` and `"early"` if not, i.e. if the migration is early by 5 or more days
 
 Note that we are also overwriting the `nycbirds` data frame with the new 
 version of this data frame that includes the new `class` variable.
