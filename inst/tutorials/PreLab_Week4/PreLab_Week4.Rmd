@@ -1,5 +1,5 @@
 ---
-title: "'Foundations for statistical inference - Confidence intervals'"
+title: "Foundations for statistical inference - Sampling distributions"
 output: 
   learnr::tutorial:
     progressive: true
@@ -20,8 +20,8 @@ tutorial_options(
   )
 knitr::opts_chunk$set(echo = FALSE)
 
-us_adults <- tibble(
-  climate_change_affects = c(rep("Yes", 62000), rep("No", 38000))
+global_monitor <- tibble(
+  scientist_work = c(rep("Benefits", 80000), rep("Doesn't benefit", 20000))
 )
 ```
 
@@ -33,26 +33,26 @@ For those participating syncronously I will be available in the main Zoom room t
 
 For those of you participating asynchronously, alert me to technical challengs over Slack DM, and I will get back to you as soon as possible. For questions about the content of the lab, please sign up for an office hour time block. 
 
-Each of you should be writing and running code, examining output, and answering the exercises throughout the lab. However, you only need to turn in one final lab report. To be clear, everyone submits files to Moodle, but the files can be the same within a group. Today one of you should be the main recorder of answers in the lab document. You will share this document with your teammates. As you work it may be helpful to share your screen. It may be helpful to share your screen. 
+Each of you should be writing and running code, examining output, and answering the exercises throughout the lab. However, you only need to turn in one final lab report. To be clear, everyone submits files to Moodle, but the files can be the same within a group. Today one of you should be the main recorder of answers in the lab document. You will share this document with your teammates. As you work it may be helpful to share your screen. Be sure to switch roles from last week so that someone else is the main recorder. It may be helpful to share your screen. 
 
 You all should also feel free to ask and answer questions amongst yourselves via Zoom if participating synchronously or via Slack if participating asynchronously. Please note at the end of the lab document who you consulted for help.
 
 ## Getting started
 
-If you have access to data on an entire population, say the opinion of every adult in the United States on whether or not they think climate change is affecting their local community, it's straightforward to answer questions like, "What percent of US adults think climate change is affecting their local community?". 
-Similarly, if you had demographic information on the population you could examine how, if at all, this opinion varies among young and old adults and adults with different leanings.
-If you have access to only a sample of the population, as is often the case, the task becomes more complicated. 
-What is your best guess for this proportion if you only have data from a small sample of adults?
-This type of situation requires that you use your sample to make inference on what your population looks like.
+In this lab, you will investigate the ways in which the statistics from a random 
+sample of data can serve as point estimates for population parameters. We're 
+interested in formulating a *sampling distribution* of our estimate in order 
+to learn about the properties of the estimate, such as its distribution.
 
 
 ### Load packages
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages, and perform statistical inference using **infer**.
+In this lab, we will explore and visualize the data using the **tidyverse** suite of packages. 
+We will also use the **infer** package for resampling.
 
 Let's load the packages.
 
-```{r load-packages, exercise = TRUE}
+```{r load-packages, exercise = T}
 library(tidyverse)
 library(openintro)
 library(infer)
@@ -60,311 +60,474 @@ library(infer)
 
 ### Random samples
 
-It doesn't really matter what you pick for the seed, but I usually use the numbers from the current date and time (but exclude any zeros). Kellie Ottoboni, who studied random number generators, told me a good heuristic is to avoid using zeros. 
+We will take some random samples and build sampling distributions
+in this lab. This means that each time you rerun the sampling code, you will get different answers. This is not ideal as your answers would have to change each time you reran code. By "setting a seed" at the start of your lab you tell the random number generator where to start in its sequence of random numbers (so you'll get the same answer each time you rerun the code in the same order). You can think of the number you pick for `set.seed()` as a bookmark for the sampling algorithm.
+
+Talking more about this is beyond the scope of the class, but if you are interested, I point you to Kellie Ottoboni's cool work on [sampling in R](http://www.kellieottoboni.com/posts/2019/01/random-problems-with-r/).
 
 ```{r set-seed, exercise = T}
-set.seed(818113)
+set.seed(818155)
 ```
-
 
 ## The data
 
-A 2019 Pew Research report states the following:
+A 2019 Gallup report states the following:
 
-To keep our computation simple, we will assume a total population size of 100,000 (even though that's smaller than the population size of all US adults).
-
-> Roughly six-in-ten U.S. adults (62%) say climate change is currently affecting their local community either a great deal or some, according to a new Pew Research Center survey.
+>The premise that scientific progress benefits people has been embodied in discoveries throughout the ages -- from the development of vaccinations to the explosion of technology in the past few decades, resulting in billions of supercomputers now resting in the hands and pockets of people worldwide. Still, not everyone around the world feels science benefits them personally. 
 >
->**Source:** [Most Americans say climate change impacts their community, but effects vary by region](https://www.pewresearch.org/fact-tank/2019/12/02/most-americans-say-climate-change-impacts-their-community-but-effects-vary-by-region/)
+>**Source:** [World Science Day: Is Knowledge Power?](https://news.gallup.com/opinion/gallup/268121/world-science-day-knowledge-power.aspx)
 
-In this lab, you will assume this 62% is a true population proportion and learn about how sample proportions can vary from sample to sample by taking smaller samples from the population. 
+The Wellcome Global Monitor finds that 20% of people globally do not believe that the work scientists do benefits people like them.
+In this lab, you will assume this 20% is a true population proportion and learn about how sample proportions can vary from sample to sample by taking smaller samples from the population. 
 We will first create our population assuming a population size of 100,000. 
-This means 62,000 (62%) of the adult population think climate change impacts their community, and the remaining 38,000 does not think so.
+This means 20,000 (20%) of the population think the work scientists do does not 
+benefit them personally and the remaining 80,000 think it does.
 
 ```{r, data, exercise = T}
-us_adults <- tibble(
-  climate_change_affects = c(rep("Yes", 62000), rep("No", 38000))
+global_monitor <- tibble(
+  scientist_work = c(rep("Benefits", 80000), rep("Doesn't benefit", 20000))
 )
 ```
 
-The name of the data frame is `us_adults` and the name of the variable that contains responses to the question *"Do you think climate change is affecting your local community?"* is `climate_change_affects`.
+The `tibble()` function makes a tidy data frame. The name of the data frame is `global_monitor` and the name of the variable that contains responses to the question *"Do you believe that the work scientists do benefit people like you?"* is `scientist_work`. To populate this variable we `c`ombine the following two groups: `rep`eat "Benefits 80,000 times and `rep`eat ``Doesn't benefit" 20,000 times.
 
-We can quickly visualize the distribution of these responses using a bar plot.
+We can quickly visualize the distribution of these responses using a bar plot. Note that `coord_flip()` makes the bars go left to right instead of top to bottom to save space on the page.
 
 ```{r bar-plot-pop, exercise = T}
-ggplot(us_adults, aes(x = climate_change_affects)) +
+ggplot(global_monitor, aes(x = scientist_work)) +
   geom_bar() +
   labs(
     x = "", y = "",
-    title = "Do you think climate change is affecting your local community?"
+    title = "Do you believe that the work scientists do benefit people like you?"
   ) +
   coord_flip() 
 ```
 
-We can also obtain summary statistics to confirm we constructed the data frame correctly.
+We can also obtain summary statistics to confirm we constructed the data frame correctly. `count` is a shortcut to `group_by(scientist_work) %>% summarise(n = n())`
 
 ```{r summ-stat-pop, exercise = T}
-us_adults %>%
-  count(climate_change_affects) %>%
+global_monitor %>%
+  count(scientist_work) 
+
+global_monitor %>%
+  count(scientist_work) %>%
   mutate(p = n /sum(n))
 ```
 
-In this lab, you'll start with a simple random sample of size 60 from the population.
+## The unknown 
 
-```{r sample, exercise = T}
-n <- 60
-samp <- us_adults %>%
-  slice_sample(n = n)
+In this lab, you have access to the entire population, but this is rarely the case in real life. 
+Gathering information on an entire population is often extremely costly or impossible. 
+Because of this, we often take a sample of the population and use that to understand the properties of the population.
+
+If you are interested in estimating the proportion of people who don't think the work scientists do benefits them, you can use the `slice_sample` command to survey the population.
+
+```{r samp1, exercise = T}
+samp1 <- global_monitor %>%
+  slice_sample(n = 50)
 ```
 
-Just like we did with the population, we can calculate the proportion of those **in this sample** who think climate change affects their local community. What percent of the adults in your sample think climate change affects their local community?
+This command collects a simple random sample of size 50 from the `global_monitor` dataset, and assigns the result to `samp1`. 
+This is similar to randomly drawing names from a hat that contains the names of all in the population.
+Working with these 50 names is considerably simpler than working with all 100,000 people in the population.
 
-```{r znlwjvsocfqspnrg-setup}
-set.seed(1291211)
-n <- 60
-samp <- us_adults %>%
-  slice_sample(n = n)
+Compare the proportions in the sample to the proportions in the population. Label the proportions in the sample `p_hat` to signal that it is a sample statistic rather than the true population parameter `p`. 
+
+```{r comparesamp-setup}
+samp1 <- global_monitor %>%
+  slice_sample(n = 50)
 ```
 
-```{r znlwjvsocfqspnrg, exercise = TRUE}
-samp %>% 
+```{r comparesamp, exercise = TRUE}
+global_monitor %>%
+  count(scientist_work) %>%
+  mutate(p = n /sum(n))
+
+___ %>% 
   count(___) %>%
-  mutate(p_hat = ___)
+  mutate(___ = n/sum(n))
 ```
 
+```{r comparesamp-solution}
+global_monitor %>%
+  count(scientist_work) %>%
+  mutate(p = n /sum(n))
 
-```{r znlwjvsocfqspnrg-solution}
-samp %>%
-  count(climate_change_affects) %>%
-  mutate(p_hat = n /sum(n))
+samp1 %>% 
+  count(scientist_work) %>%
+  mutate(p_hat = n/sum(n))
+
 ```
 
-```{r znlwjvsocfqspnrg-check}
+```{r comparesamp-check}
+gradethis::grade_code()
+```
+
+If you're interested in estimating the proportion of all people who do not believe that the work scientists do benefits them, but you do not have access to the population data, your best single guess is the sample mean that you calculated above.
+
+## More sampling
+
+Depending on which 50 people you selected, your estimate could be a bit above 
+or a bit below the true population proportion. 
+In general, though, the sample proportion turns out to be a pretty good estimate of the true population proportion, and you were able to get it by sampling less than 1% of the population.
+
+Take a second sample, also of size 50, and call it `samp2`. 
+
+```{r anothersamp, exercise = TRUE}
+___ <- global_monitor %>%
+  slice_sample(n = ___)
+```
+
+```{r anothersamp-solution}
+samp2 <- global_monitor %>%
+  slice_sample(n = 50)
+```
+
+```{r anothersamp-check}
 # check code
 gradethis::grade_code()
 ```
 
-## Confidence intervals
+How does the sample proportion of `samp2` compare with that of `samp1`? 
 
-Return for a moment to the question that first motivated this lab: based on this sample, what can you infer about the population? 
-With just one sample, the best estimate of the proportion of US adults who think climate change affects their local community would be the sample proportion, usually denoted as $\hat{p}$ (here we are calling it `p_hat`). 
-That serves as a good **point estimate**, but it would be useful to also communicate how uncertain you are of that estimate. 
-This uncertainty can be quantified using a **confidence interval**.
-
-One way of calculating a confidence interval for a population proportion is using simulation, or to be more specific, using **bootstrapping**. 
-The term **bootstrapping** comes from the phrase "pulling oneself up by one’s bootstraps", which is a metaphor for accomplishing an impossible task without any outside help.
-In this case the impossible task is estimating a population parameter (the unknown population proportion), and we’ll accomplish it using data from only the given sample.
-Note that this notion of saying something about a population parameter using only information from an observed sample is the crux of statistical inference, it is not limited to bootstrapping. 
-
-In essence, bootstrapping assumes that there are more of observations in the populations like the ones in the observed sample. 
-So we "reconstruct" the population by resampling from our sample, with replacement. 
-The bootstrapping scheme is as follows:
-
-- **Step 1.** Take a bootstrap sample - a random sample taken **with replacement** from the original sample, of the same size as the original sample.
-- **Step 2.** Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples.
-- **Step 3.** Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics.
-- **Step 4.** Calculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution.
-
-Instead of coding up each of these steps, we will construct confidence intervals using the **infer** package.
-
-Below is an overview of the functions we will use to construct this confidence interval:
-
-Function    | Purpose
------------ | -------
-`specify`   | Identify your variable of interest
-`generate`  | The number of samples you want to generate
-`calculate` | The sample statistic you want to do inference with, or you can also think of this as the population parameter you want to do inference for
-`get_ci`    | Find the confidence interval
-
-This code will find the 95 percent confidence interval for proportion of US adults who think climate change affects their local community.
-
-```{r confidence_interval_infer-setup}
-set.seed(1291211)
-n <- 60
-samp <- us_adults %>%
-  slice_sample(n = n)
+```{r anothersampcompare-setup}
+samp2 <- global_monitor %>%
+  slice_sample(n = 50)
 ```
 
-```{r confidence_interval_infer, exercise = TRUE}
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
+```{r anothersampcompare, exercise = TRUE}
+___ %>% 
+  ___(scientist_work) %>%
+  ___(p_hat = n/sum(n))
 ```
 
-- In `specify` we specify the `response` variable and the level of that variable we are calling a `success`.
-- In `generate` we provide the number of resamples we want from the population in the `reps` argument (this should be a reasonably large number) as well as the type of resampling we want to do, which is `"bootstrap"` in the case of constructing a confidence interval.
-- Then, we `calculate` the sample statistic of interest for each of these resamples, which is `prop`ortion.
 
-Feel free to test out the rest of the arguments for these functions, since these commands will be used together to calculate confidence intervals and solve inference problems for the rest of the semester.
-But we will also walk you through more examples in future chapters.
+```{r anothersampcompare-solution}
+samp2 %>% 
+  count(scientist_work) %>%
+  mutate(p_hat = n/sum(n))
+```
 
-To recap: even though we don't know what the full population looks like, we're 95% confident that the true proportion of US adults who think climate change affects their local community is between the two bounds reported as result of this pipeline.
+```{r anothersampcompare-check}
+# check code
+gradethis::grade_code()
+```
 
-In this case, you have the rare luxury of knowing the true population proportion (62%) since you have data on the entire population. 
-
-```{r containTruth}
-question("Did the confidence interval contain the true population proportion (62%)?",
-    answer("Yes", correct = T),
-    answer("No"),
+```{r samplesize}
+question("Suppose we took two 
+    more samples, one of size 100 and one of size 1000. Which would you think 
+    would provide a more accurate estimate of the population proportion?",
+    answer("The sample of size 100"),
+    answer("The sample of size 1000", correct = T),
+    answer("They both would provide the same level of accuracy"),
     allow_retry = TRUE,
     random_answer_order = F
   )
 ```
 
-## Confidence levels
+## Sampling distribution
 
-What if we had a different sample? Create a new sample of `us_adults` and calculate the sample proportion.
+Not surprisingly, every time you take another random sample, you might get a different sample proportion. 
+It's useful to get a sense of just how much variability you should expect when estimating the population mean this way. 
+The distribution of sample proportions, called the *sampling distribution (of the proportion)*, can help you understand this variability. 
+In this lab, because you have access to the population, you can build up the sampling distribution for the sample proportion by repeating the above steps many times. 
+Here, we use R to take 15,000 different samples of size 50 from the population, calculate the proportion of responses in each sample, filter for only the *Doesn't benefit* responses, and store each result in a vector called `sample_props50`. 
+Note that we specify that `replace = TRUE` since sampling distributions are constructed by sampling with replacement. We can filter the estimates that correspond to "Doesn't benefit" only as that is our main focus.
 
-```{r kmxoyxexccpwduwm-setup}
-set.seed(1291246)
+```{r iterate, exercise = T}
+sample_props50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
+                    count(scientist_work) 
+
+head(sample_props50)
+
+sample_props50 <- sample_props50 %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+head(sample_props50)
 ```
 
-```{r kmxoyxexccpwduwm, exercise = TRUE}
-n <- 60
-new_samp <- ___ %>%
-  ___(n = n) 
 
-new_samp %>%
-  ___(climate_change_affects) %>%
-  ___(p_hat = )
+And we can visualize the distribution of these proportions with a histogram.
+
+```{r showres-setup}
+sample_props50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
+                    count(scientist_work) 
+
+sample_props50 <- sample_props50 %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+```
+
+```{r showres, exercise = T}
+ggplot(data = sample_props50, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) +
+  labs(
+    x = "p_hat (Doesn't benefit)",
+    title = "Sampling distribution of p_hat",
+    subtitle = "Sample size = 50, Number of samples = 15000"
+  )
+
 ```
 
 
-```{r kmxoyxexccpwduwm-solution}
-n <- 60
-new_samp <- us_adults %>%
-  slice_sample(n = n) 
+### What is a sampling distribution?
 
-new_samp %>%
-  count(climate_change_affects) %>%
-  mutate(p_hat = n / sum(n))
+The idea behind the `rep_sample_n` function is *repetition*. 
+Earlier, you took a single sample of size `n` (50) from the population of all people in the population. 
+With this new function, you can repeat this sampling procedure `rep` times in order to build a distribution of a series of sample statistics, which is called the **sampling distribution**. 
+
+For some insight into how functions and names change over time, here is some [context](https://github.com/tidymodels/infer/issues/337) on the function naming. `slice_sample()` took over for an older function `sample_n()`. In the next update of the `infer` package, `rep_sample_n()` will become `rep_slice_sample()`.
+
+Note that in practice one rarely gets to build true sampling distributions, because one rarely has access to data from the entire population. 
+
+Without the `rep_sample_n` function, this would be painful. 
+We would have to manually run the following code 15,000 times 
+
+```{r sample-code, exercise = T}
+sample_props50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
 ```
 
-```{r kmxoyxexccpwduwm-check}
+as well as store the resulting sample proportions each time in a separate vector.
+
+Note that for each of the 15,000 times we computed a proportion, we did so from a **different** sample!
+
+To make sure you understand how sampling distributions are built, and exactly
+    what the `rep_sample_n` function does, try modifying the code to create a
+    sampling distribution of **25 sample proportions** from **samples of size 10**, 
+    and put them in a data frame named `sample_props_small`. Print the output. 
+  
+    
+```{r repsamp, exercise = TRUE}
+sample_props___ <- global_monitor %>%
+                    rep_sample_n(size = ___, reps = ___, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+___
+```
+
+
+```{r repsamp-solution}
+sample_props_small <- global_monitor %>%
+                    rep_sample_n(size = 10, reps = 25, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+sample_props_small
+```
+
+```{r repsamp-check}
 # check code
 gradethis::grade_code()
 ```
 
-Now calculate a confidence interval for this estimate.
-
-```{r itbkotliorstmmvd-setup}
-set.seed(1291246)
-n <- 60
-new_samp <- us_adults %>%
-  slice_sample(n = n) 
-```
-
-
-```{r itbkotliorstmmvd, exercise = TRUE}
-new_samp %>%
-  specify(response = ___, success = ___) %>%
-  generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
-```
-
-
-```{r itbkotliorstmmvd-solution}
-new_samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
-```
-
-```{r itbkotliorstmmvd-check}
-# check code
-gradethis::grade_code()
-```
-
-```{r containTruth2}
-question("Did this new confidence interval contain the true population proportion (62%)?",
-    answer("Yes", correct = T),
-    answer("No"),
+```{r obs}
+question("How many observations are there in this object called `sample_props_small`? Consider what each observation represents.",
+    answer("10"),
+    answer("20"),
+    answer("25", correct = T),
+    answer("50"),
     allow_retry = TRUE,
     random_answer_order = F
   )
 ```
 
-## Number of bootstrap samples
+    
+## Sample size 
 
-Tryout 100, 500, and 1000 bootstrap samples and compare the confidence intervals. 
+Mechanics aside, let's return to the reason we used the `rep_sample_n` function: to compute a sampling distribution, specifically, the sampling distribution of the proportions from samples of 50 people. 
 
-```{r confidence_interval_infer2-setup}
-set.seed(1291211)
-n <- 60
-samp <- us_adults %>%
-  slice_sample(n = n)
+```{r hist-setup}
+sample_props50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
 ```
 
-```{r confidence_interval_infer2, exercise = TRUE}
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = ___, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
-
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = ___, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
-
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = ___, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
+```{r hist, exercise = T}
+ggplot(data = sample_props50, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02)
 ```
 
-```{r confidence_interval_infer2-solution}
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = 100, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
+The sampling distribution that you computed tells you much about estimating the true proportion of people who think that the work scientists do doesn't benefit them. 
+Because the sample proportion is an unbiased estimator, the sampling distribution is centered at the true population proportion, and the spread of the distribution indicates how much variability is incurred by sampling only 50 people at a time from the population.
 
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = 500, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
+In the remainder of this section, you will work on getting a sense of the effect that sample size has on your sampling distribution.
 
-samp %>%
-  specify(response = climate_change_affects, success = "Yes") %>%
-  generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
+```{r diffsampsize, exercise = T}
+sample_props_10 <- global_monitor %>%
+                    rep_sample_n(size = 10, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_100 <- global_monitor %>%
+                    rep_sample_n(size = 100, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
 ```
 
-```{r confidence_interval_infer2-check}
-# check code
-gradethis::grade_code()
+```{r diffsampsize2-setup}
+sample_props_10 <- global_monitor %>%
+                    rep_sample_n(size = 10, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_100 <- global_monitor %>%
+                    rep_sample_n(size = 100, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
 ```
 
-```{r ciwidth}
-question("How does the width of the interval change as you decrease the number of bootstrap samples? ",
-    answer("The interval gets narrower."),
-    answer("The interval gets wider."),
-    answer("The interval stays roughly the same width.",correct = T),
+```{r diffsampsize2, exercise = T}
+ggplot(data = sample_props_10, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) + xlim(0,1)
+ggplot(data = sample_props_50, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) + xlim(0,1)
+ggplot(data = sample_props_100, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) + xlim(0,1)
+```
+
+
+```{r meanchange}
+question("How does the mean change as the sample size increases?",
+    answer("gets smaller"),
+    answer("gets larger"),
+    answer("stays about the same", correct = T),
     allow_retry = TRUE,
     random_answer_order = F
   )
 ```
 
-```{r cise}
-question("Does changing the number of bootstap samples affect the standard error? **Hint:** Remember that a 95% confidence interval is roughly our original estimate +/- 2*SE.",
-    answer("Yes, the standard error gets smaller."),
-    answer("Yes, the standard error gets bigger."),
-    answer("No, the standard error stays roughly the same.",correct = T),
+```{r sdchange}
+question("How does the standard error change as the sample size increases?",
+    answer("gets smaller", correct = T),
+    answer("gets larger"),
+    answer("stays about the same"),
     allow_retry = TRUE,
     random_answer_order = F
   )
 ```
 
-Note that in Lab 3 we changed the original sample size to see how that affected the standard error. The distinction here is we are now changing the number of times to resample, given an original sample size.
+```{r shapechange}
+question("How does the shape of the distribution change as the sample size increases?",
+    answer("gets rougher"),
+    answer("gets smoother"),
+    answer("stays about the same", correct = T),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
+
+## Number of replicates
+
+Now we'll keep the sample size at 50 and see what happens when we change the number of replicates.
+
+```{r diffrepsize, exercise = T}
+sample_props_50_small <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 50, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_50_medium <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 500, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_50_large <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+```
+
+```{r diffrepsize2-setup}
+sample_props_50_small <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 50, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_50_medium <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 500, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+sample_props_50_large <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 5000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+```
+
+```{r diffrepsize2, exercise = T}
+ggplot(data = sample_props_50_small, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) + xlim(0,1)
+
+ggplot(data = sample_props_50_medium, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) + xlim(0,1)
+
+ggplot(data = sample_props_50_large, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) + xlim(0,1)
+
+```
+
+```{r meanchange2}
+question("How does the mean change as the number of replicates increases?",
+    answer("gets smaller"),
+    answer("gets larger"),
+    answer("stays about the same", correct = T),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
+
+```{r sdchange2}
+question("How does the standard error change as the number of replicates increases?",
+    answer("gets smaller"),
+    answer("gets larger"),
+    answer("stays about the same", correct = T),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
+
+```{r shapechange2}
+question("How does the shape of the distribution change as the number of replicates increases?",
+    answer("gets rougher"),
+    answer("gets smoother", correct = T),
+    answer("stays about the same"),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
+```
 
 ## Submit checkpoint
 
@@ -376,7 +539,7 @@ learnrhash::encoder_logic(strip_output = T)
 learnrhash::encoder_ui(
   ui_before = div(strong("Submit your hash in the form below."), br(), br()),
   ui_after  = learnrhash::iframe_ui(
-    src = "https://docs.google.com/forms/d/e/1FAIpQLSfKAR9MMxfAR8EWsCi-U2Ow4SjsejLlAUba14FBsch-gox0Gg/viewform?usp=sf_link",
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSda78rAQWziQ-L6eDanGoDAhcfoi6JU_dg-c-6A9rrEXdvJwg/viewform", ## change link, include name
     width="900px", height= "1000px"
   )
 )
@@ -399,29 +562,27 @@ reports for this lab, and all future labs:
 
 Answer in an Rmd file based on the lab report template. Remember you will need to load appropriate packages, set a seed, and create the dataset.
 
-In this part of the lab, you will analyze many samples to learn more about how sample proportions and confidence intervals constructed based on those samples vary from one sample to another.
-
-In class each student did the following:
-
--   Obtained a random sample.
--   Calculated the sample proportion, and used these to calculate and store the lower and upper bounds of the confidence intervals.
-
-We now have a confidence interval for every student.
-
-1. Read in the dataset.
-
-Download the csv file and put it in the same folder as your lab Rmd file. When you go to knit this document, R will look for the data in the same place where the Rmd file lives.
-
-```{r, eval = F}
-data <- read.csv("roadless-america-data.csv")
-head(data)
+```{r}
+global_monitor <- tibble(
+  scientist_work = c(rep("Benefits", 80000), rep("Doesn't benefit", 20000))
+)
 ```
 
-2. Interpret the first confidence interval in context. 
-3. What proportion of the confidence intervals capture p? (Use R code not just a visual inspection of the provided plot.)
-4. Would we expect that proportion to get closer, further away, or stay roughly the same, if we had 200 students participating? Explain your answer.
+So far, you have only focused on estimating the proportion of those you think the work scientists doesn't benefit them. 
+Now, you'll try to estimate the proportion of those who think it does.
 
 
+1.  Take a sample of size 15 from the population and calculate the proportion of 
+    people in this sample who think the work scientists do enchances their lives. 
+
+2. Using your sample from question one, what is your best point estimate of the population proportion of people who think the work scientists do enchances their lives?
+
+3.  Change your sample size from 15 to 150, then compute the sampling 
+    distribution using the same method as the pre-lab, and store these proportions in a 
+    new object called `sample_props150`. 
+    
+4. Describe the shape of this sampling distribution and compare it to the sampling distribution for a sample size of 15. 
+    
 ## Deliverables
 
 Make sure you have submitted your hash to the Google Form for the first part of the lab.
@@ -430,13 +591,12 @@ When you are finished editing your Markdown document click the "Knit" button and
 
 Submit your Markdown document and knitted file to [Moodle](https://moodle.smith.edu/) as:
 
-LastName-LastName-LastName-L-04.Rmd  (add a third last name if applicable)
+LastName-LastName-LastName-L-03.Rmd  (add a third last name if applicable)
 
-LastName-LastName-LastName-L-04.html
+LastName-LastName-LastName-L-03.html
 
 *Due*: Monday (beginning of class time, Eastern time)
 
-
 * * *
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> then was adapted and learnr-ified by Sara Stoudt, and further adapted and biologified by Jenna Ekwealor.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> and was adapted and learnr-ified by Sara Stoudt.
