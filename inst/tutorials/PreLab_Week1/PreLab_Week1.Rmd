@@ -8,8 +8,8 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE,message=FALSE}
-library(learnr)
 library(BIOL710AdvBiometry)
+library(learnr)
 library(learnrhash)
 library(tidyverse)
 library(gradethis)
