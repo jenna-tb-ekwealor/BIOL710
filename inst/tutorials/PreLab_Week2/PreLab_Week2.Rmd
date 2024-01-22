@@ -343,10 +343,10 @@ gradethis::grade_code()
 
 ```{r whichbird}
 question("Which bird order has the most variable migration arrival shifts?",
-    answer("FL"),
+    answer("SH"),
     answer("CU"),
     answer("NI", correct = T),
-    answer("PE"),
+    answer("CO"),
     allow_retry = TRUE,
     random_answer_order = F
   )
