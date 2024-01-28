@@ -1,11 +1,12 @@
 # BIOL710AdvBiometry
 ## learnR labs for advanced biometry
-adapted from Sara Stoudt and labs for Open Intro ISRS
+adapted from Sara Stoudt and labs for Open Intro ISRS by Jenna Ekwealor
 
-**For instructors:** the overview blog post from Sara Stoudt that taught me how to use learnR labs can be found [here](https://jenna-tb-ekwealor/.github.io/posts/2021-06-05-learnr-tutorials-intro-stat/).
+**For instructors:** the overview blog post from Sara Stoudt that taught me how to use learnR labs can be found [here](https://sastoudt.github.io/posts/2021-06-05-learnr-tutorials-intro-stat/).
 
-### To install this package:
+### Course Lab Manual can be found [here](https://jenna-tb-ekwealor.github.io/Biostatistics_laboratory/index.html)
 
+### To install this Pre-Lab package:
 
 1. One time only (may need to reinstall for updates throughout the semester):
 
