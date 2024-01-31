@@ -45,7 +45,29 @@ Exit RStudio and then open it again.
 
 ![](stop-tutorial.png)
 
-#### Troubleshooting
+
+## Submission Instructions
+
+There will be a pre-lab and a lab report for each lab. The pre-lab will be completed individually via learnR and graded for completion. This is **due by the start of class on MONDAYS, except for Week 1, which is due Wednesday January 31**. Then during lab you will work in a team of three (or so) to complete a lab report in `R`. Both pre-labs and lab reports are submitted on Canvas (see below). The lab report is **due each class day by 11:59 pm**.
+
+
+## How to Submit Pre-Lab
+
+![](submit-tutorial.png)
+
+
+## How to Submit Lab Report
+
+Download our [custom "Lab Report" template](https://github.com/jenna-tb-ekwealor/Biostatistics_laboratory/blob/master/Materials/BIOL710_Lab_Report_Template.Rmd) or from Canvas and save it somewhere handy on your computer. 
+This copy will serve as your template for each Lab this semester. 
+Then, open it and File -> Save As with a useful name in your working_directory folder for that week, with a .Rmd file extension. 
+This is the copy you can work with for that day's Lab Activity. 
+Knit to a PDF using the triangle next to the Knit button in the top of RStudio. 
+Save your PDF and submit to the appropriate assignment in Canvas. 
+
+# Troubleshooting
+
+#### Troubleshooting Pre-Labs
 
 - If you get some kind of error having to do with "parse" when you try to run a tutorial:
 ![](restartR.png) 
@@ -58,17 +80,17 @@ Click "Session" --> "Restart R" and try to run the tutorial again.
 
 ![](popups.png) 
 
-
-## Lab Instructions
-
-There will be a pre-lab and a lab report for each lab. The pre-lab will be completed individually via learnR and graded for completion. This is **due by the start of class on MONDAYS, except for Week 1, which is due Wednesday January 31**. Then during lab you will work in a team of three (or so) to complete a lab report in `R`. Both pre-labs and lab reports are submitted on Canvas (see below). The lab report is **due each class day by 11:59 pm**.
+- If you can't seem to get installations to install with ```remotes::install_github()```, you can try another package that helps install from GitHub. 
+First, ```install.packages("devtools")```, then replace "remotes" with "devtools" in the above code and try again, such as: ```devtools::install_github(...)```.
 
 
-## How to Submit Pre-Lab
+#### Troubleshooting Lab Reports
 
-![](submit-tutorial.png)
+- If the Knit to PDF option is not showing up for you when you click the triangle next to the Knit button, you should try 2 things. 
+First, make sure you are using the [BIOL710 Lab Report Template](https://github.com/jenna-tb-ekwealor/Biostatistics_laboratory/blob/master/Materials/BIOL710_Lab_Report_Template.Rmd) which includes ```output:
+  pdf_document: default``` in the YAML header (at the top). If that is done, you can try installing a package to help knit to PDF such as TinyTeX with ```tinytex::install_tinytex()```
 
-#### Troubleshooting
+- 
 
 **Run into any problems not listed above? Let me know and when we figure it out we'll add to the list.**
 
