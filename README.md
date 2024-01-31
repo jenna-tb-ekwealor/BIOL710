@@ -29,11 +29,6 @@ adapted from Sara Stoudt and labs for Open Intro ISRS by Jenna Ekwealor
 
 Exit RStudio and then open it again.
 
-#### Troubleshooting
-
-- These packages have more recent versions available. Which would you like to update? --> If the list only includes `htmltools` say No.
-
-- Do you want to install from sources the package which needs compilation? (in reference to `dplyr 1.0.3` instead of `dplyr 1.0.4`) --> No 
 
 ### Launch a lesson:
 
@@ -68,6 +63,11 @@ Save your PDF and submit to the appropriate assignment in Canvas.
 # Troubleshooting
 
 #### Troubleshooting Pre-Labs
+
+- These packages have more recent versions available. Which would you like to update? --> If the list only includes `htmltools` say No.
+
+- Do you want to install from sources the package which needs compilation? (in reference to `dplyr 1.0.3` instead of `dplyr 1.0.4`) --> No 
+
 
 - If you get some kind of error having to do with "parse" when you try to run a tutorial:
 ![](restartR.png) 
