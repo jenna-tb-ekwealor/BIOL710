@@ -62,6 +62,12 @@ Save your PDF and submit to the appropriate assignment in Canvas.
 
 # Troubleshooting
 
+- General RStudio issues: 
+-- Stop saving RData. In RStudio go to Tools -> Global Options, and under Workspace uncheck the box for "Save .RData ...". Also change the dropdown box to "Never" so that it never asks you if you want to do this. There are few cases, in my opinion, where you'd want to automatically save RData, and definitely not for this class. 
+
+
+-- Possibly, it might be necessary to [update to the newest version of R](https://cloud.r-project.org), and to install [RTools](https://www.google.com/search?client=safari&rls=en&q=rtools&ie=UTF-8&oe=UTF-8) (on Windows machines.)
+
 #### Troubleshooting Pre-Labs
 
 - These packages have more recent versions available. Which would you like to update? --> If the list only includes `htmltools` say No.
@@ -89,8 +95,7 @@ First, ```install.packages("devtools")```, then replace "remotes" with "devtools
 - If the Knit to PDF option is not showing up for you when you click the triangle next to the Knit button, you should try 2 things. 
 First, make sure you are using the [BIOL710 Lab Report Template](https://github.com/jenna-tb-ekwealor/Biostatistics_laboratory/blob/master/Materials/BIOL710_Lab_Report_Template.Rmd) which includes ```output:
   pdf_document: default``` in the YAML header (at the top). If that is done, you can try installing a package to help knit to PDF such as TinyTeX with ```tinytex::install_tinytex()```
-
-- 
+  
 
 **Run into any problems not listed above? Let me know and when we figure it out we'll add to the list.**
 
