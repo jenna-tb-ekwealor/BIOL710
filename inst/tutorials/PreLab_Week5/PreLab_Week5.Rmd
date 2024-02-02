@@ -90,7 +90,7 @@ ggplot(daisies, aes(x = protein)) + geom_histogram()
 
 ```{r dghqyduwvsgyzshm-check}
 # check code
-gradethis::grade_code()
+gradethis::grade_this_code()
 ```
 
 ## The normal distribution
@@ -206,7 +206,7 @@ ggplot(data = sim_norm, aes(sample = sim_val)) +
 
 ```{r vuqymqrklhvinkjz-check}
 # check code
-gradethis::grade_code()
+gradethis::grade_this_code()
 ```
 
 Even better than comparing the original plot to a single plot generated from a 
@@ -230,7 +230,7 @@ qqnormsim(sample = protein, data = mints)
 
 ```{r gbmknvwczbalsxme-check}
 # check code
-gradethis::grade_code()
+gradethis::grade_this_code()
 ```
 
 
