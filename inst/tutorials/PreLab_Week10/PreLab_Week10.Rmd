@@ -1,5 +1,5 @@
 ---
-title: "Probability"
+title: "Introduction to spaial data in R"
 output: 
   learnr::tutorial:
     progressive: true
@@ -473,19 +473,15 @@ gradethis::grade_code()
 
 ## Summary
 
-Good persistence for getting this far !
-  
-  We hope you've enjoyed this brief intro to mapping with R.
 
-We've shown you :
+
+In this pre-lab we've gone over:
   
   i. storing and handling spatial data with the package `sf` 
 i. making static & interactive maps with package `tmap`
 i. reading in data from files using `sf` and `raster`
 
-This is a start; there are plenty of other options (e.g. maps can also be made with the packages `mapview` & `ggplot2`). We will cover other options in later tutorials. Have a look at the [afrilearnr-crash-course](https://andysouth.shinyapps.io/afrilearnr-crash-course/) for some potential next steps. We welcome feedback - different ways of [getting in touch are on our website](https://afrimapr.github.io/afrimapr.website/get-involved/).
-
-Here is a short quiz to test your learning. 
+This is a start; there are plenty of other options (e.g. maps can also be made with the packages `mapview` & `ggplot2`). Have a look at the [afrilearnr-crash-course](https://andysouth.shinyapps.io/afrilearnr-crash-course/) for some potential next steps if you're interested in more advanced mapping. The original authors of this pre-lab welcome feedback [via their website](https://afrimapr.github.io/afrimapr.website/get-involved/).
 
 ## Quiz
 
