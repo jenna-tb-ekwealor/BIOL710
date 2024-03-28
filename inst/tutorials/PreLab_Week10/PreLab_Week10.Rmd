@@ -37,20 +37,6 @@ knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE )
 
 ## Getting Started
 
-### Load packages
-
-In this lab, we will explore and visualize the data using the `tidyverse` suite of 
-packages. The data can be found in the companion package for OpenIntro labs, **openintro**.
-
-Let's load the packages.
-
-```{r load-packages, exercise = T}
-library(tidyverse)
-library(openintro)
-```
-
-## Outline of this tutorial
-
 This is an entry level introduction to spatial data in R using examples from Africa. It is aimed at those with a little knowledge of R.
 
 
@@ -187,6 +173,10 @@ We are going to take a look at the spatial data objects used to create the map s
 We call them 'objects' because the data are already stored in R. This is also to make clear the difference from a 'file' that is stored elsewhere on your computer. A 'file' can be read into an R 'object' and we will come to that later.  
 
 First we will look at capital cities which are stored in an object called `africapitals`.
+
+```{r glimpse-data, exercise = T}
+glimpse(africapitals)
+```
 
 Using the plot method should display a number of maps of the point locations of African capitals. 
 
@@ -436,19 +426,20 @@ So far we have been using data that already exists within R as an R object.
 
 The same things can be done on data coming from a file.
 
-Spatial data can be read into R using `sf::st_read()` for vector data (points, lines and polygons) and the `raster` & `rgdal` packages for gridded data.
+Spatial data can be read into R using `sf::st_read()` for vector data (points, lines and polygons) and the `raster` package for gridded data.
 
 We show examples below using files that are stored in the package. To use with your own data replace filename1 & 2. (Note that these specified file names can also be a URL for data provided on the web.)
 
+```{r read-files-setup}
+library(sf)
+library(raster)
+```
 
 ```{r read-files, exercise = TRUE, exercise.eval = FALSE, message = FALSE, warning = FALSE}
-
-library(sf)
 filename1 <- system.file("extdata","africountries.shp", package="afrilearndata", mustWork=TRUE)
 myobject1 <- sf::st_read(filename1)
 
-library(raster)
-library(rgdal) 
+
 filename2 <- system.file("extdata","afripop2020.tif", package="afrilearndata", mustWork=TRUE)
 myobject2 <- raster::raster(filename2)
 
