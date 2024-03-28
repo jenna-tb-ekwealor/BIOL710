@@ -24,7 +24,8 @@ tutorial_options(
   )
 
 # default options for all chunks
-knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE )
+knitr::opts_chunk$set(echo = FALSE)
+# knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE )
 
 
 # to make local running the same as linux on shinyapps
@@ -109,7 +110,7 @@ We will be loading a package (`afrilearndata`) containing example data for us to
 
 We will also use the packages `sf` and `raster`, which allow us to deal with vector and raster data.
 
-Using an R package requires a 2 step process :
+As a reminder, using an R package requires a 2 step process :
 
 1. `install.packages`               needed only once to install a package
 from the internet
@@ -117,7 +118,7 @@ from the internet
 
 A package may have been installed on your system already because it is a 'dependency' needed for another package.
 
-In this case the packages `afrilearndata`, `sf` and `raster` should already have been installed when you installed this package.
+In this case the packages `afrilearndata`, `sf` and `raster` should already have been installed when you installed this course pre-lab package.
 
 To check that the packages have been installed, try running the `library` commands below. If they have been installed, nothing should happen. Not very interesting but a good check and a good reminder that this is what you will need to do each time you start a new R session.
 
@@ -162,8 +163,6 @@ sf::st_crs(africontinent) <- 4326 #not used yet but just in case
 #raster::crs(afripop2020) <- CRS('+init=EPSG:4326')
 
 ```
-
-If you happen to get messages indicating any of the packages are not installed, you can use `install.packages` to install them.
 
 
 ## Spatial data objects 
@@ -237,9 +236,7 @@ Package `tmap` is a good place to start; it offers both static and interactive m
 
 We can start with static plots of the capitals (points).
 
-In `tmap` `tm_shape([object_name])` defines the data to be used. Then `+` to add code that defines how the data are displayed, e.g. `tm_symbols()` for points. Extra arguments can be specified to modify the data display.
-
-See the hint button for how to set colour with `tm_symbols(col = "blue")` and `col=[column_name]` to set the colour of each point according to the data value stored in a column.
+In `tmap` `tm_shape([object_name])` defines the data to be used. 
 
 ```{r tmap-points1-setup}
 # to avoid issues with interactive maps https://github.com/rstudio/learnr/issues/529
@@ -255,13 +252,34 @@ tm_shape(africapitals) +
 
 ```
 
-```{r tmap-points1-hint}
+Then `+` to add code that defines how the data are displayed, e.g. `tm_symbols()` for points. Extra arguments can be specified to modify the data display, such as color of points with `tm_symbols(col = "blue")`. You can set the colour of each point according to the data value stored in a column with `col=[column_name]`.
 
-tm_shape(africapitals) + tm_symbols(col = "blue") #set colour directly
+```{r tmap-points2-setup}
+# to avoid issues with interactive maps https://github.com/rstudio/learnr/issues/529
+# IdSeed must be set to be unique in the Rmd, even for mode('plot') to allow user to change
+tmap_mode("plot")
+htmlwidgets::setWidgetIdSeed(1)
+```
 
+Plot the map with point color scaled to population of each city.  
+```{r tmap-points2, exercise = T}
+tm_shape(___) + 
+  tm_symbols(col = ___)  
+```
+
+
+```{r tmap-points2-hint}
+colnames(africapitals) # to view column names
+```
+
+```{r tmap-points2-solution}
 tm_shape(africapitals) + 
-  tm_symbols(col = "pop")  #set colour to a data column
+  tm_symbols(col = "pop")  
+```
 
+```{r tmap-points2-check}
+# check code
+gradethis::grade_code()
 ```
 
 The highway network (lines) can be plotted using the same `tm_shape([object_name])` to start, then adding `tm_lines()` to display the lines. The hints button below shows options for colouring lines.
