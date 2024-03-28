@@ -22,24 +22,10 @@ tutorial_options(
   # use gradethis for checking
   exercise.checker = gradethis::grade_learnr
   )
-knitr::opts_chunk$set(echo = FALSE)
-
-coin_outcomes <- c("heads", "tails")
-shot_outcomes <- c("H", "M")
-
-```
-
 
 # default options for all chunks
 knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE )
 
-library(sf)               # working with vector data
-library(afrilearndata)    # example data
-library(tmap)             # static and interactive mapping
-library(raster)           # raster manipulation
-#library(rgdal)           # raster tiff reading
-#library(dplyr)           # data wrangling
-#library(mapview)         # interactive mapping
 
 # to make local running the same as linux on shinyapps
 # see https://github.com/rstudio/learnr/issues/529
@@ -49,7 +35,21 @@ library(raster)           # raster manipulation
 ```
 
 
-## A. Outline of this tutorial
+## Getting Started
+
+### Load packages
+
+In this lab, we will explore and visualize the data using the `tidyverse` suite of 
+packages. The data can be found in the companion package for OpenIntro labs, **openintro**.
+
+Let's load the packages.
+
+```{r load-packages, exercise = T}
+library(tidyverse)
+library(openintro)
+```
+
+## Outline of this tutorial
 
 This is an entry level introduction to spatial data in R using examples from Africa. It is aimed at those with a little knowledge of R.
 
@@ -59,7 +59,7 @@ This is an entry level introduction to spatial data in R using examples from Afr
 This pre-lab is borrowed from the [afrilearnr](https://github.com/afrimapr/afrilearnr) package containing tutorials to teach spatial data skills in R with African data. It is part of the [afrimapr](https://afrimapr.github.io/afrimapr.website/) project.
 
 
-## B. Spatial data outline
+## Spatial data outline
 
 We will start by looking at these spatial data for Africa, shown in the map below. 
 
@@ -115,7 +115,7 @@ In R the `sf` package deals with vector data (points, lines and polygons), and t
 There are other packages too but we don't need those for now.
 
 
-## C. Loading packages and data
+## Loading packages and data
 
 Packages in R contain extra methods and data to add to base R.
 
@@ -180,7 +180,7 @@ sf::st_crs(africontinent) <- 4326 #not used yet but just in case
 If you happen to get messages indicating any of the packages are not installed, you can use `install.packages` to install them.
 
 
-## D. Spatial data objects 
+## Spatial data objects 
 
 We are going to take a look at the spatial data objects used to create the map shown at the start of the tutorial.
 
@@ -239,7 +239,7 @@ paste(africapitals$geometry[1])
 
 You should have seen that the geometry columns for the other objects contain multiple coordinates representing lines and polygons.
 
-## E. First maps with `tmap` 
+## First maps with `tmap` 
 
 There are a number of packages for making maps that extend what is available from `sf`.
 
@@ -358,7 +358,7 @@ tm_shape(afripop2020) + tm_raster(palette = rev(viridisLite::magma(5)), breaks=c
 
 
 
-## F. Mapping multiple 'layers'
+## Mapping multiple 'layers'
 
 In the previous section we showed how to make maps of individual data objects. Those sections of code can be combined to create multiple 'layer' maps as shown in the example below.
 
@@ -394,7 +394,7 @@ tm_legend(show = FALSE)
 ```
 
 
-## G. Interactive maps
+## Interactive maps
 
 The maps created so far have been static. There are also great options for creating interactive maps, which are useful for web pages or reports where readers can zoom, pan and enable/disable layers.
 
@@ -430,7 +430,7 @@ tmap::tm_shape(afripop2020) +
 You may want to go back to the earlier plots and see how they are modified by adding `tmap_mode('view')` before the code.
 
 
-## H. Read spatial data from files
+## Read spatial data from files
 
 So far we have been using data that already exists within R as an R object.
 
@@ -468,7 +468,7 @@ i. reading in data from files using `sf` and `raster`
 
 This is a start; there are plenty of other options (e.g. maps can also be made with the packages `mapview` & `ggplot2`). We will cover other options in later tutorials. Have a look at the [afrilearnr-crash-course](https://andysouth.shinyapps.io/afrilearnr-crash-course/) for some potential next steps. We welcome feedback - different ways of [getting in touch are on our website](https://afrimapr.github.io/afrimapr.website/get-involved/).
 
-There is a short quiz if you'd like to test your learning. 
+Here is a short quiz to test your learning. 
 
 ## Quiz
 
