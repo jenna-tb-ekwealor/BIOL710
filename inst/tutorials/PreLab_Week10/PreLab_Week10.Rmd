@@ -179,7 +179,7 @@ Using the plot method should display a number of maps of the point locations of 
 ```{r sf-points-plot, exercise=TRUE, exercise.lines = NULL}
 
 plot(africapitals)
-#plot(sf::st_geometry(africapitals))
+# plot(sf::st_geometry(africapitals))
 
 ```
 
@@ -245,7 +245,7 @@ htmlwidgets::setWidgetIdSeed(1)
 ```{r tmap-points1, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE}
 
 tm_shape(africapitals) +
-  tm_symbols()              #default grey points
+  tm_symbols()              # default grey points
 
 ```
 
@@ -258,14 +258,11 @@ tmap_mode("plot")
 htmlwidgets::setWidgetIdSeed(1)
 ```
 
-Plot the map with point color scaled to population of each city.  
+Plot the map with point color scaled to population of each city. *Hint:* use `colnames(africapitals)` to view column names. 
+
 ```{r tmap-points2, exercise = T}
 tm_shape(___) + 
   tm_symbols(col = ___)  
-```
-
-```{r tmap-points2-hint}
-colnames(africapitals) # to view column names
 ```
 
 ```{r tmap-points2-solution}
