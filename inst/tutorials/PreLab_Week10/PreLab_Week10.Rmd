@@ -45,9 +45,6 @@ This is an entry level introduction to spatial data in R using examples from Afr
 
 This pre-lab is borrowed from the [afrilearnr](https://github.com/afrimapr/afrilearnr) package containing tutorials to teach spatial data skills in R with African data. It is part of the [afrimapr](https://afrimapr.github.io/afrimapr.website/) project.
 
-
-## Spatial data outline
-
 We will start by looking at these spatial data for Africa, shown in the map below. 
 
 1. Capital city locations (points)
@@ -238,7 +235,7 @@ We can start with static plots of the capitals (points).
 
 In `tmap` `tm_shape([object_name])` defines the data to be used. 
 
-```{r tmap-points1-setup}
+```{r tmap-points1-setup,message=FALSE}
 # to avoid issues with interactive maps https://github.com/rstudio/learnr/issues/529
 # IdSeed must be set to be unique in the Rmd, even for mode('plot') to allow user to change
 tmap_mode("plot")
@@ -254,7 +251,7 @@ tm_shape(africapitals) +
 
 Then `+` to add code that defines how the data are displayed, e.g. `tm_symbols()` for points. Extra arguments can be specified to modify the data display, such as color of points with `tm_symbols(col = "blue")`. You can set the colour of each point according to the data value stored in a column with `col=[column_name]`.
 
-```{r tmap-points2-setup}
+```{r tmap-points2-setup, message=FALSE}
 # to avoid issues with interactive maps https://github.com/rstudio/learnr/issues/529
 # IdSeed must be set to be unique in the Rmd, even for mode('plot') to allow user to change
 tmap_mode("plot")
@@ -266,7 +263,6 @@ Plot the map with point color scaled to population of each city.
 tm_shape(___) + 
   tm_symbols(col = ___)  
 ```
-
 
 ```{r tmap-points2-hint}
 colnames(africapitals) # to view column names
