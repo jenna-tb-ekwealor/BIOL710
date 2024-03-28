@@ -22,18 +22,18 @@ Imports:
     learnrhash (>= 0.1.0.9000),
     mosaic,
     shiny,
-    leaflet
-    sf
-	tmap
-	raster
-	mapview
-    gapminder
-    kableExtra
+    leaflet,
+    sf,
+	tmap,
+	raster,
+	mapview,
+    gapminder,
+    kableExtra,
     viridisLite
 Remotes: 
     rstudio-education/gradethis,
     rundel/learnrhash,
-    rstudio/learnr
+    rstudio/learnr,
     afrimapr/afrilearndata
 Depends: 
     R (>= 2.10),
