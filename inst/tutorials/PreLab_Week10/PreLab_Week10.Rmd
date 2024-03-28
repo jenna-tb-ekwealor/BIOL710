@@ -498,7 +498,6 @@ This is a start; there are plenty of other options (e.g. maps can also be made w
 
 ```{r quiz}
 quiz(
-  
   question("What is the term for point, line and polygon data ?",
     answer("raster", message = "raster is gridded data, the other alternative is vector (point,line,polygon)"),
     answer("sf", message = "`sf` is the R package for handling vector (point,line,polygon) data"),
