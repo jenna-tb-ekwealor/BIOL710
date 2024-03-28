@@ -41,7 +41,7 @@ knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
 This is an entry level introduction to spatial data in R using examples from Africa. It is aimed at those with a little knowledge of R.
 
 
-### Outline of afrilearnr
+### Background
 
 This pre-lab is borrowed from the [afrilearnr](https://github.com/afrimapr/afrilearnr) package containing tutorials to teach spatial data skills in R with African data. It is part of the [afrimapr](https://afrimapr.github.io/afrimapr.website/) project.
 
@@ -52,7 +52,7 @@ We will start by looking at these spatial data for Africa, shown in the map belo
 1. Country boundaries (polygons)
 1. Population density (gridded or raster data)
 
-```{r tmap-first-view, echo=FALSE}
+```{r tmap-first-view, echo=FALSE,message=FALSE}
 #echo=FALSE to not show code in first version 
 
 tmap_mode("plot") # to try to avoid learnr problems with 'view' mode
@@ -197,9 +197,9 @@ Have a look at the outputs for `africapitals` (uncomment the later lines to see 
 ```{r sf-points-str, exercise=TRUE, exercise.lines = NULL}
 
 str(africapitals)
-#head(africapitals)
-#names(africapitals)
-#class(africapitals)
+# head(africapitals)
+# names(africapitals)
+# class(africapitals)
 
 ```
 
@@ -215,11 +215,11 @@ The highway and countries objects are also of class `sf` and contain geometry co
 
 ```{r sf-points-lines-polygons, exercise=TRUE, exercise.lines = NULL}
 
-#The `paste()` command converts the object to text to ensure it appears in the learnr window.
+# The `paste()` command converts the object to text to ensure it appears in the learnr window.
 
 paste(africapitals$geometry[1])
-#paste(afrihighway$geometry[1])
-#paste(africountries$geometry[1])
+# paste(afrihighway$geometry[1])
+# paste(africountries$geometry[1])
 
 ```
 
@@ -242,7 +242,7 @@ tmap_mode("plot")
 htmlwidgets::setWidgetIdSeed(1)
 ```
 
-```{r tmap-points1, exercise = TRUE, exercise.eval = TRUE, message = FALSE, warning = FALSE}
+```{r tmap-points1, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE}
 
 tm_shape(africapitals) +
   tm_symbols()              #default grey points
@@ -287,7 +287,7 @@ tmap_mode("plot")
 htmlwidgets::setWidgetIdSeed(2)
 ```
 
-```{r tmap-lines1, exercise = TRUE, exercise.eval = TRUE, message = FALSE, warning = FALSE}
+```{r tmap-lines1, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE}
 
 tm_shape(afrihighway) +
     tm_lines()
@@ -298,9 +298,9 @@ tm_shape(afrihighway) +
 
 tm_shape(afrihighway) + tm_lines(col = "red")
 
-tm_shape(afrihighway) + tm_lines(col = "Name") #use a column name from the object
+tm_shape(afrihighway) + tm_lines(col = "Name") # use a column name from the object
 
-#Note in this case using 'Name' to colour the highways doesn't work very well because there are too many unique names 
+# Note in this case using 'Name' to colour the highways doesn't work very well because there are too many unique names 
 
 ```
 
@@ -313,7 +313,7 @@ tmap_mode("plot")
 htmlwidgets::setWidgetIdSeed(3)
 ```
 
-```{r tmap-polygons1, exercise = TRUE, exercise.eval = TRUE, message = FALSE, warning = FALSE}
+```{r tmap-polygons1, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE}
 
 tm_shape(africountries) +
   tm_polygons()
@@ -343,7 +343,7 @@ tmap_mode("plot")
 htmlwidgets::setWidgetIdSeed(4)
 ```
 
-```{r tmap-raster1, exercise = TRUE, exercise.eval = TRUE, message = FALSE, warning = FALSE}
+```{r tmap-raster1, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE}
 
 tm_shape(afripop2020) +
     tm_raster(breaks=c(0,2,20,200,2000,25000))
@@ -355,7 +355,7 @@ tm_shape(afripop2020) +
 
 tm_shape(afripop2020) + tm_raster()
 
-#changing the colour palette
+# changing the colour palette
 tm_shape(afripop2020) + tm_raster(palette = rev(viridisLite::magma(5)), breaks=c(0,2,20,200,2000,25000))
 
 ```
@@ -382,7 +382,7 @@ tmap_mode("plot")
 htmlwidgets::setWidgetIdSeed(5)
 ```
 
-```{r tmap-vector-raster, exercise = TRUE, exercise.eval = TRUE, message = FALSE, warning = FALSE, exercise.setup='set-crs-and-tmap-mode'}
+```{r tmap-vector-raster, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE, exercise.setup='set-crs-and-tmap-mode'}
 
 tmap::tm_shape(afripop2020) +
     tm_raster(palette = rev(viridisLite::magma(5)), breaks=c(0,2,20,200,2000,25000)) +
@@ -413,7 +413,7 @@ This is the identical code from the previous section but shown in view mode.
 htmlwidgets::setWidgetIdSeed(6)
 ```
 
-```{r tmap-interactive, exercise = TRUE, exercise.eval = TRUE, message = FALSE, warning = FALSE, exercise.setup='set-crs-and-tmap-mode'}
+```{r tmap-interactive, exercise = TRUE, exercise.eval = F, message = FALSE, warning = FALSE, exercise.setup='set-crs-and-tmap-mode'}
 
 tmap_mode('view') 
 
