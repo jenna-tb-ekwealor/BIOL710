@@ -445,6 +445,26 @@ myobject2 <- raster::raster(filename2)
 
 ```
 
+Plot the files:
+```{r plotfilenames-setup}
+library(sf)
+```
+
+```{r plotfilenames, exercise = TRUE}
+plot(___)
+plot(___)
+```
+
+```{r plotfilenames-solution}
+plot(myobject1)
+plot(myobject2)
+```
+
+```{r plotfilenames-check}
+# check code
+gradethis::grade_code()
+```
+
 ## Summary
 
 Good persistence for getting this far !
