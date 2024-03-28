@@ -23,10 +23,18 @@ Imports:
     mosaic,
     shiny,
     leaflet
+    sf
+	tmap
+	raster
+	mapview
+    gapminder
+    kableExtra
+    viridisLite
 Remotes: 
     rstudio-education/gradethis,
     rundel/learnrhash,
     rstudio/learnr
+    afrimapr/afrilearndata
 Depends: 
     R (>= 2.10),
     tidyverse
