@@ -1,5 +1,5 @@
 ---
-title: "Exploring Biological Data"
+title: "Exploring biological data in R"
 output: 
   learnr::tutorial:
     progressive: true
