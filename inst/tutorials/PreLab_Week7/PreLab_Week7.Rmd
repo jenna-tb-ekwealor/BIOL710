@@ -1,9 +1,9 @@
 ---
-  title: "'Foundations for statistical inference - Confidence intervals'"
+title: "Foundations for statistical inference - Confidence intervals"
 output: 
   learnr::tutorial:
-  progressive: true
-allow_skip: true
+    progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 editor_options: 
   markdown: 
