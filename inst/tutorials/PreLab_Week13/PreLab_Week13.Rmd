@@ -129,7 +129,7 @@ uuid <- get_uuid(name = "Canis lupus")
 img <- get_phylopic(uuid = uuid)
 
 p <- ggplot() +
-  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
+  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) 
 p
 ```
 
