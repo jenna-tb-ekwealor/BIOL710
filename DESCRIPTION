@@ -29,7 +29,8 @@ Imports:
 	mapview,
     gapminder,
     kableExtra,
-    viridisLite
+    viridisLite,
+    rphylopic
 Remotes: 
     rstudio-education/gradethis,
     rundel/learnrhash,
