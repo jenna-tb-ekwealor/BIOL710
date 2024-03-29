@@ -74,38 +74,93 @@ As multiple silhouettes can exist for a searched name, it can be difficult to pi
 # It's difficult to pick without seeing the image itself, let's use:
 img <- pick_phylopic(name = "Canis lupus", n = 4, view = 4)
 ```
+![](interactive_canis.png)
+When running in RStudio, the image optins will show in the Plots viewer and in the Console you'll get a prompt to select your choice, which will then be saved as `img`.
+
+```{}
+Choose an option (1/1 pages): 
+
+1: Gabriela Palomo-Munoz (2022-08-13).
+   License: https://creativecommons.org/licenses/by-nc/3.0/
+2: Margot Michaud (2018-03-14).
+   License: https://creativecommons.org/publicdomain/zero/1.0/
+3: César Camilo Julián Caballero (2018-11-28).
+   License: https://creativecommons.org/licenses/by/3.0/
+4: Margot Michaud (2018-03-14).
+   License: https://creativecommons.org/publicdomain/zero/1.0/
+5: Next
+
+Selection: pick_phylopic(name = "Canis lupus", n = 4, view = 4)
+Enter an item from the menu, or 0 to exit
+Selection: <enter selection here>
+```
+Following that, you'll get some more information about your choice.
+```{}
+[1] "113d2520-9f92-456f-b305-52ee3986172d"
+PhyloPic silhouette object (vector format)
+Dimensions: 1767 pixels wide and 1479 pixels tall
+uuid: 113d2520-9f92-456f-b305-52ee3986172d
+URL: https://images.phylopic.org/images/113d2520-9f92-456f-b305-52ee3986172d/vector.svg
+```
 
 ## Plot an image
 Now we have selected our silhouette, we can make a plot!
+
+```{r plot1-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+```
 
 ```{r plot1, exercise = TRUE}
 p <- ggplot() +
   coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
   add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
+p
 ```
 
 ```{r plot2-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+
 p <- ggplot() +
   coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
   add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
+p
 ```
 
 ```{r plot2, exercise = TRUE}
 # But can't we just add an image straight away using the UUID? Sure!
 uuid <- get_uuid(name = "Canis lupus", n = 1)
 p <- p + add_phylopic(uuid = uuid, x = 1, y = 1, ysize = 0.25)
+p
 ```
 
 ```{r plot3-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+
 p <- ggplot() +
   coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
   add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
+p
 ```
 
 You can actually skip the steps of getting the UUID altogether by just searching for the desired taxon in `add_phylopic()`. However, this will always return the first matched silhouette meaning you might be missing out on all the other options! It’s always worth checking out your options with `pick_phylopic()` first.
 
 ```{r plot3, exercise = TRUE}
 # What about just using the first image linked to the name? Definitely!
+p <- ggplot() +
+  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4))
+
 p + add_phylopic(name = "Canis lupus", x = 0.75, y = 0.75, ysize = 0.25)
 ```
 
@@ -116,21 +171,21 @@ Once a silhouette is picked and saved in the your R environment, it may be usefu
 
 The `flip_phylopic()` function can be used to flip a silhouette horizontally and/or vertically. This may be useful if, for example, you want all of the silhouettes to face the same direction.
 
-```
+```{}
 # Flip silhouette horizontally
 img_flip <- flip_phylopic(img = img, horizontal = TRUE, vertical = FALSE)
 ```
 
 The `rotate_phylopic()` function can be used to rotate a silhouette an arbitrary number of degrees. This may be useful when trying to align a silhouette with text or other objects within a figure.
 
-```
+```{}
 # Rotate silhouette by 45 degrees
 img_rot <- rotate_phylopic(img = img, angle = 45)
 ```
 
 Finally, the `recolor_phylopic()` function can be used to modify the fill color, outline color, and/or transparency of a silhouette. The vast majority of PhyloPic silhouettes are solid black, are fully opaque, and have a transparent outline by default. However, it may be useful to change this when the you are trying to either match an existing visualization color palette or trying to convey extra information, such as categorical data, through color.
 
-```
+```{}
 # Change fill color to blue and transparency to 50%
 img_col <- recolor_phylopic(img = img, alpha = 0.5, fill = "blue")
 ```
