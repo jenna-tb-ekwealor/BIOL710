@@ -181,6 +181,7 @@ img <- get_phylopic(uuid = uuid)
 ```{r flip, exercise = TRUE}
 # Flip silhouette horizontally
 img_flip <- flip_phylopic(img = img, horizontal = TRUE, vertical = FALSE)
+plot(img_flip)
 ```
 
 The `rotate_phylopic()` function can be used to rotate a silhouette an arbitrary number of degrees. This may be useful when trying to align a silhouette with text or other objects within a figure.
@@ -197,6 +198,7 @@ img <- get_phylopic(uuid = uuid)
 ```{r rotate, exercise = TRUE}
 # Rotate silhouette by 45 degrees
 img_rot <- rotate_phylopic(img = img, angle = 45)
+plot(img_rot)
 ```
 
 Finally, the `recolor_phylopic()` function can be used to modify the fill color, outline color, and/or transparency of a silhouette. The vast majority of PhyloPic silhouettes are solid black, are fully opaque, and have a transparent outline by default. However, it may be useful to change this when the you are trying to either match an existing visualization color palette or trying to convey extra information, such as categorical data, through color.
@@ -212,6 +214,7 @@ img <- get_phylopic(uuid = uuid)
 ```{r col, exercise = TRUE}
 # Change fill color to blue and transparency to 50%
 img_col <- recolor_phylopic(img = img, alpha = 0.5, fill = "blue")
+plot(img_col)
 ```
 
 ```{r plot-transform-setup}
