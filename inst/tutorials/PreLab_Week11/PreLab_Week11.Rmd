@@ -199,7 +199,7 @@ An object of class `phylo` can also have other components, the most common of wh
 We can easily write & read trees to & from files, for example let's read the file `anole.tre`.
 
 ```{r read-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r read, exercise = TRUE, warning = FALSE}
@@ -208,7 +208,7 @@ anolis.tree
 ```
 
 ```{r plote-anole-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 ```
 
 And to plot it:
@@ -218,7 +218,7 @@ plotTree(anolis.tree, ftype = "i", fsize = 0.6, lwd = 1)
 
 Often you want to find out some details about a tree, like the number of tips it has:
 ```{r ntip-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r ntip, exercise = TRUE}
@@ -244,7 +244,7 @@ There are a range of ways in which we can plot trees in R.
 For instance, we can easily create an unrooted cladogram of the Anolis phylogeny we read in earlier. Let's do that:
 
 ```{r unrooted-anole-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r unrooted-anole, exercise = TRUE}
@@ -256,7 +256,7 @@ plot(unroot(anolis.tree), type = "unrooted", cex = 0.6,
 Another convenient plotting method for large rooted trees is a circular or 'fan' tree:
 
 ```{r fan-anole-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r fan-anole, exercise = TRUE}
@@ -269,7 +269,7 @@ It is pretty easy to drop species from the tree, or to extract clades. For insta
 First, let's find them:
 
 ```{r grep-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r grep, exercise = TRUE}
@@ -281,7 +281,7 @@ ii
 ```
 
 ```{r tiplabels-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
     
@@ -294,7 +294,7 @@ pr.species
 ```
 
 ```{r arrows-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
     
@@ -311,7 +311,7 @@ add.arrow(anolis.tree,tip = ii, arrl = 1)
 
 Now let's prune these species from the tree:
 ```{r prune-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
 ii <- sapply(pr.species, grep, anolis.tree$tip.label)
@@ -327,7 +327,7 @@ plotTree(anolis.noPR, type="fan", fsize=0.7, lwd=1,
 
 Or, we can extract the clade that includes all but two of the species with the function `fastMRCA`. MRCA stands for "most recent common ancestor" and this function finds the node that is the most recent ancestor shaared by the tips you've provided, in this case *Anolis evermanni* and *Anolis cristatellus*. 
 ```{r extract-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
 ii <- sapply(pr.species, grep, anolis.tree$tip.label)
@@ -344,7 +344,7 @@ plotTree(pr.clade, ftype="i")
 
 Now, let's prune *everything* in the tree except these species:
 ```{r prune-everything-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
 ii <- sapply(pr.species, grep, anolis.tree$tip.label)
@@ -359,7 +359,7 @@ plotTree(pr.tree, ftype = "i")
 ```
 Finally, we can do it interactively using collapseTree
 ```{r interactive-prune-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
     
@@ -548,7 +548,7 @@ Finally, it is sometimes useful to store multiple phylogenies in a single object
 Multiple trees are stored as an object of class `multiPhylo`. This is just a list of objects of class `phylo`, with the class attribute `multiPhylo`. Many, but not all, functions in “ape”, “phytools”, and other R packages can be applied to both `phylo` and `multiPhylo` objects. For instance let's take some trees that we've already made and combine them into a single object:
 
 ```{r multiple-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
 ii <- sapply(pr.species, grep, anolis.tree$tip.label)
@@ -568,7 +568,7 @@ print(anolis.trees, details = TRUE)
 
 You can write multitrees to a file, too:
 ```{r write-multi-setup}
-anolis.tree <- read.tree(anole.tre)
+anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
     "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
 ii <- sapply(pr.species, grep, anolis.tree$tip.label)
