@@ -130,7 +130,6 @@ img <- get_phylopic(uuid = uuid)
 
 p <- ggplot() +
   coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
-  add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
 p
 ```
 
@@ -171,21 +170,63 @@ Once a silhouette is picked and saved in the your R environment, it may be usefu
 
 The `flip_phylopic()` function can be used to flip a silhouette horizontally and/or vertically. This may be useful if, for example, you want all of the silhouettes to face the same direction.
 
-```{}
+```{r flip-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+```
+
+```{r flip, exercise = TRUE}
 # Flip silhouette horizontally
 img_flip <- flip_phylopic(img = img, horizontal = TRUE, vertical = FALSE)
 ```
 
 The `rotate_phylopic()` function can be used to rotate a silhouette an arbitrary number of degrees. This may be useful when trying to align a silhouette with text or other objects within a figure.
 
-```{}
+```{r rotate-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+```
+
+
+```{r rotate, exercise = TRUE}
 # Rotate silhouette by 45 degrees
 img_rot <- rotate_phylopic(img = img, angle = 45)
 ```
 
 Finally, the `recolor_phylopic()` function can be used to modify the fill color, outline color, and/or transparency of a silhouette. The vast majority of PhyloPic silhouettes are solid black, are fully opaque, and have a transparent outline by default. However, it may be useful to change this when the you are trying to either match an existing visualization color palette or trying to convey extra information, such as categorical data, through color.
 
-```{}
+```{r col-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+```
+
+```{r col, exercise = TRUE}
+# Change fill color to blue and transparency to 50%
+img_col <- recolor_phylopic(img = img, alpha = 0.5, fill = "blue")
+```
+
+```{r plot-transform-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+
+# Flip silhouette horizontally
+img_flip <- flip_phylopic(img = img, horizontal = TRUE, vertical = FALSE)
+
+# Rotate silhouette by 45 degrees
+img_rot <- rotate_phylopic(img = img, angle = 45)
+
 # Change fill color to blue and transparency to 50%
 img_col <- recolor_phylopic(img = img, alpha = 0.5, fill = "blue")
 ```
