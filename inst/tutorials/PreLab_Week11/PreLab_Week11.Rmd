@@ -167,7 +167,7 @@ Here we have overlain the 'node numbers' - the indices from the `phylo` object e
 tree <- read.tree(text = "(((A,B),(C,D)),E);") 
 ```
 
-```{r labels-setup, exercise = TRUE}
+```{r labels, exercise = TRUE}
 tree$edge
 ```
 
@@ -325,7 +325,7 @@ ii <- sapply(pr.species, grep, anolis.tree$tip.label)
 pr.species<-anolis.tree$tip.label[ii]
 ```
 
-```{r extract-setup}
+```{r extract, exercise = TRUE}
 node <- fastMRCA(anolis.tree,"Anolis_evermanni", "Anolis_cristatellus")
 
 pr.clade <- extract.clade(anolis.tree, node)
