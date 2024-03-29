@@ -399,7 +399,7 @@ Lots of other manipulations are possible in R, but here are some simple ones. We
 
 When simulating or generating data, setting a seed ensures the same results each time you run it, or when others run your code. This will ensure we all have the same resulst in this pre-lab. 
 
-```{r binary, exercise = TRUE}
+```{r generate, exercise = TRUE}
 set.seed(1) 
 
 tree <- rtree(n = 40) # generate a random tree with 40 tips
