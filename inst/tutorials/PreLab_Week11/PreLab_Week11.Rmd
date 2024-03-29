@@ -139,7 +139,7 @@ get_attribution(uuid = uuid, text = TRUE)
 
 If you use rphylopic in your research, please cite the associated publication. This will help us to continue our work in supporting you to do yours. You can access the appropriate citation via:
 
-```{r attribution-2, exercise = TRUE}
+```{r citation, exercise = TRUE}
 citation("rphylopic")
 ```
 
