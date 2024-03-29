@@ -260,7 +260,7 @@ htmlwidgets::setWidgetIdSeed(1)
 
 Plot the map with point color scaled to population of each city. *Hint:* use `colnames(africapitals)` to view column names. 
 
-```{r tmappoints2, exercise = T}
+```{r tmappoints2, exercise = TRUE}
 tm_shape(___) + 
   tm_symbols(col = ___)  
 ```
