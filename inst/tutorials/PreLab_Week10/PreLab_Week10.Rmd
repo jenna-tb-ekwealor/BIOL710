@@ -251,7 +251,7 @@ tm_shape(africapitals) +
 
 Then `+` to add code that defines how the data are displayed, e.g. `tm_symbols()` for points. Extra arguments can be specified to modify the data display, such as color of points with `tm_symbols(col = "blue")`. You can set the colour of each point according to the data value stored in a column with `col=[column_name]`.
 
-```{r tmap-points2-setup, message=FALSE}
+```{r tmappoints2-setup, message=FALSE}
 # to avoid issues with interactive maps https://github.com/rstudio/learnr/issues/529
 # IdSeed must be set to be unique in the Rmd, even for mode('plot') to allow user to change
 tmap_mode("plot")
@@ -260,17 +260,17 @@ htmlwidgets::setWidgetIdSeed(1)
 
 Plot the map with point color scaled to population of each city. *Hint:* use `colnames(africapitals)` to view column names. 
 
-```{r tmap-points2, exercise = T}
+```{r tmappoints2, exercise = T}
 tm_shape(___) + 
   tm_symbols(col = ___)  
 ```
 
-```{r tmap-points2-solution, include = T}
+```{r tmappoints2-solution}
 tm_shape(africapitals) + 
   tm_symbols(col = "pop")  
 ```
 
-```{r tmap-points2-check}
+```{r tmappoints2-check}
 # check code
 gradethis::grade_code()
 ```
