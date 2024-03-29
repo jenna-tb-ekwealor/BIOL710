@@ -496,7 +496,7 @@ This is a start; there are plenty of other options (e.g. maps can also be made w
 
 ## Quiz
 
-```{r quiz}
+```{r quiz, exercise = TRUE}
 quiz(
   question("What is the term for point, line and polygon data ?",
     answer("raster", message = "raster is gridded data, the other alternative is vector (point,line,polygon)"),
