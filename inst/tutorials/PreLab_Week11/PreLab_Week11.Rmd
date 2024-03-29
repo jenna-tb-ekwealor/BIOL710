@@ -1,0 +1,165 @@
+---
+title: "Adding organisms to plots with Rphylopic"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE,message=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::clean_cache()
+library('rphylopic')
+library('ggplot2')
+# th <- theme_void() 
+# theme_set(th)
+```
+
+## Introduction
+rphylopic is a package that allows users to easily fetch and visualize silhouettes of organisms from PhyloPic. The package allows users to add silhouettes as layers or as data points to plots. This pre-lab will give you an overview of the package and provide example usage.
+
+## Search for an organism
+
+Every silhouette available via PhyloPic has a universally unique identifier (UUID). The first step to get a PhyloPic silhouette into R is to get a UUID. To do so via rphylopic you can use the `get_uuid()` function to search PhyloPic based on a taxonomic or phylogenetic name (e.g., **Canis lupus** or pan-**Mollusca**) and return the first matched UUID. Using the returned UUID, you can then fetch the respective silhouette using `get_phylopic()`. However, multiple silhouettes (and hence UUIDs) can exist for a searched name. The n argument in `get_uuid()` allows you to fetch n matched UUIDs.
+
+```{r get-uuid, exercise = TRUE}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+# But multiple silhouettes can exist per species...
+uuid <- get_uuid(name = "Canis lupus", n = 5)
+```
+
+## Pick an image
+
+As multiple silhouettes can exist for a searched name, it can be difficult to pick the correct UUID, especially without visualizing the images. The pick_phylopic() function plots all requested silhouettes and provides an interactive menu to allow you to select the right image for you. Let’s go with option 1!
+
+```{r pick, exercise = TRUE}
+# It's difficult to pick without seeing the image itself, let's use:
+img <- pick_phylopic(name = "Canis lupus", n = 4, view = 4)
+```
+
+## Plot an image
+Now we have selected our silhouette, we can make a plot!
+
+```{r plot1, exercise = TRUE}
+p <- ggplot() +
+  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
+  add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
+```
+
+```{r plot2-setup}
+p <- ggplot() +
+  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
+  add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
+```
+
+```{r plot2, exercise = TRUE}
+# But can't we just add an image straight away using the UUID? Sure!
+uuid <- get_uuid(name = "Canis lupus", n = 1)
+p <- p + add_phylopic(uuid = uuid, x = 1, y = 1, ysize = 0.25)
+```
+
+```{r plot3-setup}
+p <- ggplot() +
+  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
+  add_phylopic(img = img, x = 1.25, y = 1.25, ysize = 0.25)
+```
+
+You can actually skip the steps of getting the UUID altogether by just searching for the desired taxon in `add_phylopic()`. However, this will always return the first matched silhouette meaning you might be missing out on all the other options! It’s always worth checking out your options with `pick_phylopic()` first.
+
+```{r plot3, exercise = TRUE}
+# What about just using the first image linked to the name? Definitely!
+p + add_phylopic(name = "Canis lupus", x = 0.75, y = 0.75, ysize = 0.25)
+```
+
+
+## Transforming silhouettes
+
+Once a silhouette is picked and saved in the your R environment, it may be useful to transform the image to better suit the particular visualization of interest. We have implemented three user-friendly functions to accommodate three transformations that might be desired: flipping, rotating, and recoloring.
+
+The `flip_phylopic()` function can be used to flip a silhouette horizontally and/or vertically. This may be useful if, for example, you want all of the silhouettes to face the same direction.
+
+```
+# Flip silhouette horizontally
+img_flip <- flip_phylopic(img = img, horizontal = TRUE, vertical = FALSE)
+```
+
+The `rotate_phylopic()` function can be used to rotate a silhouette an arbitrary number of degrees. This may be useful when trying to align a silhouette with text or other objects within a figure.
+
+```
+# Rotate silhouette by 45 degrees
+img_rot <- rotate_phylopic(img = img, angle = 45)
+```
+
+Finally, the `recolor_phylopic()` function can be used to modify the fill color, outline color, and/or transparency of a silhouette. The vast majority of PhyloPic silhouettes are solid black, are fully opaque, and have a transparent outline by default. However, it may be useful to change this when the you are trying to either match an existing visualization color palette or trying to convey extra information, such as categorical data, through color.
+
+```
+# Change fill color to blue and transparency to 50%
+img_col <- recolor_phylopic(img = img, alpha = 0.5, fill = "blue")
+```
+
+Let’s see what those look like in the same plot:
+```{r plot-transform, exercise = TRUE}
+ggplot() +
+  coord_cartesian(xlim = c(0.6, 1.4), ylim = c(0.6, 1.4)) +
+  add_phylopic(img = img_flip, x = 1.25, y = 1.25, ysize = 0.25) +
+  add_phylopic(img = img_rot, x = 1, y = 1, ysize = 0.25) +
+  add_phylopic(img = img_col, x = 0.75, y = 0.75, ysize = 0.25,
+               fill = "original")
+```
+
+You’ll notice that the rotated silhouette is smaller than the other two silhouettes. This is because our functions have arguments to specify the height (`ysize`). The width is automatically set to maintain the original aspect ratio of the silhouette. In this case, the aspect ratio of the rotated silhouette has changed, so the same height results in a smaller silhouette overall.
+
+For convenience, we have also included these transformation options within all of the visualization functions. The default fill is “black”, hence why we needed to specify `fill = "original"` above. However, when the same transformed silhouette will be used for multiple visualizations, we suggest transforming the silhouette first, saving it as a new object, then using this new object for visualization purposes.
+
+## Get attribution
+Now that you’ve made a plot and used some silhouettes, you should acknowledge the contributors that made those silhouettes and the package. Fortunately, rphylopic includes the `get_attribution()` function to get contributor data about specific images:
+
+```{r attribution, exercise = TRUE}
+# Get valid uuid
+uuid <- get_uuid(name = "Nycticebus")
+# Get attribution data for uuid
+get_attribution(uuid = uuid)
+```
+
+
+```{r attribution-2-setup}
+# Get valid uuid
+uuid <- get_uuid(name = "Nycticebus")
+```
+
+```{r attribution-2, exercise = TRUE}
+# Get attribution data for uuid
+get_attribution(uuid = uuid, text = TRUE)
+```
+
+If you use rphylopic in your research, please cite the associated publication. This will help us to continue our work in supporting you to do yours. You can access the appropriate citation via:
+
+```{r citation, exercise = TRUE}
+citation("rphylopic")
+```
+
+## Submit checkpoint
+
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = T)
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSfKAR9MMxfAR8EWsCi-U2Ow4SjsejLlAUba14FBsch-gox0Gg/viewform?usp=sf_link",
+    width="900px", height= "1000px"
+  )
+)
+```
+
+
+* * *
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. This tutorial was adapted from the CRAN vignette for  the package `rphylopic`: An R package for fetching, transforming, and visualising PhyloPic silhouettes (2023) by William Gearty and Lewis A. Jones [https://CRAN.R-project.org/package=rphylopic]([https://CRAN.R-project.org/package=rphylopic), then was adapted by Jenna Ekwealor.
