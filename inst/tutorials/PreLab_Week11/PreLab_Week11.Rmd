@@ -1,5 +1,5 @@
 ---
-  title: "PhyloPic"
+title: "Adding organisms to plots with Rphylopic"
 output: 
   learnr::tutorial:
     progressive: true
@@ -16,6 +16,9 @@ library('ggplot2')
 # th <- theme_void() 
 # theme_set(th)
 ```
+
+### Introduction
+rphylopic is a package that allows users to easily fetch and visualize silhouettes of organisms from PhyloPic. The package allows users to add silhouettes as layers or as data points to plots. This pre-lab will give you an overview of the package and provide example usage.
 
 ### Search for an organism
 
@@ -114,7 +117,7 @@ You’ll notice that the rotated silhouette is smaller than the other two silhou
 For convenience, we have also included these transformation options within all of the visualization functions. The default fill is “black”, hence why we needed to specify `fill = "original"` above. However, when the same transformed silhouette will be used for multiple visualizations, we suggest transforming the silhouette first, saving it as a new object, then using this new object for visualization purposes.
 
 ### Get attribution
-Now that you’ve made a plot and used some silhouettes, you should acknowledge the contributors that made those silhouettes. Fortunately, rphylopic includes the `get_attribution()` function to get contributor data about specific images:
+Now that you’ve made a plot and used some silhouettes, you should acknowledge the contributors that made those silhouettes and the package. Fortunately, rphylopic includes the `get_attribution()` function to get contributor data about specific images:
 
 ```{r attribution, exercise = TRUE}
 # Get valid uuid
@@ -132,6 +135,12 @@ uuid <- get_uuid(name = "Nycticebus")
 ```{r attribution-2, exercise = TRUE}
 # Get attribution data for uuid
 get_attribution(uuid = uuid, text = TRUE)
+```
+
+If you use rphylopic in your research, please cite the associated publication. This will help us to continue our work in supporting you to do yours. You can access the appropriate citation via:
+
+```{r attribution-2, exercise = TRUE}
+citation("rphylopic")
 ```
 
 ## Submit checkpoint
@@ -154,5 +163,3 @@ learnrhash::encoder_ui(
 * * *
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. This tutorial was adapted from the CRAN vignette for  the package `rphylopic`: An R package for fetching, transforming, and visualising PhyloPic silhouettes (2023) by William Gearty and Lewis A. Jones [https://CRAN.R-project.org/package=rphylopic]([https://CRAN.R-project.org/package=rphylopic), then was adapted by Jenna Ekwealor.
-
-  
