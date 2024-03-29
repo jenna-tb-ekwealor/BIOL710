@@ -30,7 +30,11 @@ Imports:
     gapminder,
     kableExtra,
     viridisLite,
-    rphylopic
+    rphylopic,
+    ape,
+	phangorn,
+	phytools,
+	geiger
 Remotes: 
     rstudio-education/gradethis,
     rundel/learnrhash,
