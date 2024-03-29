@@ -175,11 +175,11 @@ We can see: *1*. that tree$edge has a number of rows equal to the number of edge
 
 The other components of importance are the vector `tip.label` and an integer `Nnode` which gives the number of interior nodes in the tree:
 
-```{r components-setup}
+```{r components2-setup}
 tree <- read.tree(text = "(((A,B),(C,D)),E);") 
 ```
 
-```{r components, exercise = TRUE}
+```{r components2, exercise = TRUE}
 tree$tip.label
 tree$Nnode
 ```
