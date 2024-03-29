@@ -1,0 +1,604 @@
+---
+title: "Introduction to phylogenies in R"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+  
+```{r setup, include=FALSE,message=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::clean_cache()
+library(tidyverse)
+# th <- theme_void() 
+# theme_set(th)
+```
+
+## Introduction
+This pre-lab is a modified version of a `phytools` tutorial by Liam J. Revell. It wll is intended to serve as a basic introduction to phylogenies in the R language and statistical computing environment. 
+
+
+
+## R phylogenetics packages
+
+R phylogenetics is built on the contributed packages for phylogenetics in R, and there are many such packages. Let's begin today by installing a few critical packages, such as ape, phangorn, phytools, and geiger. To get the most recent CRAN version of these packages, you will need to have an updated version of R!
+
+In RStudio, you can see what version of R you are using at the top of the Console or by the code `R.version`. 
+
+```{r load-packages, exercise = TRUE}
+library("ape")
+library("phangorn")
+library("phytools")
+library("geiger")
+```
+
+Knowing the package version is important for reproducing results and for ensuring your work is reproducible by reporting the version of each package you use. This becomes particularly important with fields that are rapidly changing with increased computational power, like in statistical phylogenetics. 
+
+You can also check your package version by running `packageVersion("<package>")`.
+```{r package-version}
+packageVersion("ape")
+
+packageVersion("phangorn")
+
+packageVersion("phytools")
+
+packageVersion("geiger")
+```
+
+
+Installing automatically from CRAN using install.packages installs not only your target package - but also any libraries on which that package depends, if that package has not yet been installed.
+
+It is also possible to install more recent development versions of some R packages from GitHub using the package devtools. For instance, we can install the most recent development version of phytools from GitHub as follows:
+
+```{}
+library(devtools)
+install_github("liamrevell/phytools")
+```
+
+
+## Plotting trees
+
+Now we've installed critical packages (ape, phangorn, phytools, geiger). The most important core package for phylogenies in R is called “ape”, which stands for **A**nalysis of **P**hylogenetics and **E**volution in R.
+
+
+`ape` does many different things. To get started let's read a 'toy' example vertebrate tree from a Newick text string. Newick is a formot for phylogenetic trees that is encoded by nested sets of parentheses. 
+
+```{r readtree, exercise = TRUE}
+## read tree from string
+text.string <-
+    "(((((((cow, pig),whale),(bat,(lemur,human))),(robin,iguana)),coelacanth),gold_fish),shark);"
+
+vert.tree <- read.tree(text = text.string)
+```
+
+```{r plot-vert-tree-setup}
+## read tree from string
+text.string <-
+    "(((((((cow, pig),whale),(bat,(lemur,human))),(robin,iguana)),coelacanth),gold_fish),shark);"
+
+vert.tree <- read.tree(text = text.string)
+```
+
+We can visualize this phylogeny in R in a number of different ways. Let's plot this phylogeny in three different styles:
+
+```{r plot-vert-tree, exercise = TRUE}
+plot(vert.tree, no.margin = TRUE, edge.width = 2)
+```
+
+```{r plot-round-tree-setup}
+## read tree from string
+text.string <-
+    "(((((((cow, pig),whale),(bat,(lemur,human))),(robin,iguana)),coelacanth),gold_fish),shark);"
+
+vert.tree <- read.tree(text = text.string)
+```
+
+```{r plot-round-tree, exercise = TRUE}
+roundPhylogram(vert.tree)
+```
+
+
+```{r plot-unrooted-tree-setup}
+## read tree from string
+text.string <-
+    "(((((((cow, pig),whale),(bat,(lemur,human))),(robin,iguana)),coelacanth),gold_fish),shark);"
+
+vert.tree <- read.tree(text = text.string)
+```
+
+```{r plot-unrooted-tree, exercise = TRUE}
+plot(unroot(vert.tree), type = "unrooted", no.margin = TRUE, lab4ut = "axial", 
+    edge.width = 2)
+```
+
+
+## The `phylo` object in R
+The object created in memory when we simulate or estimate a phylogeny, or read one from an input file, is a list of class `phylo`.
+
+Remember, a list is just a customizable object type that can combine different objects of different types. For instance, a list might have a vector of real numbers (with mode `numeric`) as its first element; and then a vector of strings (with mode `character`) as its second element; and so on. Assigning our tree with a special class, `phylo`, is just a convenient way to tell special functions in R how to treat that object.
+
+An object of class `phylo` has at least three parts. These are normally hidden, for instance, just typing the name of your `phylo` object does not give you the structure in memory, as it does for many R objects.
+
+Instead, something called an S3 `print` method is activate to print to screen a summary of some of the important attributes of that object.
+
+```{r phylo-object-setup}
+## read tree from string
+text.string <-
+    "(((((((cow, pig),whale),(bat,(lemur,human))),(robin,iguana)),coelacanth),gold_fish),shark);"
+
+vert.tree <- read.tree(text = text.string)
+```
+
+```{r phylo-object, exercise = TRUE}
+vert.tree
+```
+
+We can, however, reveal the internal structure of our object as follows:
+
+```{r phylo-str-setup}
+## read tree from string
+text.string <-
+    "(((((((cow, pig),whale),(bat,(lemur,human))),(robin,iguana)),coelacanth),gold_fish),shark);"
+
+vert.tree <- read.tree(text = text.string)
+```
+
+```{r phylo-str, exercise = TRUE}
+str(vert.tree)
+```
+
+
+To understand the structure of a `phylo` object a little bit more clearly, let's read in a much simpler phylogeny, and then decompose it to its essential components:
+
+```{r components, exercise = TRUE}
+tree <- read.tree(text = "(((A,B),(C,D)),E);") # could also be a file instead of text = 
+plotTree(tree, offset = 1)
+
+tiplabels() # add labels at the tips
+
+nodelabels() # add labels at the nodes
+```
+
+Here we have overlain the 'node numbers' - the indices from the `phylo` object edge which is a matrix containing the starting & ending node indices for each edge:
+
+```{r labels-setup}
+tree <- read.tree(text = "(((A,B),(C,D)),E);") 
+```
+
+```{r labels-setup, exercise = TRUE}
+tree$edge
+```
+
+We can see: *1*. that tree$edge has a number of rows equal to the number of edges (8) in this tree; and *2*. that each edge starts and ends with a unique pair of indices. Furthermore, by convention the indices 1 through **N** for **N** tips correspond with the tip nodes (species) in the tree.
+
+The other components of importance are the vector `tip.label` and an integer `Nnode` which gives the number of interior nodes in the tree:
+
+```{r components-setup}
+tree <- read.tree(text = "(((A,B),(C,D)),E);") 
+```
+
+```{r components, exercise = TRUE}
+tree$tip.label
+tree$Nnode
+```
+
+An object of class `phylo` also (by definition) has at least one attribute - its class. This is just a value to tell various methods in R what to do with an object of this type. For instance, if we call the method plot, R knows to use the method plot.phylo in the R package “ape”.
+
+An object of class `phylo` can also have other components, the most common of which is edge.length (a vector of class `numeric` containing all the edge lengths). In addition, other elements & attributes can be added for special types of phylogenetic trees.
+
+
+## Writing & reading phylogenetic trees
+
+We can easily write & read trees to & from files, for example let's read the file `anole.tre`.
+
+```{r read, exercise = TRUE}
+anolis.tree <- read.tree(file = "anole.tre")
+anolis.tree
+```
+
+```{r plote-anole-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+```
+
+And to plot it:
+```{r plote-anole, exercise = TRUE}
+plotTree(anolis.tree, ftype = "i", fsize = 0.6, lwd = 1)
+```
+
+Often you want to find out some details about a tree, like the number of tips it has:
+```{r ntip-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+```
+
+```{r ntip, exercise = TRUE}
+Ntip(anolis.tree)
+```
+82 species of lizards in the neotropical lizard genus *Anolis.*
+
+```{r write-setup}
+tree <- read.tree(text = "(((A,B),(C,D)),E);")
+```
+
+```{r write, exercise = TRUE}
+write.tree(tree, file = "example.tre")
+
+# this is what our file looks like (you can open it to check)
+cat(readLines("example.tre"), sep = "\n")
+```
+
+## Plotting, & manipulating trees
+
+There are a range of ways in which we can plot trees in R.
+
+For instance, we can easily create an unrooted cladogram of the Anolis phylogeny we read in earlier. Let's do that:
+
+```{r unrooted-anole-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+```
+
+```{r unrooted-anole, exercise = TRUE}
+plot(unroot(anolis.tree), type = "unrooted", cex = 0.6,
+    use.edge.length = FALSE, lab4ut = "axial",
+    no.margin = TRUE)
+```
+
+Another convenient plotting method for large rooted trees is a circular or 'fan' tree:
+
+```{r fan-anole-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+```
+
+```{r fan-anole, exercise = TRUE}
+plotTree(anolis.tree, type = "fan", fsize = 0.7, lwd = 1,
+    ftype = "i")
+```
+
+It is pretty easy to drop species from the tree, or to extract clades. For instance the anoles from Puerto Rico (in this phylogeny) consist of *A. cristatellus*, *A. cooki*, *A. poncensis*, *A. gundlachi*, *A. pulchellus*, *A. stratulus*, and *A. evermanni* (which form a clade), as well as *A. occultus* and *A. cuvieri*.
+
+First, let's find them:
+
+```{r grep-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+```
+
+```{r grep, exercise = TRUE}
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+    
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+ii
+```
+
+```{r tiplabels-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+    
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+```
+
+```{r tiplabels, exercise = TRUE}
+pr.species<-anolis.tree$tip.label[ii]
+pr.species
+```
+
+```{r arrows-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+    
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+```
+
+```{r arrows, exercise = TRUE}
+plotTree(anolis.tree, type = "fan", fsize = 0.7, lwd = 1,
+    ftype = "i")
+
+add.arrow(anolis.tree,tip = ii, arrl = 1)
+```
+
+Now let's prune these species from the tree:
+```{r prune-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+```
+
+```{r prune, exercise = TRUE}
+anolis.noPR <- drop.tip(anolis.tree,pr.species)
+
+plotTree(anolis.noPR, type="fan", fsize=0.7, lwd=1, 
+    ftype="i")
+```
+
+Or, we can extract the clade that includes all but two of the species with the function `fastMRCA`. MRCA stands for "most recent common ancestor" and this function finds the node that is the most recent ancestor shaared by the tips you've provided, in this case *Anolis evermanni* and *Anolis cristatellus*. 
+```{r extract-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+```
+
+```{r extract-setup}
+node <- fastMRCA(anolis.tree,"Anolis_evermanni", "Anolis_cristatellus")
+
+pr.clade <- extract.clade(anolis.tree, node)
+
+plotTree(pr.clade, ftype="i")
+```
+
+Now, let's prune *everything* in the tree except these species:
+```{r prune-everything-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+```
+
+```{r prune-everything, exercise = TRUE}
+pr.tree <- drop.tip(anolis.tree, 
+    setdiff(anolis.tree$tip.label, pr.species))
+
+plotTree(pr.tree, ftype = "i")
+```
+Finally, we can do it interactively using collapseTree
+```{r interactive-prune-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+    
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+```
+
+```{r interactive-prune, exercise = TRUE}
+anolis.pruned <- collapseTree(anolis.tree)
+
+plotTree(anolis.pruned, type = "fan", fsize = 0.7, lwd = 1,
+    ftype = "i")
+```
+
+## Binary & polytomous trees
+
+A standard phylogenetic tree is a bifurcating tree in which each node has exactly 2 descendents. However, some programs write in 'polytomies,' in which a node has >2 descendants, for example due to low resolution in the phylogenetic inference.
+
+`ape` and most other phylogenetics packages are equipped to handle phylogenies that are binary (strictly bifurcating) or multifurcating (contain polytomies); however not all functions will be. We can easily check if our tree is binary, and convert between binary & multifurcating trees.
+
+```{r t1, exercise = TRUE}
+t1 <- read.tree(text = "((A,B,C),D);")
+
+plot(t1, type = "cladogram")
+```
+
+```{r binary-setup}
+t1 <- read.tree(text = "((A,B,C),D);")
+
+plot(t1, type = "cladogram")
+```
+
+```{r binary, exercise = TRUE}
+# randomly resolve polytomies
+t2 <- multi2di(t1)
+
+# plot again
+plot(t2, type="cladogram")
+
+# and check if it is binary
+is.binary.tree(t2)
+```
+
+## Other functions with trees
+Lots of other manipulations are possible in R, but here are some simple ones. We'll generate a random tree with the function `rtree` to play around.
+
+When simulating or generating data, setting a seed ensures the same results each time you run it, or when others run your code. This will ensure we all have the same resulst in this pre-lab. 
+
+```{r binary, exercise = TRUE}
+set.seed(1) 
+
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+
+plotTree(tree, node.numbers = T)
+```
+
+Let's start with rotating nodes. Any node can be rotated on a phylogeny and the relationships in the tree will not be altered. 
+```{r rotate-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+```
+
+```{r rotate, exercise = T}
+# rotate about node #52
+rt.52 <- rotate(tree, 52)
+
+plotTree(rt.52)
+```
+
+Now let's rotate all nodes:
+```{r rotate-all-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+```
+
+```{r rotate-all, exercise = T}
+rt.all <- rotateNodes(tree, "all")
+
+plotTree(rt.all)
+```
+
+Trees can be 'rooted' by any branch or node. A rooted tree sets the orientation of the tree. In other words, it sets the relative order of what came before what. 
+
+```{r reroot-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+```
+
+Re-root the tree at node **67** to see this in action:
+```{r reroot, exercise = T}
+rr.67 <- root(tree, node = ___)
+
+plotTree(rr.67)
+```
+
+```{r reroot-solution}
+rr.67 <- root(tree, node = 67)
+
+plotTree(rr.67)
+```
+
+```{r reroot-check}
+# check code
+gradethis::grade_code()
+```  
+
+Try with other nodes, too!
+
+Rerooting with a node creates a trifurcation at the root. Technically, it is fine but it might not be desirable for some functions or for aesthetic purposes. To avoid this, we can instead root along an 'edge' or branch. If we want it to be node 65, we can use code that specifies it is the branch that subtends node 65:
+
+```{r reroot-edge-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+```
+
+```{r reroot-edge, exercise = T}
+rr.65 <- reroot(tree, 65, position = 0.5*tree$edge.length[which(tree$edge[,2] == 65)])
+
+```
+
+We can also change the position of the root interactively. For instance:
+```{r reroot-interactive-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+```
+
+```{r reroot-interactive, exercise = TRUE}
+rr.interactive <- reroot(tree, interactive = TRUE)
+
+plotTree(rr.interactive)
+```
+
+## Comparing trees
+
+We can, for example, check to see if our trees are equal. Trees with rotated nodes are equal because the relationships are not altered, only the visualization. Let's compare `tree` and the version of that tree in which we rotated all nodes, `rt.tree`:
+
+```{r compare1-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+rt.all <- rotateNodes(tree, "all")
+```
+
+```{r compare1, exercise = TRUE}
+all.equal(tree, rt.all)
+```
+
+Re-rooted trees are not equal even if everything else about them is the same. They each same something different about how evolution occurred (which splitting events came before/after other splitting events). 
+```{r compare2-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+rr.67 <- root(tree, node = 67)
+```
+
+```{r compare2, exercise = TRUE}
+all.equal(tree, rr.67)
+```
+
+However, if two otherwise-equal trees differ only in how they'e been rooted, you can unroot them and they will be equal. Test this below with `tree` and `rr.67`. *Hint:* Use the function `unroot(<tree>)` to unroot each tree.
+```{r compare3-setup}
+set.seed(1) 
+tree <- rtree(n = 40) # generate a random tree with 40 tips
+rr.67 <- root(tree, node = 67)
+```
+
+```{r compare3, exercise = TRUE}
+tree_unrooted <- ___(___)
+rr.67_unrooted <- ___(___)
+all.equal(tree_unrooted, rr.67_unrooted) 
+```
+
+```{r compare3-solution}
+tree_unrooted <- unroot(tree)
+rr.67_unrooted <- unroot(rr.67)
+all.equal(tree_unrooted, rr.67_unrooted) 
+```
+
+```{r compare3-check}
+# check code
+gradethis::grade_code()
+```  
+
+## Multiple trees
+
+Finally, it is sometimes useful to store multiple phylogenies in a single object. This would be the case, for example, if we had a set of trees in a posterior sample from Bayesian phylogeny inference; or if we wanted to replicate a simulation analysis across a large number of phylogenies.
+
+Multiple trees are stored as an object of class `multiPhylo`. This is just a list of objects of class `phylo`, with the class attribute `multiPhylo`. Many, but not all, functions in “ape”, “phytools”, and other R packages can be applied to both `phylo` and `multiPhylo` objects. For instance let's take some trees that we've already made and combine them into a single object:
+
+```{r multiple-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+anolis.noPR <- drop.tip(anolis.tree,pr.species)
+node <- fastMRCA(anolis.tree,"Anolis_evermanni", "Anolis_cristatellus")
+pr.clade <- extract.clade(anolis.tree, node)
+pr.tree <- drop.tip(anolis.tree, 
+    setdiff(anolis.tree$tip.label, pr.species))
+```
+
+
+```{r multiple, exercise = TRUE}
+anolis.trees <- c(anolis.tree, anolis.noPR, pr.clade, pr.tree)
+print(anolis.trees, details = TRUE)
+```
+
+You can write multitrees to a file, too:
+```{r write-multi-setup}
+anolis.tree <- read.tree(file = "anole.tre")
+anolis.tree <- read.tree(file = "anole.tre")
+pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
+    "krugi", "evermanni", "occultus", "cuvieri", "cristatellus")
+ii <- sapply(pr.species, grep, anolis.tree$tip.label)
+pr.species<-anolis.tree$tip.label[ii]
+anolis.noPR <- drop.tip(anolis.tree,pr.species)
+node <- fastMRCA(anolis.tree,"Anolis_evermanni", "Anolis_cristatellus")
+pr.clade <- extract.clade(anolis.tree, node)
+pr.tree <- drop.tip(anolis.tree, 
+    setdiff(anolis.tree$tip.label, pr.species))
+anolis.trees <- c(anolis.tree, anolis.noPR, pr.clade, pr.tree)
+```
+
+```{r write-multi, exercise = TRUE}
+# write to file
+write.tree(anolis.trees, file = "example.trees")
+
+# this is what it looks like:
+cat(readLines("example.trees"), sep = "\n")
+```
+
+
+## Submit checkpoint
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = T)
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSfKAR9MMxfAR8EWsCi-U2Ow4SjsejLlAUba14FBsch-gox0Gg/viewform?usp=sf_link",
+    width="900px", height= "1000px"
+  )
+)
+```
+
+
+* * *
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. This tutorial was adapted from a tutorial for  the package `phytools` by Liam J. Revell. You can see more on his blog [http://blog.phytools.org,](http://blog.phytools.org,), then was adapted by Jenna Ekwealor.
