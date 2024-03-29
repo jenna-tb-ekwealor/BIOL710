@@ -494,9 +494,9 @@ i. reading in data from files using `sf` and `raster`
 
 This is a start; there are plenty of other options (e.g. maps can also be made with the packages `mapview` & `ggplot2`). Have a look at the [afrilearnr-crash-course](https://andysouth.shinyapps.io/afrilearnr-crash-course/) for some potential next steps if you're interested in more advanced mapping. The original authors of this pre-lab welcome feedback [via their website](https://afrimapr.github.io/afrimapr.website/get-involved/).
 
-## Quiz
+## Check your understanding
 
-```{r quiz, exercise = TRUE}
+```{r quiz}
 quiz(
   question("What is the term for point, line and polygon data ?",
     answer("raster", message = "raster is gridded data, the other alternative is vector (point,line,polygon)"),
