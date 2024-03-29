@@ -1,5 +1,5 @@
 ---
-title: "Adding organisms to plots with Rphylopic"
+title: "Adding organisms to plots with rphylopic"
 output: 
   learnr::tutorial:
     progressive: true
@@ -17,10 +17,10 @@ library('ggplot2')
 # theme_set(th)
 ```
 
-### Introduction
+## Introduction
 rphylopic is a package that allows users to easily fetch and visualize silhouettes of organisms from PhyloPic. The package allows users to add silhouettes as layers or as data points to plots. This pre-lab will give you an overview of the package and provide example usage.
 
-### Search for an organism
+## Search for an organism
 
 Every silhouette available via PhyloPic has a universally unique identifier (UUID). The first step to get a PhyloPic silhouette into R is to get a UUID. To do so via rphylopic you can use the `get_uuid()` function to search PhyloPic based on a taxonomic or phylogenetic name (e.g., **Canis lupus** or pan-**Mollusca**) and return the first matched UUID. Using the returned UUID, you can then fetch the respective silhouette using `get_phylopic()`. However, multiple silhouettes (and hence UUIDs) can exist for a searched name. The n argument in `get_uuid()` allows you to fetch n matched UUIDs.
 
@@ -33,7 +33,7 @@ img <- get_phylopic(uuid = uuid)
 uuid <- get_uuid(name = "Canis lupus", n = 5)
 ```
 
-### Pick an image
+## Pick an image
 
 As multiple silhouettes can exist for a searched name, it can be difficult to pick the correct UUID, especially without visualizing the images. The pick_phylopic() function plots all requested silhouettes and provides an interactive menu to allow you to select the right image for you. Let’s go with option 1!
 
@@ -42,7 +42,7 @@ As multiple silhouettes can exist for a searched name, it can be difficult to pi
 img <- pick_phylopic(name = "Canis lupus", n = 4, view = 4)
 ```
 
-### Plot an image
+## Plot an image
 Now we have selected our silhouette, we can make a plot!
 
 ```{r plot1, exercise = TRUE}
@@ -77,7 +77,7 @@ p + add_phylopic(name = "Canis lupus", x = 0.75, y = 0.75, ysize = 0.25)
 ```
 
 
-### Transforming silhouettes
+## Transforming silhouettes
 
 Once a silhouette is picked and saved in the your R environment, it may be useful to transform the image to better suit the particular visualization of interest. We have implemented three user-friendly functions to accommodate three transformations that might be desired: flipping, rotating, and recoloring.
 
@@ -116,7 +116,7 @@ You’ll notice that the rotated silhouette is smaller than the other two silhou
 
 For convenience, we have also included these transformation options within all of the visualization functions. The default fill is “black”, hence why we needed to specify `fill = "original"` above. However, when the same transformed silhouette will be used for multiple visualizations, we suggest transforming the silhouette first, saving it as a new object, then using this new object for visualization purposes.
 
-### Get attribution
+## Get attribution
 Now that you’ve made a plot and used some silhouettes, you should acknowledge the contributors that made those silhouettes and the package. Fortunately, rphylopic includes the `get_attribution()` function to get contributor data about specific images:
 
 ```{r attribution, exercise = TRUE}
