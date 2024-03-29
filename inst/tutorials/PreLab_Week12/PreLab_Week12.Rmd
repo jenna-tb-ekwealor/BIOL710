@@ -112,7 +112,6 @@ no_replicate_column <- ___ %>%
 ```{r vqrkfejzwamyywci-solution}
 no_replicate_column <- bootstrap_samples_organize %>% 
   select(-replicate)
-
 ```
 
 ```{r vqrkfejzwamyywci-check}
@@ -130,6 +129,8 @@ ___(unique_samples)
 ```
 
 ```{r jqbfofluzyjhibjn-solution}
+unique_samples <- no_replicate_column %>% distinct()
+
 nrow(unique_samples)
 ```
 
