@@ -1,0 +1,100 @@
+---
+  title: "PhyloPic"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+  
+  ```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::clean_cache()
+library('rphylopic')
+library('ggplot2')
+th <- theme_void() 
+theme_set(th)
+## overwriting add_phylopic for alpha
+phylopic <- function(img, alpha = 1, x = NULL, y = NULL, ysize = NULL, 
+                     color = NULL) {
+  require(ggplot2)
+  mat <- rphylopic:::recolor_phylopic(img, alpha, color)
+  if (!is.null(x) && !is.null(y) && !is.null(ysize)) {
+    aspratio <- nrow(mat) / ncol(mat) ## get aspect ratio of original image
+    ymin <- y - ysize / 2
+    ymax <- y + ysize / 2
+    xmin <- x - ysize / aspratio / 2
+    xmax <- x + ysize / aspratio / 2
+  } else {
+    ymin <- -Inf ## fill whole plot...
+    ymax <- Inf
+    xmin <- -Inf
+    xmax <- Inf
+  }
+  imgGrob <- grid::rasterGrob(mat)
+  return(
+    annotation_custom(xmin = xmin, ymin = ymin, xmax = xmax, 
+                      ymax = ymax, imgGrob)
+  )
+}
+bug <- image_data("27356f15-3cf8-47e8-ab41-71c6260b2724", size = "512")[[1]]
+human <- image_data("c089caae-43ef-4e4e-bf26-973dd4cb65c5", size = "512")[[1]]
+cat <- image_data("23cd6aa4-9587-4a2e-8e26-de42885004c9", size = "512")[[1]]
+seal <- image_data("d3a78afb-1b9e-45e0-b6f4-144d79f399f0", size = "512")[[1]]
+kingfisher <- image_data("91fee963-e1b4-4ee9-935d-c4659e998f45", size = "512")[[1]]
+antelope <- image_data("e590147d-93c5-4d81-bbbf-bd1410cf8135", size = "512")[[1]]
+ray <- image_data("cde594a1-9406-48f8-bdcf-e62f7b80e7aa", size = "512")[[1]]
+poison_frog <- image_data("44bd2242-70f9-4b73-bd74-37e12181c628", size = "512")[[1]]
+megalosaurus <- image_data("13d6de32-507a-4d96-ba11-897f71cecad1", size = "512")[[1]]
+swifts <- image_data("84ed5092-fba4-4362-afb7-f1abf82262ad", size = "512")[[1]]
+dog <- image_data("6f3ebbc6-be53-4216-b45b-946f7984669b", size = "512")[[1]]
+salamander <- image_data("ef8d456b-c2af-4f31-be7d-ad50abbcfc52", size = "512")[[1]]
+worm <- image_data("49cdb75a-65ee-48d8-aa2a-2427913ddcca", size = "512")[[1]]
+nightshade <- image_data("46eca6a3-9e8c-4198-bf6d-c650427a1ad8", size = "512")[[1]]
+```
+
+### Change the species
+
+Modify the following code to plot a `cat`:
+  
+  ```{r print-cat, exercise = TRUE, exercise.eval = TRUE}
+ggplot() +
+  phylopic(bug)
+```
+
+```{r print-cat-hint}
+ggplot() +
+  phylopic(cat)
+```
+
+### Change the colour 
+
+Modify the following code to plot a <span style="color:red;">red</span> `cat`:
+  
+  ```{r print-colour, exercise = TRUE, exercise.eval = TRUE}
+ggplot() +
+  phylopic(cat, col = "grey")
+```
+
+```{r print-colour-hint}
+ggplot() +
+  phylopic(cat, col = "red")
+```
+
+
+### Plot a species of your choice 
+
+Modify the following code to plot a species of your choice in a colour of your choice, options are `antelope`, `bug`, `cat`, `dog`, `human`, `kingfisher`, `megalosaurus`, `nightshade`, `poison_frog`, `random`, `ray`, `salamander`,`seal`, `swifts`, and `worm`.        
+
+```{r prepare-species, echo = FALSE}
+ran <- image_list(start = sample(1:image_count(), 1), length = 1)[[1]]$uid
+random <- image_data(ran, size = "512")[[1]]
+```
+
+
+```{r print-species, exercise = TRUE, exercise.eval = TRUE, exercise.setup = "prepare-species"}
+ggplot() +
+  phylopic(nightshade, col = "purple")
+```
+
+---
+  
+  Using Scott Chamberlain (2020). `rphylopic`: Get 'Silhouettes' of 'Organisms' from 'Phylopic'. R package version 0.3.0.[https://CRAN.R-project.org/package=rphylopic]([https://CRAN.R-project.org/package=rphylopic)
