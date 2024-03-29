@@ -1,10 +1,13 @@
 ---
   title: "PhyloPic"
-output: learnr::tutorial
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 ---
   
-  ```{r setup, include=FALSE}
+```{r setup, include=FALSE,message=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::clean_cache()
@@ -55,7 +58,7 @@ nightshade <- image_data("46eca6a3-9e8c-4198-bf6d-c650427a1ad8", size = "512")[[
 
 Modify the following code to plot a `cat`:
   
-  ```{r print-cat, exercise = TRUE, exercise.eval = TRUE}
+```{r print-cat, exercise = TRUE, exercise.eval = TRUE}
 ggplot() +
   phylopic(bug)
 ```
@@ -69,7 +72,7 @@ ggplot() +
 
 Modify the following code to plot a <span style="color:red;">red</span> `cat`:
   
-  ```{r print-colour, exercise = TRUE, exercise.eval = TRUE}
+```{r print-colour, exercise = TRUE, exercise.eval = TRUE}
 ggplot() +
   phylopic(cat, col = "grey")
 ```
@@ -95,6 +98,28 @@ ggplot() +
   phylopic(nightshade, col = "purple")
 ```
 
----
+
+## Submit checkpoint
+
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = T)
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSfKAR9MMxfAR8EWsCi-U2Ow4SjsejLlAUba14FBsch-gox0Gg/viewform?usp=sf_link",
+    width="900px", height= "1000px"
+  )
+)
+```
+
+
+* * *
+
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. This tutorial was created by  Scott Chamberlain for  `rphylopic`: Get 'Silhouettes' of 'Organisms' from 'Phylopic' (2020). R package version 0.3.0.[https://CRAN.R-project.org/package=rphylopic]([https://CRAN.R-project.org/package=rphylopic), then was adapted by Jenna Ekwealor.
+
   
-  Using Scott Chamberlain (2020). `rphylopic`: Get 'Silhouettes' of 'Organisms' from 'Phylopic'. R package version 0.3.0.[https://CRAN.R-project.org/package=rphylopic]([https://CRAN.R-project.org/package=rphylopic)
