@@ -74,7 +74,7 @@ As multiple silhouettes can exist for a searched name, it can be difficult to pi
 # It's difficult to pick without seeing the image itself, let's use:
 img <- pick_phylopic(name = "Canis lupus", n = 4, view = 4)
 ```
-![](interactive_canis.png)
+![](images/interactive_canis.png)
 When running in RStudio, the image optins will show in the Plots viewer and in the Console you'll get a prompt to select your choice, which will then be saved as `img`.
 
 ```{}
