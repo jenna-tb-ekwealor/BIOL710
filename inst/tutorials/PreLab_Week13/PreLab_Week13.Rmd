@@ -22,15 +22,48 @@ rphylopic is a package that allows users to easily fetch and visualize silhouett
 
 ## Search for an organism
 
-Every silhouette available via PhyloPic has a universally unique identifier (UUID). The first step to get a PhyloPic silhouette into R is to get a UUID. To do so via rphylopic you can use the `get_uuid()` function to search PhyloPic based on a taxonomic or phylogenetic name (e.g., **Canis lupus** or pan-**Mollusca**) and return the first matched UUID. Using the returned UUID, you can then fetch the respective silhouette using `get_phylopic()`. However, multiple silhouettes (and hence UUIDs) can exist for a searched name. The n argument in `get_uuid()` allows you to fetch n matched UUIDs.
+Every silhouette available via PhyloPic has a universally unique identifier (UUID). The first step to get a PhyloPic silhouette into R is to get a UUID. To do so via rphylopic you can use the `get_uuid()` function to search PhyloPic based on a taxonomic or phylogenetic name (e.g., **Canis lupus** or pan-**Mollusca**) and return the first matched UUID. Using the returned UUID, you can then fetch the respective silhouette using `get_phylopic()`. 
 
 ```{r get-uuid, exercise = TRUE}
 # Get a single image UUID for a species
 uuid <- get_uuid(name = "Canis lupus")
+
 # Get the image for that UUID
 img <- get_phylopic(uuid = uuid)
+```
+
+Let's take a look at that image.
+```{r look-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Check out what uuid looks like
+uuid
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+```
+
+```{r look, exercise = TRUE}
+plot(img)
+```
+
+However, multiple silhouettes (and hence UUIDs) can exist for a searched name. The n argument in `get_uuid()` allows you to fetch n matched UUIDs.
+
+```{r multiple-setup}
+# Get a single image UUID for a species
+uuid <- get_uuid(name = "Canis lupus")
+
+# Get the image for that UUID
+img <- get_phylopic(uuid = uuid)
+```
+
+```{r multiple, exercise = TRUE}
 # But multiple silhouettes can exist per species...
 uuid <- get_uuid(name = "Canis lupus", n = 5)
+
+# Look at uuid now
+uuid
 ```
 
 ## Pick an image
