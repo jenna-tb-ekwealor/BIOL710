@@ -202,7 +202,7 @@ We can easily write & read trees to & from files, for example let's read the fil
 anolis.tree <- read.tree(text = anole.tre)
 ```
 
-```{r read, exercise = TRUE, warning = FALSE}
+```{r read, exercise = TRUE, warning = FALSE, message = FALSE}
 anolis.tree <- read.tree(file = "anole.tre")
 anolis.tree
 ```
@@ -366,6 +366,7 @@ pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus",
 ii <- sapply(pr.species, grep, anolis.tree$tip.label)
 pr.species<-anolis.tree$tip.label[ii]
 ```
+*Note:* Interactive feature may not work on this learnR pre-lab but you can try the code in RStudio to see how it works!
 
 ```{r interactive-prune, exercise = TRUE}
 anolis.pruned <- collapseTree(anolis.tree)
@@ -449,7 +450,7 @@ tree <- rtree(n = 40) # generate a random tree with 40 tips
 ```
 
 Re-root the tree at node **67** to see this in action:
-```{r reroot, exercise = T}
+```{r reroot, exercise = TRUE}
 rr.67 <- root(tree, node = ___)
 
 plotTree(rr.67)
@@ -478,6 +479,7 @@ tree <- rtree(n = 40) # generate a random tree with 40 tips
 ```{r reroot-edge, exercise = T}
 rr.65 <- reroot(tree, 65, position = 0.5*tree$edge.length[which(tree$edge[,2] == 65)])
 
+plotTree(rr.65)
 ```
 
 We can also change the position of the root interactively. For instance:
@@ -485,6 +487,7 @@ We can also change the position of the root interactively. For instance:
 set.seed(1) 
 tree <- rtree(n = 40) # generate a random tree with 40 tips
 ```
+*Note:* Interactive feature may not work on this learnR pre-lab but you can try the code in RStudio to see how it works!
 
 ```{r reroot-interactive, exercise = TRUE}
 rr.interactive <- reroot(tree, interactive = TRUE)
