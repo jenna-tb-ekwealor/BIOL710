@@ -1,5 +1,5 @@
 ---
-title: "Introduction to spaial data in R"
+title: "Introduction to spatial data in R"
 output: 
   learnr::tutorial:
     progressive: true
@@ -24,7 +24,7 @@ tutorial_options(
   )
 
 # default options for all chunks
-knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
+knitr::opts_chunk$set(echo = FALSE)
 # knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE )
 
 
