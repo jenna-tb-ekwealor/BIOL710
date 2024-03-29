@@ -265,7 +265,7 @@ tm_shape(___) +
   tm_symbols(col = ___)  
 ```
 
-```{r tmap-points2-solution}
+```{r tmap-points2-solution, include = T}
 tm_shape(africapitals) + 
   tm_symbols(col = "pop")  
 ```
