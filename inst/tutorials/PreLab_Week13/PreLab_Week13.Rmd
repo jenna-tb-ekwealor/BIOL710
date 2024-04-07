@@ -15,6 +15,13 @@ library('rphylopic')
 library('ggplot2')
 # th <- theme_void() 
 # theme_set(th)
+
+tutorial_options(
+  # use gradethis for checking
+  exercise.checker = gradethis::grade_learnr
+  )
+knitr::opts_chunk$set(echo = FALSE)
+
 ```
 
 ## Introduction

@@ -15,6 +15,7 @@ library(tidyverse)
 library(gradethis)
 library(openintro)
 library(infer)
+
 tutorial_options(
   # use gradethis for checking
   exercise.checker = gradethis::grade_learnr
