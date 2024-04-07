@@ -206,14 +206,13 @@ An object of class `phylo` can also have other components, the most common of wh
 
 ## Writing & reading phylogenetic trees
 
-We can easily write & read trees to & from files, for example let's read the file `anole.tre`.
+We can easily write & read trees to & from files, for example we want read the file `anole.tre`. We can do that with `anolis.tree <- read.tree(file = "anole.tre")`. In this case, we've done it for you. Let's take a look at the object `anolis.tree`.
 
 ```{r read-setup}
 anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r read, exercise = TRUE, warning = FALSE, message = FALSE}
-anolis.tree <- read.tree(file = "anole.tre")
 anolis.tree
 ```
 
@@ -240,10 +239,11 @@ Ntip(anolis.tree)
 tree <- read.tree(text = "(((A,B),(C,D)),E);")
 ```
 
+The file is simply a text file in Newick format. You can see what it looks like with the function `cat()`. 
+
 ```{r write, exercise = TRUE}
 write.tree(tree, file = "example.tre")
 
-# this is what our file looks like (you can open it to check)
 cat(readLines("example.tre"), sep = "\n")
 ```
 
@@ -316,7 +316,7 @@ pr.species<-anolis.tree$tip.label[ii]
 plotTree(anolis.tree, type = "fan", fsize = 0.7, lwd = 1,
     ftype = "i")
 
-add.arrow(anolis.tree,tip = ii, arrl = 1)
+add.arrow(anolis.tree,tip = ii, arrl = 1, col = "red")
 ```
 
 Now let's prune these species from the tree:
@@ -492,19 +492,6 @@ rr.65 <- reroot(tree, 65, position = 0.5*tree$edge.length[which(tree$edge[,2] ==
 plotTree(rr.65)
 ```
 
-We can also change the position of the root interactively. For instance:
-```{r reroot-interactive-setup}
-set.seed(1) 
-tree <- rtree(n = 40) # generate a random tree with 40 tips
-```
-*Note:* Interactive feature may not work on this learnR pre-lab but you can try the code in RStudio to see how it works!
-
-```{r reroot-interactive, exercise = TRUE}
-rr.interactive <- reroot(tree, interactive = TRUE)
-
-plotTree(rr.interactive)
-```
-
 ## Comparing trees
 
 We can, for example, check to see if our trees are equal. Trees with rotated nodes are equal because the relationships are not altered, only the visualization. Let's compare `tree` and the version of that tree in which we rotated all nodes, `rt.tree`:
@@ -579,7 +566,7 @@ anolis.trees <- c(anolis.tree, anolis.noPR, pr.clade, pr.tree)
 print(anolis.trees, details = TRUE)
 ```
 
-You can write multitrees to a file, too:
+You can write multitrees to a file, too. Here is what that file looks like (with `cat()`).
 ```{r write-multi-setup}
 anolis.tree <- read.tree(text = anole.tre)
 pr.species <- c("cooki", "poncensis", "gundlachi", "pulchellus", "stratulus", 
@@ -598,10 +585,9 @@ anolis.trees <- c(anolis.tree, anolis.noPR, pr.clade, pr.tree)
 # write to file
 write.tree(anolis.trees, file = "example.trees")
 
-# this is what it looks like:
+# view text of file
 cat(readLines("example.trees"), sep = "\n")
 ```
-
 
 ## Submit checkpoint
 ```{r context="server"}
