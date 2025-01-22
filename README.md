@@ -43,7 +43,7 @@ Exit RStudio and then open it again.
 
 ## Submission Instructions
 
-There will be a pre-lab and a lab report for each lab. The pre-lab will be completed individually via learnR and graded for completion. This is **due by the start of class on MONDAYS, except for Week 1, which is due Wednesday January 31**. Then during lab you will work in a team of three (or so) to complete a lab report in `R`. Both pre-labs and lab reports are submitted on Canvas (see below). The lab report is **due each class day by 11:59 pm**.
+There will be a pre-lab and a lab report for each lab. The pre-lab will be completed individually via learnR and graded for completion. This is **due by the start of class on MONDAYS, except for Week 1, which is due Wednesday**. Then during lab you will work in a team of three (or so) to complete a lab report in `R`. Both pre-labs and lab reports are submitted on Canvas (see below). The lab report is **due Wednesday by the end of class**.
 
 
 ## How to Submit Pre-Lab
