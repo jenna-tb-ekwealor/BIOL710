@@ -32,7 +32,7 @@ Exit RStudio and then open it again.
 
 ### Launch a lesson:
 
-1. In the console (bottom left) type: `learnr::run_tutorial("PreLab_Week1", "BIOL710")`
+1. In the console (bottom left) type: `learnr::run_tutorial("week1", "BIOL710")`
 
 ### Stop a lesson 
 
