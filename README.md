@@ -1,5 +1,5 @@
-# BIOL710AdvBiometry
-## learnR labs for advanced biometry
+# BIOL710
+## learnR labs for BIOL 710 Advanced Biometry course at SFSU
 adapted from Sara Stoudt and labs for Open Intro ISRS by Jenna Ekwealor
 
 **For instructors:** the overview blog post from Sara Stoudt that taught me how to use learnR labs can be found [here](https://sastoudt.github.io/posts/2021-06-05-learnr-tutorials-intro-stat/).
