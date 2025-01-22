@@ -11,7 +11,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE,message=FALSE}
-library(BIOL710AdvBiometry)
+library(BIOL710)
 library(learnr)
 library(learnrhash)
 library(tidyverse)
