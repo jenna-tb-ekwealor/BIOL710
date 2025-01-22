@@ -8,7 +8,7 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE,message=FALSE}
-library(BIOL710AdvBiometry)
+library(BIOL710)
 library(learnr)
 library(sf)               # working with vector data
 library(afrilearndata)    # example data

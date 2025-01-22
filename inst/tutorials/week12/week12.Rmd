@@ -8,6 +8,7 @@ runtime: shiny_prerendered
 ---
   
 ```{r setup, include=FALSE,message=FALSE}
+library(BIOL710)
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::clean_cache()
