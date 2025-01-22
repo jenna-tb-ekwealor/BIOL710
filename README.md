@@ -18,7 +18,7 @@ adapted from Sara Stoudt and labs for Open Intro ISRS by Jenna Ekwealor
 
 `remotes::install_github("rstudio-education/gradethis")`
 
-`remotes::install_github("jenna-tb-ekwealor/BIOL710AdvBiometry")`
+`remotes::install_github("jenna-tb-ekwealor/BIOL710")`
 
 
 2. After install is complete (I know this seems weird, but go with it):
@@ -32,7 +32,7 @@ Exit RStudio and then open it again.
 
 ### Launch a lesson:
 
-1. In the console (bottom left) type: `learnr::run_tutorial("PreLab_Week1", "BIOL710AdvBiometry")`
+1. In the console (bottom left) type: `learnr::run_tutorial("PreLab_Week1", "BIOL710")`
 
 ### Stop a lesson 
 
