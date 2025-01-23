@@ -6,8 +6,6 @@ output:
     allow_skip: true
 runtime: shiny_prerendered
 ---
-```
-
 ```{r setup, include=FALSE, message=FALSE}
 library(BIOL710)
 library(learnr)
