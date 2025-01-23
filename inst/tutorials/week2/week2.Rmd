@@ -33,8 +33,7 @@ sf_feb_bird_obs <- nycbirds %>%
 Some define statistics as the field that focuses on turning information into
 knowledge. The first step in that process is to summarize and describe the raw
 information -- the data. In this lab we explore migratory birds, specifically an artificial random
-sample of migratory birds that were spotted in
-New York area locations in 2013, tagged, and whose routes were followed through to their destination. We will generate simple graphical and numerical 
+sample of migratory birds that were spotted in New York area locations in 2013, tagged, and whose routes were followed through to their destination. We will generate simple graphical and numerical 
 summaries of data on these birds and explore variation in timing. Since this is a large 
 data set, along the way you'll also learn the indispensable skills of data 
 processing and subsetting. Please note that these data are not real and are simply for demonstrating data exploration in R. 
