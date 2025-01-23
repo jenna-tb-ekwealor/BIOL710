@@ -20,7 +20,7 @@ tutorial_options(
 knitr::opts_chunk$set(echo = FALSE)
 
 # Load and filter data
-```{r filter, exercise = T}}
+```{r filter, exercise = T}
 control_cells <- heat_shock_response %>%
   dplyr::filter(condition == "control")
 heat_stressed_cells <- heat_shock_response %>%
