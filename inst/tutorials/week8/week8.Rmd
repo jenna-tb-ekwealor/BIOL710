@@ -6,7 +6,8 @@ output:
     allow_skip: true
 runtime: shiny_prerendered
 ---
-```{r setup, include=FALSE, message=FALSE}
+
+``{r setup, include=FALSE, message=FALSE}
 library(BIOL710)
 library(learnr)
 library(learnrhash)
@@ -19,6 +20,7 @@ tutorial_options(
 knitr::opts_chunk$set(echo = FALSE)
 
 # Load and filter data
+```{r filter, exercise = T}}
 control_cells <- heat_shock_response %>%
   dplyr::filter(condition == "control")
 heat_stressed_cells <- heat_shock_response %>%
@@ -33,7 +35,7 @@ In this lab, you'll explore the t-test, a statistical method used to compare two
 
 We will analyze data using the `tidyverse` and `infer` packages. Load the necessary packages below:
 
-```{r}
+```{r load-packages, exercise = T}
 library(tidyverse)
 library(infer)
 ```
@@ -42,7 +44,7 @@ library(infer)
 
 We will analyze experimental data measuring heat shock protein (HSP) expression levels in control versus heat-stressed mammalian cells.
 
-```{r}
+```{r viewdata, exercise = TRUE}
 glimpse(heat_shock_response)
 head(heat_shock_response)
 ```
@@ -55,7 +57,7 @@ The goal is to compare the mean expression levels of HSPs between control and he
 
 Calculate the mean and standard deviation of HSP expression for both conditions.
 
-```{r}
+```{r summarystats, exercise = TRUE}
 control_mean <- mean(control_cells$HSP_expression)
 control_sd <- sd(control_cells$HSP_expression)
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
@@ -66,7 +68,7 @@ heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
 
 Create histograms to visualize the distributions of HSP expression levels in both conditions.
 
-```{r}
+```{r histograms, exercise = TRUE}
 ggplot(control_cells, aes(x = HSP_expression)) + geom_histogram()
 ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
 ```
@@ -75,7 +77,7 @@ ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
 
 We will now perform an independent t-test to determine if the mean HSP expression differs significantly between the control and heat-stressed cells.
 
-```{r}
+```{r ttest, exercise = TRUE}
 t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
 print(t_test_result)
 ```
@@ -92,14 +94,14 @@ What does the p-value indicate about the difference in HSP expression levels bet
 
 Using the infer package, we can further visualize the hypothesis testing process.
 
-```{r}
+```{r vizualize, exercise = TRUE}
 heat_shock_response %>%
   specify(response = HSP_expression, explanatory = condition) %>%
   hypothesize(null = "independence") %>%
   calculate(stat = "t")
 ```
 
-## Summary
+### Summary
 
 In this lab, you learned how to:
 - Calculate summary statistics for comparing two groups.
