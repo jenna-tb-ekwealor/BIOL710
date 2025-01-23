@@ -1,5 +1,5 @@
 ---
-title: "Inference for numerical data"
+title: "Introduction to linear regression"
 output: 
   learnr::tutorial:
     progressive: true
@@ -26,311 +26,246 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Getting Started
 
-Along with teaching you how to perform a hypothesis test in R, this lab also has components that will help you as you start your own exploration of a dataset for your final project.
+The Human Freedom Index is a report that attempts to summarize the idea of "freedom"
+through a bunch of different variables for many countries around the globe.
+It serves as a rough objective measure for the relationships between the different
+types of freedom - whether it's political, religious, economical or personal freedom -
+and other social and economic circumstances. The Human Freedom Index is an annually
+co-published report by the Cato Institute, the Fraser Institute, and the Liberales
+Institut at the Friedrich Naumann Foundation for Freedom.
+
+In this lab, you'll be analyzing data from Human Freedom Index reports from 2008-2016.
+Your aim will be to summarize a few of the relationships within the data both 
+graphically and numerically in order to find which variables can help tell a story
+about freedom.
 
 ### Load packages
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of 
-packages, and perform statistical inference using **infer**. The data can be found
-in the companion package for OpenIntro resources, **openintro**.
+In this lab, you will explore and visualize the data using the **tidyverse** suite of 
+packages. The data can be found in the companion package for OpenIntro resources, **openintro**.
 
-Let's load the packages.
+Let's load the packages. 
 
 ```{r load-packages, exercise = T}
 library(tidyverse)
 library(openintro)
-library(infer)
 ```
 
 
 ### The data
 
-Every two years, the Centers for Disease Control and Prevention conduct the Youth
-Risk Behavior Surveillance System (YRBSS) survey, where it takes data from high 
-schoolers (9th through 12th grade), to analyze health patterns. You will work 
-with a selected group of variables from a random sample of observations during 
-one of the years the YRBSS was conducted.
+The data we're working with is in the openintro package and it's called `hfi`, 
+short for Human Freedom Index.
 
-Load the `yrbss` data set into your workspace.
-
-```{r load-data, exercise = T}
-data(yrbss)
-```
-
-There are observations on 13 different variables, some categorical and some 
-numerical. The meaning of each variable can be found by bringing up the help file:
-
-```{r help-nc, exercise = T}
-?yrbss
+```{r}
+data(hfi)
 ```
 
 
-## Exploratory data analysis
+Plot the relationship between `pf_expression_control` (political pressures and controls on media content) and the personal freedom score, `pf_score` with `pf_expression_control` as the explanatory/predictor variable. Does the relationship look linear? 
 
-
-How many cases are there in our sample? 
-
-```{r snsmuchqveotnuku, exercise = TRUE}
-___(yrbss)
+```{r nvolifwefsdohnqx, exercise = TRUE}
+ggplot(hfi, aes(x = ___, y = ___))+geom_point()
 ```
 
-```{r datadim}
-question("How many cases are there in our sample?",
-    answer("13"),
-    answer("1000"),
-    answer("13583", correct = T),
-    answer("100000"),
+
+```{r nvolifwefsdohnqx-solution}
+ggplot(hfi, aes(x = pf_expression_control, y = pf_score))+geom_point()
+
+```
+
+```{r nvolifwefsdohnqx-check}
+# check code
+gradethis::grade_code()
+```
+
+If the relationship looks linear, we can quantify the strength of the
+relationship with the correlation coefficient.
+
+```{r cor, exercise = T}
+hfi %>%
+  summarise(cor(pf_expression_control, pf_score, use = "complete.obs"))
+```
+
+Here, we set the `use` argument to "complete.obs" since there are some observations of NA and we don't want those to count towards the calculation of the correlation.
+
+## The linear model
+
+It is rather cumbersome to try to get the correct least squares line, i.e. the 
+line that minimizes the sum of squared residuals, through trial and error. 
+Instead, you can use the `lm` function in R to fit the linear model (a.k.a. 
+regression line).
+
+```{r m1, exercise = T}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+The first argument in the function `lm` is a formula that takes the form 
+`y ~ x`. Here it can be read that we want to make a linear model of 
+`pf_score` as a function of `pf_expression_control`. The second argument specifies that R should look in the `hfi` data frame to find the two variables. Note `lm` can handle missing values, so we can use the full data set here.
+
+The output of `lm` is an object that contains all of the information we need 
+about the linear model that was just fit. We can access this information using 
+the summary function.
+
+```{r summary-m1-setup}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+```{r summary-m1, exercise = TRUE}
+summary(m1)
+```
+
+Let's consider this output piece by piece. First, the formula used to describe 
+the model is shown at the top. After the formula you find the five-number 
+summary of the residuals. The "Coefficients" table shown next is key; its first 
+column displays the linear model's y-intercept and the coefficient of `pf_expression_control`.
+
+With this table, we can write down the least squares regression line for the 
+linear model:
+
+\[
+  \hat{y} = 4.61707 + 0.49143 \times pf\_expression\_control
+\]
+
+One last piece of information we will discuss from the summary output is the 
+Multiple R-squared, or more simply, $R^2$. The $R^2$ value represents the 
+proportion of variability in the response variable that is explained by the 
+explanatory variable. For this model, 63.42% of the variability in personal freedom score is explained by political pressures and controls on media content.
+
+Fit a new model that uses `pf_expression_control` to predict the total human freedom score, `hf_score`. 
+
+```{r adryxdkevttxzzno, exercise = TRUE}
+new_mod <- lm(___ ~ ___, data = ___)
+summary(___)
+```
+
+```{r adryxdkevttxzzno-solution}
+new_mod <- lm(hf_score ~pf_expression_control, data = hfi)
+summary(new_mod)
+```
+
+```{r adryxdkevttxzzno-check}
+# check code
+gradethis::grade_code()
+```
+
+Using the estimates from the R output, write the equation of the regression line. 
+
+```{r regline}
+question("Using the estimates from the R output, what is the equation of the regression line?",
+    answer("hf_score_hat = 5.15 + 0.35 * pf_expression_control", correct = T),
+    answer("hf_score = 5.15 + 0.35 * pf_expression_control"),
+    answer("hf_score_hat = 0.35 + 5.15 * pf_expression_control"),
+    answer("pf_expression_control_hat = 5.15 + 0.35 * hf_score"),
+    answer("pf_expression_control_hat = 0.35 + 5.15 * hf_score"),
+    answer("pf_expression_control = 0.35 + 5.15 * hf_score"),
     allow_retry = TRUE,
     random_answer_order = F
   )
 ```
 
-You will first start with analyzing the weight of the participants in kilograms:
-`weight`.
 
-```{r irhmoqjmoxknmuup, exercise = TRUE}
-summary(___$___)
+## Prediction and prediction errors
+
+Let's create a scatterplot with the least squares line for `m1` laid on top.
+
+```{r reg-with-line, exercise = T}
+ggplot(data = hfi, aes(x = pf_expression_control, y = pf_score)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
-```{r irhmoqjmoxknmuup-solution}
-summary(yrbss$weight)
+Here, we are literally adding a layer on top of our plot. `geom_smooth` creates
+the line by fitting a linear model. It can also show us the standard error `se`
+associated with our line, but we'll suppress that for now (and talk about what it means later).
+
+This line can be used to predict $y$ at any value of $x$. When predictions are 
+made for values of $x$ that are beyond the range of the observed data, it is 
+referred to as *extrapolation* and is not usually recommended. However, 
+predictions made within the range of the data are more reliable. They're also 
+used to compute the residuals.
+
+Remember the regression line is:
+\[
+  \hat{y} = 4.61707 + 0.49143 \times pf\_expression\_control
+\]
+
+```{r predval}
+question("What is the predicted value of a country's personal freedom score for one with a 6.7 rating for `pf_expression_control`? ",
+    answer("4.62"),
+    answer("7.91", correct = T),
+    answer("31.43"),
+    allow_retry = TRUE,
+    random_answer_order = F
+  )
 ```
 
-```{r irhmoqjmoxknmuup-check}
-# check code
-gradethis::grade_code()
-```
-
-```{r missingdat}
-question("How many observations are we missing weights from?",
-    answer("77"),
-    answer("104"),
-    answer("273"),
-    answer("1004", correct = T),
+```{r resid}
+question("If the true personal freedom score for this observation is 8.9, what is the residual for this prediction?  ",
+    answer("0.99", correct = T),
+    answer("-0.99"),
+    answer("0"),
     allow_retry = TRUE,
     random_answer_order = F
   )
 ```
 
 
-Make an appropriate plot of `weight` (given its type). You may want to refer to the ggplot [cheat sheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) to remember the types of plots we know how to make.
+## Model diagnostics
 
-```{r jixtjgnulpokypqh, exercise = TRUE}
-ggplot(data = ___, aes(x = ___)) + ___
-```
+To assess whether the linear model is reliable, we need to check for (1) 
+linearity, (2) nearly normal residuals, and (3) constant variability.
 
-```{r jixtjgnulpokypqh-solution}
-# solution code
-ggplot(data = yrbss, aes(x = weight)) + geom_histogram()
-```
+**Linearity**: You already checked if the relationship between `pf_score` and 
+`pf_expression_control` is linear using a scatterplot. 
 
-```{r jixtjgnulpokypqh-check}
-# check code
-gradethis::grade_code()
-```
+</br>
 
+**Nearly normal residuals**: To check this condition, we can look at a histogram. 
 
-```{r skew}
-question("Describe the distribution's symmetry/skewness.",
-    answer("left skewed"),
-    answer("right skewed", correct = T),
-    answer("roughly symmetric"),
-    allow_retry = TRUE,
-    random_answer_order = F
-  )
+```{r hist-res-setup}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
 ```
 
 
-Next, consider the possible relationship between a high schooler's weight and their
-physical activity. Plotting the data is a useful first step because it helps 
-us quickly visualize trends, identify strong associations, and develop research
-questions.
-
-First, let's create a new variable `physical_3plus`, which will be coded as either
-"yes" if they are physically active for at least 3 days a week, and "no" if not.
-
-```{r create-new-var, exercise = T}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+```{r hist-res, exercise = TRUE}
+ggplot(data = m1, aes(x = .resid)) +
+  geom_histogram() +
+  xlab("Residuals")
 ```
 
 
-Make a side-by-side boxplot of `physical_3plus` and `weight`. You may want to consult [this resource](http://www.sthda.com/english/wiki/ggplot2-box-plot-quick-start-guide-r-software-and-data-visualization) to help you make your plot. 
+Based on the histogram, does the nearly normal residuals condition appear to be met?
 
-```{r yqqjwnlhcbgkyhgh-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+</br>
+
+**Constant variability**:
+
+In class we looked at the residuals vs. the explanatory variable. A similar residual plot is a plot of the residuals vs. fitted (predicted) values. We can interpret this plot in the same way.
+
+```{r residuals-setup}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
 ```
 
-```{r yqqjwnlhcbgkyhgh, exercise = TRUE}
-ggplot(data = ___, aes(x = physical_3plus, y = ___)) + ___
+```{r residuals, exercise = TRUE}
+ggplot(data = m1, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted values") +
+  ylab("Residuals")
 ```
 
-```{r yqqjwnlhcbgkyhgh-solution}
-ggplot(data = yrbss, aes(x = physical_3plus, y = weight)) + geom_boxplot()
-```
-
-```{r yqqjwnlhcbgkyhgh-check}
-# check code
-gradethis::grade_code()
-```
-
-The box plots show how the medians of the two distributions compare, but we can
-also compare the means of the distributions using the following to 
-first group the data by the `physical_3plus` variable, and then calculate the mean
-`weight` in these groups using the `mean` function while ignoring missing values
-by setting the `na.rm` argument to `TRUE`.
-
-```{r by-means-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-```
-
-```{r by-means, exercise = TRUE}
-yrbss %>%
-  group_by(physical_3plus) %>%
-  summarise(mean_weight = mean(weight, na.rm = TRUE))
-```
-
-There is an observed difference, but is this difference statistically 
-significant? In order to answer this question we will conduct a hypothesis test.
-
-## Inference
-
-Next, we will introduce a new function, `hypothesize`, that falls into the `infer` 
-workflow. You will use this method for conducting hypothesis tests. 
-
-But first, we need to initialize the test, which we will save as `obs_diff`.
-
-```{r inf-weight-habit-ht-initial-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-```
-
-```{r inf-weight-habit-ht-initial, exercise = TRUE}
-obs_diff <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-
-obs_diff
-```
-
-Notice how you can use the functions `specify` and `calculate` again like you did
-for calculating confidence intervals. Here, though, the statistic you are searching
-for is the difference in means, with the order being `yes - no != 0`.
-
-After you have initialized the test, you need to simulate the test on the null
-distribution, which we will save as `null`.
-
-```{r inf-weight-habit-ht-null-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-
-table(yrbss$physical_3plus)
-```
-
-```{r inf-weight-habit-ht-null, exercise = TRUE}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-
-null_dist <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-```
-
-Here, `hypothesize` is used to set the null hypothesis as a test for independence.
-In one sample cases, the `null` argument can be set to "point" to test a hypothesis
-relative to a point estimate.
-
-Also, note that the `type` argument within `generate` is set to `permute`, which 
-is the argument when generating a null distribution for a hypothesis test. This will shuffle the labels of "yes" and "no".
-
-We can visualize this null distribution with the following code:
-
-```{r plot-null-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-
-null_dist <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-```
-
-```{r, plot-null, exercise = TRUE}
-names(null_dist)
-
-ggplot(data = null_dist, aes(x = stat)) +
-  geom_histogram()
-```
+Notice here that `m1` can also serve as a data set because stored within it are 
+the fitted values ($\hat{y}$) and the residuals. (Don't worry too much about why they have a period in their names; this is just how those variables are named in the `m1` data structure. These variables will always be named `.fitted` and `.resid` if they are `lm` objects.) Also note that we're getting 
+fancy with the code here. After creating the scatterplot on the first layer 
+(first line of code), we overlay a horizontal dashed line at $y = 0$ (to help us
+check whether residuals are distributed around 0), and we also rename the axis 
+labels to be more informative.
 
 
-How many of these `null` permutations have a difference of at least `obs_diff`? 
+Based on the residuals vs. fitted plot, does the constant variability condition appear to be met?
 
-```{r rnbeaffhhjhcykro-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-
-null_dist <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-
-obs_diff <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-```
-
-
-```{r rnbeaffhhjhcykro, exercise = TRUE}
-___ %>%
-  mutate(big_diff = ifelse(___ > obs_diff$stat, "yes", "no")) 
-
-table(___$___)
-```
-
-
-```{r rnbeaffhhjhcykro-solution}
-null_dist <- null_dist %>%
-  mutate(big_diff = ifelse(stat > obs_diff$stat, "yes", "no"))
-
-table(null_dist$big_diff)
-```
-
-```{r rnbeaffhhjhcykro-check}
-# check code
-gradethis::grade_code()
-```
-
-Now that the test is initialized and the null distribution formed, you can calculate
-the p-value for your hypothesis test using the function `get_p_value`.
-
-```{r inf-weight-habit-ht-pvalue-setup}
-yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
-
-null_dist <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-
-obs_diff <- yrbss %>%
-  specify(weight ~ physical_3plus) %>%
-  calculate(stat = "diff in means", order = c("yes", "no"))
-```
-
-```{r inf-weight-habit-ht-pvalue, exercise = TRUE}
-null_dist %>%
-  get_p_value(obs_stat = obs_diff, direction = "two_sided")
-```
-
-This is the standard workflow for performing hypothesis tests. Make sure you understand how
-the number of the `null` permutations that have a difference of at least `obs_diff` is related to this p-value.
 
 ## Submit checkpoint
 
