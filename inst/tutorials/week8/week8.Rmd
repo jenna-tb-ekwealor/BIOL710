@@ -7,7 +7,7 @@ output:
 runtime: shiny_prerendered
 ---
 
-``{r setup, include=FALSE, message=FALSE}
+```{r setup, include=FALSE,message=FALSE}
 library(BIOL710)
 library(learnr)
 library(learnrhash)
@@ -20,7 +20,6 @@ tutorial_options(
 knitr::opts_chunk$set(echo = FALSE)
 
 # Load and filter data
-```{r filter, exercise = T}
 control_cells <- heat_shock_response %>%
   dplyr::filter(condition == "control")
 heat_stressed_cells <- heat_shock_response %>%
