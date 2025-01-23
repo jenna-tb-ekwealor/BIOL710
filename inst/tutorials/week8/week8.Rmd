@@ -25,7 +25,7 @@ control_cells <- heat_shock_response %>%
   dplyr::filter(condition == "control")
 heat_stressed_cells <- heat_shock_response %>%
   dplyr::filter(condition == "heat_stressed")
-````
+```
 
 ### Getting Started
 
@@ -38,7 +38,7 @@ We will analyze data using the `tidyverse` and `infer` packages. Load the necess
 ```{r}
 library(tidyverse)
 library(infer)
-````
+```
 
 ### The Data
 
@@ -47,7 +47,7 @@ We will analyze experimental data measuring heat shock protein (HSP) expression 
 ```{r}
 glimpse(heat_shock_response)
 head(heat_shock_response)
-````
+```
 
 ### Comparing Means with a t-test
 
@@ -62,7 +62,7 @@ control_mean <- mean(control_cells$HSP_expression)
 control_sd <- sd(control_cells$HSP_expression)
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
 heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
-````
+```
 
 #### Step 2: Visualizing the Distributions
 
@@ -71,7 +71,7 @@ Create histograms to visualize the distributions of HSP expression levels in bot
 ```{r}
 ggplot(control_cells, aes(x = HSP_expression)) + geom_histogram()
 ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
-````
+```
 
 #### Step 3: Conducting a t-test
 
@@ -80,7 +80,7 @@ We will now perform an independent t-test to determine if the mean HSP expressio
 ```{r}
 t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
 print(t_test_result)
-````
+```
 
 #### Step 4: Interpretation
 
@@ -99,7 +99,7 @@ heat_shock_response %>%
   specify(response = HSP_expression, explanatory = condition) %>%
   hypothesize(null = "independence") %>%
   calculate(stat = "t")
-````
+```
 
 ### Summary
 
