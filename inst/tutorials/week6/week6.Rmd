@@ -204,7 +204,8 @@ But first, we need to initialize the test, which we will save as `obs_diff`.
 
 ```{r inf-weight-habit-ht-initial-setup}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))%>%
+  filter(!is.na(physical_3plus))
 ```
 
 ```{r inf-weight-habit-ht-initial, exercise = TRUE}
