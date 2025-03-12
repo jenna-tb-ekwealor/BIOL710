@@ -59,24 +59,32 @@ Calculate the mean and standard deviation of HSP expression for both conditions.
 ```{r summarystats1, exercise = TRUE}
 control_mean <- mean(control_cells$HSP_expression)
 control_sd <- sd(control_cells$HSP_expression)
+control_mean
+control_sd
 ```
 
 
 ```{r summarystats2, exercise = TRUE}
 heat_stressed_mean <- ___(heat_stressed_cells$___)
 heat_stressed_sd <- ___(heat_stressed_cells$___)
+heat_stressed_mean
+heat_stressed_sd
 ```
 
 ```{r summarystats2-hint}
 # solution code
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
 heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
+heat_stressed_mean
+heat_stressed_sd
 ```
 
 ```{r summarystats2-solution}
 # solution code
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
 heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
+heat_stressed_mean
+heat_stressed_sd
 ```
 
 ```{r summarystats2-check}
