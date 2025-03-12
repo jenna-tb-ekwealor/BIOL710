@@ -44,7 +44,7 @@ library(infer)
 We will analyze experimental data measuring heat shock protein (HSP) expression levels in control versus heat-stressed mammalian cells.
 
 ```{r viewdata, exercise = TRUE}
-glimpse(heat_shock_response)
+glimpse(s)
 head(heat_shock_response)
 ```
 
@@ -53,7 +53,12 @@ head(heat_shock_response)
 The goal is to compare the mean expression levels of HSPs between control and heat-stressed cells.
 
 ### Step 1: Compute Summary Statistics
+Filter the dataframe to have one dataframe for each of control and treatment conditions.
 
+```{r filterdata, exercise = TRUE}
+heat_stressed_cells <- heat_shock_response %>% dplyr::filter(condition == "heat_stressed")
+control_cells <- heat_shock_response %>% dplyr::filter(condition == "control")
+```
 Calculate the mean and standard deviation of HSP expression for both conditions.
 
 ```{r summarystats1, exercise = TRUE}
@@ -121,6 +126,12 @@ ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
 gradethis::grade_code()
 ```
 
+What can you tell by looking at these distributions? Put your answer as a comment in the code chunk below. Be sure to "Run code" to submit it!
+
+```{r observation, exercise = TRUE}
+# insert observation here
+```
+
 ## Comparing Means with a t-test
 
 ### Step 3: Conducting a t-test
@@ -153,19 +164,33 @@ What does the p-value indicate about the difference in HSP expression levels bet
 *Write your interpretation as a comment in the code chunk below. Make sure to "run code" to submit your response!
 
 ```{r interpretation, exercise = TRUE}
-# insert intreptation here
+# insert interpretation here
 ```
 
 ## Visualization
 
-Using the infer package, we can further visualize the hypothesis testing process.
+Using the infer package, we can further visualize the hypothesis testing process. First we generate a null distribution (like last week) then plot our t-test result onto it.
 
-```{r vizualize, exercise = TRUE}
-heat_shock_response %>%
+```{r vizualize-setup}
+control_mean <- mean(control_cells$HSP_expression)
+control_sd <- sd(control_cells$HSP_expression)
+t_test_result <- heat_shock_response %>%
   specify(response = HSP_expression, explanatory = condition) %>%
-  hypothesize(null = "independence") %>%
   calculate(stat = "t")
 ```
+
+```{r vizualize, exercise = TRUE}
+null_dist_t <- heat_shock_response %>%
+  specify(response = HSP_expression, explanatory = condition) %>%
+  hypothesize(null = "independence", mu = control_mean) %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "t")
+
+visualize(null_dist_t, method = "both") + 
+  shade_p_value(t_test_result, "both")
+```
+
+There's a lot more to this package that you might find useful. Check it out: [https://infer.tidymodels.org/reference/visualize.html](https://infer.tidymodels.org/reference/visualize.html)
 
 ## Submit checkpoint
 
