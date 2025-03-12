@@ -67,7 +67,7 @@ heat_stressed_mean <- ___(heat_stressed_cells$___)
 heat_stressed_sd <- ___(heat_stressed_cells$___)
 ```
 
-```{r summarystats2-hint-1}
+```{r summarystats2-hint}
 # solution code
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
 heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
@@ -98,7 +98,7 @@ Now your turn! Create a histogram to visualize the distributions of HSP expressi
 ggplot(___, aes(x = ___)) + geom____()
 ```
 
-```{r histogram2-hint-1}
+```{r histogram2-hint}
 # solution code
 ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
 ```
@@ -124,7 +124,7 @@ t_test_result <- t.test(control_cells$___, heat_stressed_cells$___)
 print(t_test_result)
 ```
 
-```{r ttest-hint-1}
+```{r ttest-hint}
 # solution
 t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
 print(t_test_result)
@@ -142,9 +142,10 @@ Review the t-test output and determine if the p-value suggests a significant dif
 
 What does the p-value indicate about the difference in HSP expression levels between the two conditions?
 
-*Write your interpretation as a comment in the code chunk below:
+*Write your interpretation as a comment in the code chunk below. Make sure to "run code" to submit your response!
+
 ```{r interpretation, exercise = TRUE}
-# 
+# insert intreptation here
 ```
 
 ## Visualization
