@@ -87,8 +87,9 @@ Review the t-test output and determine if the p-value suggests a significant dif
 
 What does the p-value indicate about the difference in HSP expression levels between the two conditions?
 
-*Provide your interpretation here.*
+```{r interpretation, exercise = TRUE}
 
+```
 ## Visualization with the infer Package
 
 Using the infer package, we can further visualize the hypothesis testing process.
@@ -100,13 +101,20 @@ heat_shock_response %>%
   calculate(stat = "t")
 ```
 
-### Summary
+## Submit checkpoint
 
-In this lab, you learned how to:
-- Calculate summary statistics for comparing two groups.
-- Visualize distributions.
-- Perform an independent t-test.
-- Interpret the results.
-- Use the infer package for hypothesis testing.
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = T)
+```
 
-Make sure to review the results and think critically about what they tell us about the data!
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSf0FKvlOHfchtSxwIpD9Jo65sDlTjeokodsO1vP64rLcVYZ2A/viewform?usp=header",
+    width="900px", height= "1000px"
+  )
+)
+```
+
+
