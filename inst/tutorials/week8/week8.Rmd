@@ -48,7 +48,7 @@ glimpse(heat_shock_response)
 head(heat_shock_response)
 ```
 
-## Comparing Means with a t-test
+## Summary Statistics
 
 The goal is to compare the mean expression levels of HSPs between control and heat-stressed cells.
 
@@ -56,27 +56,82 @@ The goal is to compare the mean expression levels of HSPs between control and he
 
 Calculate the mean and standard deviation of HSP expression for both conditions.
 
-```{r summarystats, exercise = TRUE}
+```{r summarystats1, exercise = TRUE}
 control_mean <- mean(control_cells$HSP_expression)
 control_sd <- sd(control_cells$HSP_expression)
+```
+
+
+```{r summarystats2, exercise = TRUE}
+heat_stressed_mean <- ___(heat_stressed_cells$___)
+heat_stressed_sd <- ___(heat_stressed_cells$___)
+```
+
+```{r summarystats2-hint-1}
+# solution code
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
 heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
 ```
 
+```{r summarystats2-solution}
+# solution code
+heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
+heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
+```
+
+```{r summarystats2-check}
+# check code
+gradethis::grade_code()
+```
+
 ### Step 2: Visualizing the Distributions
 
-Create histograms to visualize the distributions of HSP expression levels in both conditions.
+Create histograms to visualize the distributions of HSP expression levels in the control condition.
 
-```{r histograms, exercise = TRUE}
+```{r histogram1, exercise = TRUE}
 ggplot(control_cells, aes(x = HSP_expression)) + geom_histogram()
+```
+
+Now your turn! Create a histogram to visualize the distributions of HSP expression levels in the heat-stressed cells.
+
+```{r histogram2, exercise = TRUE}
+ggplot(___, aes(x = ___)) + geom____()
+```
+
+```{r histogram2-hint-1}
+# solution code
 ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
 ```
+
+```{r histogram2-solution}
+# solution code
+ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
+```
+
+```{r histogram2-check}
+# check code
+gradethis::grade_code()
+```
+
+## Comparing Means with a t-test
 
 ### Step 3: Conducting a t-test
 
 We will now perform an independent t-test to determine if the mean HSP expression differs significantly between the control and heat-stressed cells.
 
 ```{r ttest, exercise = TRUE}
+t_test_result <- t.test(control_cells$___, heat_stressed_cells$___)
+print(t_test_result)
+```
+
+```{r ttest-hint-1}
+# solution
+t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
+print(t_test_result)
+```
+
+```{r ttest-solution}
+# solution
 t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
 print(t_test_result)
 ```
@@ -87,10 +142,12 @@ Review the t-test output and determine if the p-value suggests a significant dif
 
 What does the p-value indicate about the difference in HSP expression levels between the two conditions?
 
+*Write your interpretation as a comment in the code chunk below:
 ```{r interpretation, exercise = TRUE}
-
+# 
 ```
-## Visualization with the infer Package
+
+## Visualization
 
 Using the infer package, we can further visualize the hypothesis testing process.
 
