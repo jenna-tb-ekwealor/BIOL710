@@ -44,7 +44,7 @@ library(infer)
 We will analyze experimental data measuring heat shock protein (HSP) expression levels in control versus heat-stressed mammalian cells.
 
 ```{r viewdata, exercise = TRUE}
-glimpse(s)
+glimpse(heat_shock_response)
 head(heat_shock_response)
 ```
 
