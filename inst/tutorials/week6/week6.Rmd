@@ -204,7 +204,8 @@ But first, we need to initialize the test, which we will save as `obs_diff`.
 
 ```{r inf-weight-habit-ht-initial-setup}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(physical_3plus))
 ```
 
 ```{r inf-weight-habit-ht-initial, exercise = TRUE}
@@ -224,14 +225,16 @@ distribution, which we will save as `null`.
 
 ```{r inf-weight-habit-ht-null-setup}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(physical_3plus))
 
 table(yrbss$physical_3plus)
 ```
 
 ```{r inf-weight-habit-ht-null, exercise = TRUE}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(physical_3plus))
 
 null_dist <- yrbss %>%
   specify(weight ~ physical_3plus) %>%
@@ -251,7 +254,8 @@ We can visualize this null distribution with the following code:
 
 ```{r plot-null-setup}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(physical_3plus))
 
 null_dist <- yrbss %>%
   specify(weight ~ physical_3plus) %>%
@@ -272,7 +276,8 @@ How many of these `null` permutations have a difference of at least `obs_diff`?
 
 ```{r rnbeaffhhjhcykro-setup}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(physical_3plus))
 
 null_dist <- yrbss %>%
   specify(weight ~ physical_3plus) %>%
@@ -311,7 +316,8 @@ the p-value for your hypothesis test using the function `get_p_value`.
 
 ```{r inf-weight-habit-ht-pvalue-setup}
 yrbss <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(physical_3plus))
 
 null_dist <- yrbss %>%
   specify(weight ~ physical_3plus) %>%

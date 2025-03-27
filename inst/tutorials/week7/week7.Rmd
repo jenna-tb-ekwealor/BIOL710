@@ -225,7 +225,7 @@ qqnormsim(sample = ___, data = ___)
 ```
 
 ```{r gbmknvwczbalsxme-solution}
-qqnormsim(sample = protein, data = mints)
+qqnormsim(sample = calories, data = mints)
 ```
 
 ```{r gbmknvwczbalsxme-check}
@@ -252,7 +252,7 @@ table).  In R, this is done in one step with the function `pnorm()`.
 ```{r pnorm, exercise = T}
 1 - pnorm(q = 60, mean = daisymean, sd = daisysd)
 ```
-
+  
 Note that the function `pnorm()` gives the area under the normal curve below a 
 given value, `q`, with a given mean and standard deviation.  Since we're 
 interested in the probability that a daisy has more than 60 calories

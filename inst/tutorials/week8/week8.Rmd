@@ -48,35 +48,109 @@ glimpse(heat_shock_response)
 head(heat_shock_response)
 ```
 
-## Comparing Means with a t-test
+## Summary Statistics
 
 The goal is to compare the mean expression levels of HSPs between control and heat-stressed cells.
 
 ### Step 1: Compute Summary Statistics
+Filter the dataframe to have one dataframe for each of control and treatment conditions.
 
+```{r filterdata, exercise = TRUE}
+heat_stressed_cells <- heat_shock_response %>% dplyr::filter(condition == "heat_stressed")
+control_cells <- heat_shock_response %>% dplyr::filter(condition == "control")
+```
 Calculate the mean and standard deviation of HSP expression for both conditions.
 
-```{r summarystats, exercise = TRUE}
+```{r summarystats1, exercise = TRUE}
 control_mean <- mean(control_cells$HSP_expression)
 control_sd <- sd(control_cells$HSP_expression)
+control_mean
+control_sd
+```
+
+
+```{r summarystats2, exercise = TRUE}
+heat_stressed_mean <- ___(heat_stressed_cells$___)
+heat_stressed_sd <- ___(heat_stressed_cells$___)
+heat_stressed_mean
+heat_stressed_sd
+```
+
+```{r summarystats2-hint}
+# solution code
 heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
 heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
+heat_stressed_mean
+heat_stressed_sd
+```
+
+```{r summarystats2-solution}
+# solution code
+heat_stressed_mean <- mean(heat_stressed_cells$HSP_expression)
+heat_stressed_sd <- sd(heat_stressed_cells$HSP_expression)
+heat_stressed_mean
+heat_stressed_sd
+```
+
+```{r summarystats2-check}
+# check code
+gradethis::grade_code()
 ```
 
 ### Step 2: Visualizing the Distributions
 
-Create histograms to visualize the distributions of HSP expression levels in both conditions.
+Create histograms to visualize the distributions of HSP expression levels in the control condition.
 
-```{r histograms, exercise = TRUE}
+```{r histogram1, exercise = TRUE}
 ggplot(control_cells, aes(x = HSP_expression)) + geom_histogram()
+```
+
+Now your turn! Create a histogram to visualize the distributions of HSP expression levels in the heat-stressed cells.
+
+```{r histogram2, exercise = TRUE}
+ggplot(___, aes(x = ___)) + geom____()
+```
+
+```{r histogram2-hint}
+# solution code
 ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
 ```
+
+```{r histogram2-solution}
+# solution code
+ggplot(heat_stressed_cells, aes(x = HSP_expression)) + geom_histogram()
+```
+
+```{r histogram2-check}
+# check code
+gradethis::grade_code()
+```
+
+What can you tell by looking at these distributions? Put your answer as a comment in the code chunk below. Be sure to "Run code" to submit it!
+
+```{r observation, exercise = TRUE}
+# insert observation here
+```
+
+## Comparing Means with a t-test
 
 ### Step 3: Conducting a t-test
 
 We will now perform an independent t-test to determine if the mean HSP expression differs significantly between the control and heat-stressed cells.
 
 ```{r ttest, exercise = TRUE}
+t_test_result <- t.test(control_cells$___, heat_stressed_cells$___)
+print(t_test_result)
+```
+
+```{r ttest-hint}
+# solution
+t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
+print(t_test_result)
+```
+
+```{r ttest-solution}
+# solution
 t_test_result <- t.test(control_cells$HSP_expression, heat_stressed_cells$HSP_expression)
 print(t_test_result)
 ```
@@ -87,26 +161,51 @@ Review the t-test output and determine if the p-value suggests a significant dif
 
 What does the p-value indicate about the difference in HSP expression levels between the two conditions?
 
-*Provide your interpretation here.*
+*Write your interpretation as a comment in the code chunk below. Make sure to "run code" to submit your response!
 
-## Visualization with the infer Package
+```{r interpretation, exercise = TRUE}
+# insert interpretation here
+```
 
-Using the infer package, we can further visualize the hypothesis testing process.
+## Visualization
 
-```{r vizualize, exercise = TRUE}
-heat_shock_response %>%
+Using the infer package, we can further visualize the hypothesis testing process. First we generate a null distribution (like last week) then plot our t-test result onto it.
+
+```{r vizualize-setup}
+control_mean <- mean(control_cells$HSP_expression)
+control_sd <- sd(control_cells$HSP_expression)
+t_test_result <- heat_shock_response %>%
   specify(response = HSP_expression, explanatory = condition) %>%
-  hypothesize(null = "independence") %>%
   calculate(stat = "t")
 ```
 
-### Summary
+```{r vizualize, exercise = TRUE}
+null_dist_t <- heat_shock_response %>%
+  specify(response = HSP_expression, explanatory = condition) %>%
+  hypothesize(null = "independence", mu = control_mean) %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "t")
 
-In this lab, you learned how to:
-- Calculate summary statistics for comparing two groups.
-- Visualize distributions.
-- Perform an independent t-test.
-- Interpret the results.
-- Use the infer package for hypothesis testing.
+visualize(null_dist_t, method = "both") + 
+  shade_p_value(t_test_result, "both")
+```
 
-Make sure to review the results and think critically about what they tell us about the data!
+There's a lot more to this package that you might find useful. Check it out: [https://infer.tidymodels.org/reference/visualize.html](https://infer.tidymodels.org/reference/visualize.html)
+
+## Submit checkpoint
+
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = T)
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSf0FKvlOHfchtSxwIpD9Jo65sDlTjeokodsO1vP64rLcVYZ2A/viewform?usp=header",
+    width="900px", height= "1000px"
+  )
+)
+```
+
+
