@@ -223,7 +223,6 @@ plant_growth %>%
 ```{r rsq-plot-check}
 gradethis::grade_this_code()
 ```
-```
 
 ## Estimate R-squared
 
