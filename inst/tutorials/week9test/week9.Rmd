@@ -178,9 +178,6 @@ r_squared
 
 ```{r rsquared-interpretation, exercise = TRUE}
 # insert interpretation of R-squared here
-```{r rsquared, exercise = TRUE}
-r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
-r_squared
 ```
 
 
