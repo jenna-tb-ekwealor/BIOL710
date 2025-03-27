@@ -165,16 +165,35 @@ summary(aov_result)
 
 ## Visualizing ANOVA Results
 
-Fill in the missing code to visualize the boxplot, grand mean, and ANOVA p-value.
+### Step 1: Calculate the grand mean
 
-To better understand the results of the ANOVA, it's useful to visualize how group means compare to the overall (grand) mean, and whether the p-value suggests statistically significant differences.
+```{r grand-mean, exercise = TRUE}
+grand_mean <- ___(plant_growth$___)
+grand_mean
+```
+
+```{r grand-mean-solution}
+# solution code
+grand_mean <- mean(plant_growth$weight)
+grand_mean
+```
+
+```{r grand-mean-check}
+gradethis::grade_this_code()
+```
+
+### Step 2: Visualize group means vs. grand mean with p-value
+
+```{r rsq-plot-setup}
+grand_mean <- mean(plant_growth$weight)
+aov_result <- aov(weight ~ group, data = plant_growth)
+```
 
 ```{r rsq-plot, exercise = TRUE}
-grand_mean <- ___(plant_growth$___)
-
-aov_result <- aov(weight ~ group, data = plant_growth)
+# retrieve the pvalue from the ANOVA results table
 p_val <- summary(aov_result)[[1]]["Pr(>F)"][1]
 
+# plot means box plot with p-value and grand mean
 plant_growth %>%
   ggplot(aes(x = ___, y = ___)) +
   ___() +
@@ -185,19 +204,12 @@ plant_growth %>%
   )
 ```
 
-```{r rsq-plot-hint}
-# Hint: use mean() and reference the weight column inside plant_growth
-grand_mean <- ___(plant_growth$___)
-
-# For the plot, use ggplot(), set aes(x = ___, y = ___), and use geom_boxplot()
-``` 
-
 ```{r rsq-plot-solution}
-grand_mean <- mean(plant_growth$weight)
-
-aov_result <- aov(weight ~ group, data = plant_growth)
+# solution code
+# retrieve the pvalue from the ANOVA results table
 p_val <- summary(aov_result)[[1]]["Pr(>F)"][1]
 
+# plot means box plot with p-value and grand mean
 plant_growth %>%
   ggplot(aes(x = group, y = weight)) +
   geom_boxplot() +
@@ -210,6 +222,7 @@ plant_growth %>%
 
 ```{r rsq-plot-check}
 gradethis::grade_this_code()
+```
 ```
 
 ## Estimate R-squared
