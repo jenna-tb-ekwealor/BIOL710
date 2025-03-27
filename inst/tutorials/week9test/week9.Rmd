@@ -165,9 +165,35 @@ summary(aov_result)
 
 ## Visualizing ANOVA Results
 
+Fill in the missing code to visualize the boxplot, grand mean, and ANOVA p-value.
+
 To better understand the results of the ANOVA, it's useful to visualize how group means compare to the overall (grand) mean, and whether the p-value suggests statistically significant differences.
 
 ```{r rsq-plot, exercise = TRUE}
+grand_mean <- ___(plant_growth$___)
+
+aov_result <- aov(weight ~ group, data = plant_growth)
+p_val <- summary(aov_result)[[1]]["Pr(>F)"][1]
+
+plant_growth %>%
+  ggplot(aes(x = ___, y = ___)) +
+  ___() +
+  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
+  labs(
+    title = "Group Means vs. Grand Mean",
+    subtitle = paste("Red dashed line = grand mean | ANOVA p-value:", round(p_val, 4))
+  )
+```
+
+```{r rsq-plot-hint, exercise = TRUE}
+# Hint: use mean() and reference the weight column inside plant_growth
+grand_mean <- ___(plant_growth$___)
+
+# For the plot, use ggplot(), set aes(x = ___, y = ___), and use geom_boxplot()
+``` 
+
+```{r rsq-plot-solution}
+# solution code
 grand_mean <- mean(plant_growth$weight)
 
 aov_result <- aov(weight ~ group, data = plant_growth)
