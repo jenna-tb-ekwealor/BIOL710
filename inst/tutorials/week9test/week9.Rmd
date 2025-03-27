@@ -75,6 +75,15 @@ ggplot(plant_growth, aes(x = group, y = weight)) +
   geom_boxplot()
 ```
 
+```{r plot-question}
+question("Which group *appears* to have the highest median weight?",
+  answer("ctrl"),
+  answer("trt1"),
+  answer("trt2", correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
 What does this plot suggest about the group means?
 
 ```{r boxplot-mcq}
@@ -83,15 +92,6 @@ question("Based on the boxplot, which groups are most likely to be significantly
   answer("trt1 is significantly different from ctrl because trt1 has more outliers"),
   answer("ctrl is different from trt2 because the boxes are the same width but have different medians"),
   answer("None of the groups are likely to be different because the whiskers all touch"),
-  allow_retry = TRUE
-)
-```
-
-```{r plot-question}
-question("Which group *appears* to have the highest median weight?",
-  answer("ctrl"),
-  answer("trt1"),
-  answer("trt2", correct = TRUE),
   allow_retry = TRUE
 )
 ```
@@ -167,7 +167,18 @@ summary(aov_result)
 
 ## Estimate R-squared
 
-R² is the proportion of variation explained by the grouping variable:
+R² is the proportion of variation explained by the grouping variable — in other words, how well the grouping variable accounts for differences in the response.
+
+One way to visualize this is to plot the **group means** and overlay the **grand mean** (mean of all observations), to see how much of the variation is due to differences among group means.
+
+```{r rsq-plot, exercise = TRUE}
+grand_mean <- mean(plant_growth$weight)
+
+ggplot(plant_growth, aes(x = group, y = weight)) +
+  geom_boxplot() +
+  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
+  labs(title = "Group Means and Grand Mean", subtitle = "Red dashed line = grand mean")
+```
 
 ```{r rsquared, exercise = TRUE}
 r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
