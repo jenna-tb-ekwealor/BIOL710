@@ -1,0 +1,210 @@
+---
+title: "Introduction to ANOVA"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(BIOL710)
+library(learnr)
+library(learnrhash)
+library(tidyverse)
+library(gradethis)
+library(infer)
+tutorial_options(
+  exercise.checker = gradethis::grade_learnr
+)
+knitr::opts_chunk$set(echo = FALSE)
+
+# Prepare data
+plant_growth <- PlantGrowth
+```
+
+## Getting Started
+
+In this pre-class lab, you'll explore **ANOVA** (Analysis of Variance), a method used to compare the means of **more than two groups**. If you're asking:
+
+> Does *any* group differ in its mean compared to the others?
+
+...then ANOVA is your tool!
+
+
+### Load packages
+
+We’ll be using the **tidyverse** and **infer** packages to explore and analyze our data.
+
+```{r load-packages, exercise = TRUE}
+library(tidyverse)
+library(infer)
+```
+
+
+### The data
+
+We’ll use the classic `PlantGrowth` dataset. It contains the dry weight of plants grown under three different conditions:
+
+- `ctrl`: control group
+- `trt1`: treatment 1
+- `trt2`: treatment 2
+
+Take a look:
+
+```{r view-data, exercise = TRUE}
+head(plant_growth)
+```
+
+
+### How many plants per group?
+Use `count()` to find out:
+
+```{r count-groups, exercise = TRUE}
+plant_growth %>%
+  count(group)
+```
+
+
+## Visualizing group differences
+
+Let’s make a boxplot to compare the plant weights across the three groups.
+
+```{r boxplot, exercise = TRUE}
+ggplot(plant_growth, aes(x = group, y = weight)) +
+  geom_boxplot()
+```
+
+What does this plot suggest about the group means?
+
+```{r plot-question}
+question("Which group *appears* to have the highest median weight?",
+  answer("ctrl"),
+  answer("trt1"),
+  answer("trt2", correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+
+## Summary statistics
+
+Let’s compute the **mean and standard deviation** for each group.
+
+```{r group-stats, exercise = TRUE}
+plant_growth %>%
+  group_by(group) %>%
+  summarise(
+    mean_weight = mean(weight),
+    sd_weight = sd(weight)
+  )
+```
+
+## Hypothesis: Do group means differ?
+
+We’ll now test:
+- **Null hypothesis (H₀)**: All groups have the same mean.
+- **Alternative (H₁)**: At least one group has a different mean.
+
+### Step 1: Observed F statistic
+
+```{r obs-f, exercise = TRUE}
+obs_f <- plant_growth %>%
+  specify(weight ~ group) %>%
+  calculate(stat = "F")
+
+obs_f
+```
+
+### Step 2: Simulate the null distribution
+
+```{r null-dist, exercise = TRUE}
+null_f <- plant_growth %>%
+  specify(weight ~ group) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "F")
+```
+
+### Step 3: Visualize the null distribution
+
+```{r f-plot, exercise = TRUE}
+null_f %>%
+  ggplot(aes(x = stat)) +
+  geom_histogram(binwidth = 0.5, fill = "lightblue", color = "black") +
+  geom_vline(xintercept = obs_f$stat, color = "red", linetype = "dashed")
+```
+
+### Step 4: Calculate the p-value
+
+```{r p-value, exercise = TRUE}
+null_f %>%
+  get_p_value(obs_stat = obs_f, direction = "right")
+```
+
+What does the p-value tell you about differences in plant weights across groups?
+
+*Write your interpretation here.*
+
+
+## Fill-in-the-blank Practice
+
+Try completing the code below to compute summary statistics by group:
+
+```{r fill-summarise, exercise = TRUE}
+plant_growth %>%
+  group_by(group) %>%
+  summarise(
+    mean_weight = ___(weight),
+    sd_weight = ___(weight)
+  )
+```
+
+```{r fill-summarise-solution}
+plant_growth %>%
+  group_by(group) %>%
+  summarise(
+    mean_weight = mean(weight),
+    sd_weight = sd(weight)
+  )
+```
+
+```{r fill-summarise-check}
+gradethis::grade_this_code()
+```
+
+## Bonus: Run ANOVA with base R (optional)
+
+```{r base-anova, exercise = TRUE}
+aov_result <- aov(weight ~ group, data = plant_growth)
+summary(aov_result)
+```
+
+Does the F statistic and p-value match what you got from the `infer` workflow?
+
+## Submit checkpoint
+
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = TRUE)
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSf0FKvlOHfchtSxwIpD9Jo65sDlTjeokodsO1vP64rLcVYZ2A/viewform?usp=header",
+    width = "900px", height = "1000px"
+  )
+)
+```
+
+* * *
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+</a>
+<br />
+This work is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+  Creative Commons Attribution-ShareAlike 4.0 International License
+</a> and adapted for use by your instructor.
