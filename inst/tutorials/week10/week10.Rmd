@@ -1,0 +1,133 @@
+---
+title: "Two-Way ANOVA: Interactions Between Factors"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(learnr)
+library(learnrhash)
+library(gradethis)
+tutorial_options(
+  exercise.checker = gradethis::grade_learnr
+)
+knitr::opts_chunk$set(echo = FALSE)
+
+data("ToothGrowth")
+tooth_data <- ToothGrowth
+```
+
+## Getting Started
+
+In this pre-lab, you'll explore the **two-way ANOVA**, a method used to test whether two categorical explanatory variables — and their interaction — affect a quantitative response variable.
+
+We’ll use the built-in `ToothGrowth` dataset, which examines tooth length in guinea pigs based on:
+- Supplement type (`supp`: orange juice `OJ` vs. vitamin C `VC`)
+- Dose (`dose`: amount of vitamin C administered)
+
+### Load the data
+
+```{r glimpse-tooth, exercise = TRUE}
+glimpse(tooth_data)
+```
+
+### What variables are we working with?
+
+```{r variable-check}
+question("Which of the following is the response variable?",
+  answer("length", correct = TRUE),
+  answer("dose"),
+  answer("supp"),
+  answer("ToothGrowth"),
+  allow_retry = TRUE
+)
+```
+
+### How many levels are there for each factor?
+
+```{r factor-levels, exercise = TRUE}
+tooth_data %>%
+  count(supp)
+
+tooth_data %>%
+  count(dose)
+```
+
+
+## Visualizing the data
+
+Let’s explore how dose and supplement type affect tooth length.
+
+```{r boxplot-interaction, exercise = TRUE}
+ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
+  geom_boxplot(position = position_dodge(0.8)) +
+  labs(x = "Dose (mg)", y = "Tooth Length")
+```
+
+
+## Run a two-way ANOVA
+
+Let’s test whether dose, supplement type, or their interaction affect tooth length.
+
+```{r twoway-anova, exercise = TRUE}
+aov_tooth <- aov(len ~ supp * dose, data = tooth_data)
+summary(aov_tooth)
+```
+
+### Interpret the output
+
+*Write your interpretation of the p-values for each term (supp, dose, and supp:dose) below.*
+
+```{r interpretation-twoway, exercise = TRUE}
+# What does the ANOVA table tell you?
+```
+
+
+## Visualizing the interaction
+
+An interaction plot can help us see whether the effect of one factor depends on the level of another.
+
+```{r interaction-plot, exercise = TRUE}
+ggplot(tooth_data, aes(x = factor(dose), y = len, color = supp, group = supp)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "line") +
+  labs(title = "Interaction Plot", x = "Dose (mg)", y = "Mean Tooth Length")
+```
+
+```{r interaction-question}
+question("If the lines in an interaction plot are not parallel, what does this suggest?",
+  answer("There may be an interaction effect", correct = TRUE),
+  answer("The main effect of one variable is stronger"),
+  answer("The model is nonlinear"),
+  answer("There is no effect of either variable"),
+  allow_retry = TRUE
+)
+```
+
+
+## Submit checkpoint
+
+```{r context="server"}
+learnrhash::encoder_logic(strip_output = TRUE)
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(
+  ui_before = div(strong("Submit your hash in the form below."), br(), br()),
+  ui_after  = learnrhash::iframe_ui(
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSf0FKvlOHfchtSxwIpD9Jo65sDlTjeokodsO1vP64rLcVYZ2A/viewform?usp=header",
+    width = "900px", height = "1000px"
+  )
+)
+```
+
+* * *
+
+This work is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+  Creative Commons Attribution-ShareAlike 4.0 International License. 
+</a> and adapted for use by your instructor.
