@@ -41,13 +41,10 @@ glimpse(tooth_data)
 
 ```{r variable-check}
 question("Which of the following is the response variable?",
-  answer("len (tooth length)", correct = TRUE),
-  answer("dose (vitamin C amount)"),
+  answer("dose (supplement amount)"),
   answer("supp (supplement type)"),
-  answer("ToothGrowth (dataset name)"),
-  answer("dose"),
-  answer("supp"),
-  answer("ToothGrowth"),
+  answer("ToothGrowth (dataframe)"),
+  answer("len (tooth length)", correct = TRUE),
   allow_retry = TRUE
 )
 ```
