@@ -25,9 +25,11 @@ tooth_data <- ToothGrowth
 
 In this pre-lab, you'll explore the **two-way ANOVA**, a method used to test whether two categorical explanatory variables — and their interaction — affect a quantitative response variable.
 
-We’ll use the built-in `ToothGrowth` dataset, which examines tooth length in guinea pigs based on:
-- Supplement type (`supp`: orange juice `OJ` vs. vitamin C `VC`)
-- Dose (`dose`: amount of vitamin C administered)
+We’ll use the `ToothGrowth` dataset, which examines tooth length (`len`) in guinea pigs based on two factors:
+- **Supplement type** (`supp`): orange juice (`OJ`) vs. vitamin C in capsule form (`VC`)
+- **Dose** (`dose`): amount of vitamin C administered in milligrams
+
+The dataset comes from a classic study on vitamin C and tooth growth in guinea pigs, where researchers tested whether delivery method and dosage affected tooth development.
 
 ### Load the data
 
@@ -38,7 +40,7 @@ glimpse(tooth_data)
 ### What variables are we working with?
 
 ```{r variable-check}
-question("Which of the following is the response variable?",
+question("Which of the following is the response variable (column name: `len`)?",
   answer("length", correct = TRUE),
   answer("dose"),
   answer("supp"),
@@ -73,9 +75,21 @@ ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
 
 Let’s test whether dose, supplement type, or their interaction affect tooth length.
 
+Fill in the blanks below to complete the two-way ANOVA model. Use the `aov()` function and specify both main effects and the interaction.
+
+
 ```{r twoway-anova, exercise = TRUE}
+aov_tooth <- aov(___ ~ ___ * ___, data = tooth_data)
+summary(___)
+```
+
+```{r twoway-anova-solution}
 aov_tooth <- aov(len ~ supp * dose, data = tooth_data)
 summary(aov_tooth)
+```
+
+```{r twoway-anova-check}
+gradethis::grade_this_code()
 ```
 
 ### Interpret the output
@@ -89,14 +103,21 @@ summary(aov_tooth)
 
 ## Visualizing the interaction
 
-An interaction plot can help us see whether the effect of one factor depends on the level of another.
+An **interaction** occurs when the effect of one factor depends on the level of another factor. In the `ToothGrowth` dataset, this means asking: *Does the effect of vitamin C dosage depend on whether the supplement is given as orange juice or a capsule?*
+
+To visualize this, we plot the **mean tooth length** at each dose, separated by supplement type. If the lines are **not parallel**, this suggests an interaction.
+
+We also move the legend onto the plot area so it’s more visible on all screens.
 
 ```{r interaction-plot, exercise = TRUE}
 ggplot(tooth_data, aes(x = factor(dose), y = len, color = supp, group = supp)) +
   stat_summary(fun = mean, geom = "point", size = 3) +
   stat_summary(fun = mean, geom = "line") +
-  labs(title = "Interaction Plot", x = "Dose (mg)", y = "Mean Tooth Length")
+  labs(title = "Interaction Plot", x = "Dose (mg)", y = "Mean Tooth Length") +
+  theme(legend.position = "top")
 ```
+
+
 
 ```{r interaction-question}
 question("If the lines in an interaction plot are not parallel, what does this suggest?",
