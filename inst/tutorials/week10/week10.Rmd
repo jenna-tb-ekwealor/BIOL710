@@ -144,9 +144,12 @@ question("If the lines in an interaction plot are not parallel, what does this s
 
 Let’s put it all together: create a boxplot of the data and add the global ANOVA p-value.
 
-```{r summary-plot, exercise = TRUE}
+```{r summary-plot-setup, include=FALSE}
 aov_tooth <- aov(len ~ supp * dose, data = tooth_data)
-p_val <- summary(aov_tooth)[[1]]["Pr(>F)"][1]
+```
+
+```{r summary-plot, exercise = TRUE}
+p_val <- summary(aov_tooth)[[1]]["Pr(>F)"][1, 1]
 
 ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
   geom_boxplot(position = position_dodge(0.8)) +
@@ -154,11 +157,7 @@ ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
     title = "Tooth Length by Dose and Supplement Type",
     x = "Dose (mg)", y = "Tooth Length"
   ) +
-  geom_text(
-    aes(x = 0.5, y = 30,
-        label = paste("Global ANOVA p-value:", round(p_val, 4))),
-    inherit.aes = FALSE
-  ) +
+  annotate("text", x = 1, y = 35, label = sprintf("Global ANOVA p-value: %.4f", as.numeric(p_val))) +
   theme(legend.position = "top")
 ```
 
