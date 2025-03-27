@@ -1,6 +1,6 @@
 ---
-title: "Introduction to ANOVA"
-output: 
+title: "One-Way ANOVA: Comparing Group Means"
+output:
   learnr::tutorial:
     progressive: true
     allow_skip: true
@@ -8,256 +8,110 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
-library(BIOL710)
+library(tidyverse)
 library(learnr)
 library(learnrhash)
-library(tidyverse)
 library(gradethis)
-library(infer)
 tutorial_options(
   exercise.checker = gradethis::grade_learnr
 )
 knitr::opts_chunk$set(echo = FALSE)
 
-# Prepare data
 plant_growth <- PlantGrowth
 ```
 
 ## Getting Started
 
-In this pre-lab, you'll explore **ANOVA** (Analysis of Variance), a method used to compare the means of **more than two groups**. If you're asking:
-
-> Does *any* group differ in its mean compared to the others?
-
-...then ANOVA is your tool!
-
-
-### Load packages
-
-We’ll be using the **tidyverse** and **infer** packages to explore and analyze our data.
-
-```{r load-packages, exercise = TRUE}
-library(tidyverse)
-library(infer)
-```
-
-
-### The data
-
-We’ll use the classic `PlantGrowth` dataset. It contains the dry weight of plants grown under three different conditions:
-
-- `ctrl`: control group
+In this pre-lab, you'll explore the **one-way ANOVA**, used to compare means across more than two groups. Our dataset, `PlantGrowth`, contains weights of plants grown under three different conditions:
+- `ctrl`: control
 - `trt1`: treatment 1
 - `trt2`: treatment 2
 
-Take a look:
+### Load the data
 
-```{r view-data, exercise = TRUE}
-head(plant_growth)
+```{r glimpse-data, exercise = TRUE}
+glimpse(plant_growth)
 ```
 
+### Which variable is the response?
+
+```{r response-var-question}
+question("Which of the following is the response variable?",
+  answer("weight (plant weight)", correct = TRUE),
+  answer("group (treatment group)"),
+  answer("PlantGrowth (dataset name)"),
+  allow_retry = TRUE
+)
+```
 
 ### How many plants per group?
-Use `count()` to find out:
 
 ```{r count-groups, exercise = TRUE}
-plant_growth %>%
-  count(group)
+plant_growth %>% count(group)
 ```
 
+## Visualizing the data
 
-## Visualizing group differences
-
-Let’s make a boxplot to compare the plant weights across the three groups.
-
-```{r boxplot, exercise = TRUE}
+```{r boxplot-groups, exercise = TRUE}
 ggplot(plant_growth, aes(x = group, y = weight)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(x = "Group", y = "Plant Weight")
 ```
 
-```{r plot-question}
-question("Which group *appears* to have the highest median weight?",
-  answer("ctrl"),
-  answer("trt1"),
-  answer("trt2", correct = TRUE),
-  allow_retry = TRUE
-)
-```
+## Run a one-way ANOVA
 
-What does this plot suggest about the group means?
+Fill in the blanks to complete the model.
 
-```{r boxplot-mcq}
-question("Based on the boxplot, which groups are most likely to be significantly different from each other, and why?",
-  answer("trt2 is likely different from the others because its median is clearly separated and the boxes don’t overlap much", correct = TRUE),
-  answer("trt1 is significantly different from ctrl because trt1 has more outliers"),
-  answer("ctrl is different from trt2 because the boxes are the same width but have different medians"),
-  answer("None of the groups are likely to be different because the whiskers all touch"),
-  allow_retry = TRUE
-)
-```
-
-
-## Summary statistics
-
-Let’s compute the **mean and standard deviation** for each group.
-
-```{r group-stats, exercise = TRUE}
-plant_growth %>%
-  group_by(group) %>%
-  summarise(
-    mean_weight = mean(weight),
-    sd_weight = sd(weight)
-  )
-```
-
-## One-Way ANOVA using R
-
-Let’s run a one-way ANOVA using the `aov()` function in R.
-
-The general syntax is:
-
-```r
-aov(response_variable ~ explanatory_variable, data = dataset)
-```
-
-Think carefully: which variable is the outcome you're measuring (response)? Which defines the groups (explanatory)?
-
-Fill in the blanks to run your ANOVA:
-
-```{r fill-anova, exercise = TRUE}
-aov_result <- aov(___ ~ ___, data = plant_growth)
+```{r oneway-anova, exercise = TRUE}
+aov_plant <- aov(___ ~ ___, data = plant_growth)
 summary(___)
 ```
 
-```{r fill-anova-solution}
-aov_result <- aov(weight ~ group, data = plant_growth)
-summary(aov_result)
+```{r oneway-anova-solution}
+aov_plant <- aov(weight ~ group, data = plant_growth)
+summary(aov_plant)
 ```
 
-```{r fill-anova-check}
+```{r oneway-anova-check}
 gradethis::grade_this_code()
 ```
 
-::: {.info-box}
-The F statistic is calculated as the ratio of the mean square for the groups (between-group variability) to the mean square for the residuals (within-group variability). A larger F indicates greater separation between groups.
-:::
+### Interpret the output
 
-
-
-
-Which values in the ANOVA output correspond to:
-- Degrees of freedom for groups and residuals?
-- Mean square for groups and error?
-- The F value?
-- The p-value?
-
-*Write your interpretation as a comment in the code chunk below. Make sure to "run code" to submit your response!*
-
-```{r interpretation, exercise = TRUE}
-# insert interpretation here
+```{r oneway-anova-interpretation, exercise = TRUE}
+# What does the ANOVA table suggest about differences among group means?
 ```
 
+## Summary Visualization with p-value
 
-```{r rsquared-setup, include=FALSE}
-aov_result <- aov(weight ~ group, data = plant_growth)
-summary(aov_result)
+```{r summary-plot-setup, include=FALSE}
+aov_plant <- aov(weight ~ group, data = plant_growth)
 ```
 
-## Visualizing ANOVA Results
+```{r summary-plot, exercise = TRUE}
+p_val <- summary(aov_plant)[[1]]["Pr(>F)"][1, 1]
 
-### Step 1: Calculate the grand mean
-
-```{r grand-mean, exercise = TRUE}
-grand_mean <- ___(plant_growth$___)
-grand_mean
-```
-
-```{r grand-mean-solution}
-# solution code
-grand_mean <- mean(plant_growth$weight)
-grand_mean
-```
-
-```{r grand-mean-check}
-gradethis::grade_this_code()
-```
-
-```{r rsq-plot-setup}
-grand_mean <- mean(plant_growth$weight)
-aov_result <- aov(weight ~ group, data = plant_growth)
-```
-
-### Step 2: Visualize group means vs. grand mean with p-value
-
-```{r rsq-plot, exercise = TRUE}
-# retrieve the p-value from the ANOVA results table
-p_val <- summary(aov_result)[[1]]["Pr(>F)"][1]
-
-# plot boxplot of weights by group with grand mean and p-value annotation
-plant_growth %>%
-  ggplot(aes(x = ___, y = ___)) +
-  ___() +
-  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
-  labs(
-    title = "Group Means vs. Grand Mean",
-    subtitle = paste("Red dashed line = grand mean | ANOVA p-value:", round(p_val, 4))
-  )
-```
-
-```{r rsq-plot-solution}
-# solution code
-# retrieve the p-value from the ANOVA results table
-p_val <- summary(aov_result)[[1]]["Pr(>F)"][1]
-
-# plot boxplot of weights by group with grand mean and p-value annotation
-plant_growth %>%
-  ggplot(aes(x = group, y = weight)) +
+ggplot(plant_growth, aes(x = group, y = weight)) +
   geom_boxplot() +
-  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
   labs(
-    title = "Group Means vs. Grand Mean",
-    subtitle = paste("Red dashed line = grand mean | ANOVA p-value:", round(p_val, 4))
-  )
+    title = "Plant Weight by Treatment Group",
+    x = "Group", y = "Plant Weight"
+  ) +
+  annotate("text", x = 1, y = 7, label = sprintf("Global ANOVA p-value: %.4f", as.numeric(p_val))) +
+  theme(legend.position = "none")
 ```
 
-```{r rsq-plot-check}
-gradethis::grade_this_code()
+### Check your understanding
+
+```{r interpretation-question-final}
+question("What does the one-way ANOVA indicate about plant weights?",
+  answer("There is likely a difference in mean weight among the groups.", correct = TRUE),
+  answer("All groups have equal means."),
+  answer("There is no variation in the data."),
+  answer("The ANOVA model failed."),
+  allow_retry = TRUE
+)
 ```
-
-## Estimate R-squared
-
-R² is the proportion of variation explained by the grouping variable — in other words, how well the grouping variable accounts for differences in the response.
-
-A value close to 1 means the grouping variable explains a lot of the variability; a value near 0 means most variability is unexplained.
-
-To explore what's *not* explained, we can visualize **residuals** — the difference between each observation and its group mean.
-
-To help visualize **residuals**, we can plot the difference between each point and its group mean:
-
-```{r residuals-plot, exercise = TRUE}
-plant_growth <- plant_growth %>%
-  group_by(group) %>%
-  mutate(group_mean = mean(weight),
-         residual = weight - group_mean)
-
-ggplot(plant_growth, aes(x = group, y = residual)) +
-  geom_jitter(width = 0.1, alpha = 0.7) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  labs(title = "Residuals by Group", subtitle = "How far each point is from its group mean")
-```
-
-
-```{r rsquared, exercise = TRUE}
-r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
-r_squared
-```
-
-*Write your interpretation of the R² value as a comment in the code chunk below. Make sure to "run code" to submit your response!*
-
-```{r rsquared-interpretation, exercise = TRUE}
-# Based on the value of R-squared, what does this tell you about how well group membership explains variation in weight?
-```
-
 
 ## Submit checkpoint
 
