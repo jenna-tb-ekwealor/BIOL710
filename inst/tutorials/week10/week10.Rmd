@@ -151,8 +151,13 @@ p_val <- summary(aov_tooth)[[1]]["Pr(>F)"][1]
 ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
   geom_boxplot(position = position_dodge(0.8)) +
   labs(
-    title = paste("Two-Way ANOVA | Global p-value:", round(p_val, 4)),
+    title = "Tooth Length by Dose and Supplement Type",
     x = "Dose (mg)", y = "Tooth Length"
+  ) +
+  geom_text(
+    aes(x = 0.5, y = 30,
+        label = paste("Global ANOVA p-value:", round(p_val, 4))),
+    inherit.aes = FALSE
   ) +
   theme(legend.position = "top")
 ```
