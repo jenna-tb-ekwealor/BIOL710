@@ -28,7 +28,7 @@ heat_stressed_cells <- heat_shock_response %>%
 
 ## Getting Started
 
-In this lab, you'll explore the t-test, a statistical method used to compare two independent group means and assess if they are significantly different from each other.
+In this pre-lab, you'll explore the t-test, a statistical method used to compare two independent group means and assess if they are significantly different from each other.
 
 ### Load Packages
 

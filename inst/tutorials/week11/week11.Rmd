@@ -34,7 +34,7 @@ and other social and economic circumstances. The Human Freedom Index is an annua
 co-published report by the Cato Institute, the Fraser Institute, and the Liberales
 Institut at the Friedrich Naumann Foundation for Freedom.
 
-In this lab, you'll be analyzing data from Human Freedom Index reports from 2008-2016.
+In this pre-lab, you'll be analyzing data from Human Freedom Index reports from 2008-2016.
 Your aim will be to summarize a few of the relationships within the data both 
 graphically and numerically in order to find which variables can help tell a story
 about freedom.

@@ -32,7 +32,7 @@ daisysd   <- sd(daisies$protein)
 
 ## Getting Started
 
-In this lab, you'll investigate the probability distribution that is most central
+In this pre-lab, you'll investigate the probability distribution that is most central
 to statistics: the normal distribution.  If you are confident that your data are 
 nearly normal, that opens the door to many powerful statistical methods.  Here 
 we'll use the graphical tools of R to assess the normality of our data and also 

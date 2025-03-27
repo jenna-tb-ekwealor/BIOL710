@@ -41,7 +41,7 @@ into a positive professor evaluation. The goal is to show you how to fit and eva
 
 ### Load packages
 
-In this lab, you will explore and visualize the data using the **tidyverse** suite of 
+In this pre-lab, you will explore and visualize the data using the **tidyverse** suite of 
 packages. The data can be found in the companion package for OpenIntro resources, **openintro**.
 
 Let's load the packages.
