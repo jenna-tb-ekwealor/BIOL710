@@ -105,7 +105,7 @@ ggplot(plant_growth, aes(x = group, y = weight)) +
 
 ```{r interpretation-question-final}
 question("What does the one-way ANOVA indicate about plant weights?",
-  answer("There is likely a difference in mean weight among the groups.", correct = TRUE),
+  answer("At least one treatment affects plant growth.", correct = TRUE),
   answer("All groups have equal means."),
   answer("There is no variation in the data."),
   answer("The ANOVA model failed."),
