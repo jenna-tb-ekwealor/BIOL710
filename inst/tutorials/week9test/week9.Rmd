@@ -145,8 +145,6 @@ The F statistic is calculated as the ratio of the mean square for the groups (be
 
 
 
-## Interpreting the output
-
 Which values in the ANOVA output correspond to:
 - Degrees of freedom for groups and residuals?
 - Mean square for groups and error?
@@ -165,26 +163,33 @@ aov_result <- aov(weight ~ group, data = plant_growth)
 summary(aov_result)
 ```
 
+## Visualizing ANOVA Results
+
+To better understand the results of the ANOVA, it's useful to visualize how group means compare to the overall (grand) mean, and whether the p-value suggests statistically significant differences.
+
+```{r rsq-plot, exercise = TRUE}
+grand_mean <- mean(plant_growth$weight)
+
+aov_result <- aov(weight ~ group, data = plant_growth)
+p_val <- summary(aov_result)[[1]]["Pr(>F)"][1]
+
+plant_growth %>%
+  ggplot(aes(x = group, y = weight)) +
+  geom_boxplot() +
+  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
+  labs(
+    title = "Group Means vs. Grand Mean",
+    subtitle = paste("Red dashed line = grand mean | ANOVA p-value:", round(p_val, 4))
+  )
+```
+
 ## Estimate R-squared
 
 R² is the proportion of variation explained by the grouping variable — in other words, how well the grouping variable accounts for differences in the response.
 
 A value close to 1 means the grouping variable explains a lot of the variability; a value near 0 means most variability is unexplained.
 
-To build intuition, we can:
-- Visualize how far individual values deviate from their group mean vs. the grand mean.
-- Plot model residuals — the differences between observed values and their predicted group mean — to see what's *not* explained.
-
-One way to visualize this is to plot the **group means** and overlay the **grand mean** (mean of all observations), to see how much of the variation is due to differences among group means.
-
-```{r rsq-plot, exercise = TRUE}
-grand_mean <- mean(plant_growth$weight)
-
-ggplot(plant_growth, aes(x = group, y = weight)) +
-  geom_boxplot() +
-  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
-  labs(title = "Group Means and Grand Mean", subtitle = "Red dashed line = grand mean")
-```
+To explore what's *not* explained, we can visualize **residuals** — the difference between each observation and its group mean.
 
 To help visualize **residuals**, we can plot the difference between each point and its group mean:
 
