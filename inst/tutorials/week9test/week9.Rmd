@@ -185,7 +185,7 @@ plant_growth %>%
   )
 ```
 
-```{r rsq-plot-hint, exercise = TRUE}
+```{r rsq-plot-hint}
 # Hint: use mean() and reference the weight column inside plant_growth
 grand_mean <- ___(plant_growth$___)
 
@@ -193,7 +193,6 @@ grand_mean <- ___(plant_growth$___)
 ``` 
 
 ```{r rsq-plot-solution}
-# solution code
 grand_mean <- mean(plant_growth$weight)
 
 aov_result <- aov(weight ~ group, data = plant_growth)
@@ -207,6 +206,10 @@ plant_growth %>%
     title = "Group Means vs. Grand Mean",
     subtitle = paste("Red dashed line = grand mean | ANOVA p-value:", round(p_val, 4))
   )
+```
+
+```{r rsq-plot-check}
+gradethis::grade_this_code()
 ```
 
 ## Estimate R-squared
