@@ -142,21 +142,7 @@ gradethis::grade_this_code()
 The F statistic is calculated as the ratio of the mean square for the groups (between-group variability) to the mean square for the residuals (within-group variability). A larger F indicates greater separation between groups.
 :::
 
-### Fill in the blanks: Run your own ANOVA
 
-```{r fill-anova, exercise = TRUE}
-aov_result <- aov(___ ~ ___, data = plant_growth)
-summary(___)
-```
-
-```{r fill-anova-solution}
-aov_result <- aov(weight ~ group, data = plant_growth)
-summary(aov_result)
-```
-
-```{r fill-anova-check}
-gradethis::grade_this_code()
-```
 
 
 ## Interpreting the output
