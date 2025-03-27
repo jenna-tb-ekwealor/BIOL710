@@ -88,7 +88,7 @@ What does this plot suggest about the group means?
 
 ```{r boxplot-mcq}
 question("Based on the boxplot, which groups are most likely to be significantly different from each other, and why?",
-  answer("trt2 is significantly different from both other groups because the quartiles do not overlap", correct = TRUE),
+  answer("trt2 is likely different from the others because its median is clearly separated and the boxes don’t overlap much", correct = TRUE),
   answer("trt1 is significantly different from ctrl because trt1 has more outliers"),
   answer("ctrl is different from trt2 because the boxes are the same width but have different medians"),
   answer("None of the groups are likely to be different because the whiskers all touch"),
@@ -169,8 +169,35 @@ summary(aov_result)
 
 R² is the proportion of variation explained by the grouping variable — in other words, how well the grouping variable accounts for differences in the response.
 
+A value close to 1 means the grouping variable explains a lot of the variability; a value near 0 means most variability is unexplained.
+
+To build intuition, we can:
+- Visualize how far individual values deviate from their group mean vs. the grand mean.
+- Plot model residuals — the differences between observed values and their predicted group mean — to see what's *not* explained.
+
 One way to visualize this is to plot the **group means** and overlay the **grand mean** (mean of all observations), to see how much of the variation is due to differences among group means.
 
+```{r rsq-plot, exercise = TRUE}
+grand_mean <- mean(plant_growth$weight)
+
+ggplot(plant_growth, aes(x = group, y = weight)) +
+  geom_boxplot() +
+  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
+  labs(title = "Group Means and Grand Mean", subtitle = "Red dashed line = grand mean")
+```
+
+To help visualize **residuals**, we can plot the difference between each point and its group mean:
+
+```{r residuals-plot, exercise = TRUE}
+plant_growth <- plant_growth %>%
+  group_by(group) %>%
+  mutate(group_mean = mean(weight),
+         residual = weight - group_mean)
+
+ggplot(plant_growth, aes(x = group, y = residual)) +
+  geom_jitter(width = 0.1, alpha = 0.7) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Residuals by Group", subtitle = "How far each point is from its group mean")
 ```{r rsq-plot, exercise = TRUE}
 grand_mean <- mean(plant_growth$weight)
 
@@ -188,7 +215,7 @@ r_squared
 *Write your interpretation of the R² value as a comment in the code chunk below. Make sure to "run code" to submit your response!*
 
 ```{r rsquared-interpretation, exercise = TRUE}
-# insert interpretation of R-squared here
+# Based on the value of R-squared, what does this tell you about how well group membership explains variation in weight?
 ```
 
 
@@ -210,11 +237,7 @@ learnrhash::encoder_ui(
 
 * * *
 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
-</a>
-<br />
 This work is licensed under a
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-  Creative Commons Attribution-ShareAlike 4.0 International License
+  Creative Commons Attribution-ShareAlike 4.0 International License. 
 </a> and adapted for use by your instructor.
