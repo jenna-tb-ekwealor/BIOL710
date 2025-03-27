@@ -40,8 +40,11 @@ glimpse(tooth_data)
 ### What variables are we working with?
 
 ```{r variable-check}
-question("Which of the following is the response variable (column name: `len`)?",
-  answer("length", correct = TRUE),
+question("Which of the following is the response variable?",
+  answer("len (tooth length)", correct = TRUE),
+  answer("dose (vitamin C amount)"),
+  answer("supp (supplement type)"),
+  answer("ToothGrowth (dataset name)"),
   answer("dose"),
   answer("supp"),
   answer("ToothGrowth"),
@@ -62,12 +65,22 @@ tooth_data %>%
 
 ## Visualizing the data
 
-Let’s explore how dose and supplement type affect tooth length.
+Let’s explore how dose and supplement type affect tooth length. Fill in the blanks to complete a grouped boxplot:
 
 ```{r boxplot-interaction, exercise = TRUE}
+ggplot(tooth_data, aes(x = factor(___), y = ___, fill = ___)) +
+  ___(position = position_dodge(0.8)) +
+  labs(x = "Dose (mg)", y = "Tooth Length")
+```
+
+```{r boxplot-interaction-solution}
 ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
   geom_boxplot(position = position_dodge(0.8)) +
   labs(x = "Dose (mg)", y = "Tooth Length")
+```
+
+```{r boxplot-interaction-check}
+gradethis::grade_this_code()
 ```
 
 
@@ -129,6 +142,35 @@ question("If the lines in an interaction plot are not parallel, what does this s
 )
 ```
 
+
+## Summary Visualization with p-value
+
+Let’s put it all together: create a boxplot of the data and add the global ANOVA p-value.
+
+```{r summary-plot, exercise = TRUE}
+aov_tooth <- aov(len ~ supp * dose, data = tooth_data)
+p_val <- summary(aov_tooth)[[1]]["Pr(>F)"][1]
+
+ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
+  geom_boxplot(position = position_dodge(0.8)) +
+  labs(
+    title = paste("Two-Way ANOVA | Global p-value:", round(p_val, 4)),
+    x = "Dose (mg)", y = "Tooth Length"
+  ) +
+  theme(legend.position = "top")
+```
+
+## Check your understanding
+
+```{r final-interpretation-question}
+question("Which of the following best summarizes the two-way ANOVA results?",
+  answer("Dose affects tooth length, and the effect of dose may depend on supplement type.", correct = TRUE),
+  answer("Supplement type is the only significant factor, dose has no effect."),
+  answer("There is no interaction, so neither factor is significant."),
+  answer("Only the interaction term is significant; main effects don't matter."),
+  allow_retry = TRUE
+)
+```
 
 ## Submit checkpoint
 
