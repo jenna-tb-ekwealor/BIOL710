@@ -77,6 +77,16 @@ ggplot(plant_growth, aes(x = group, y = weight)) +
 
 What does this plot suggest about the group means?
 
+```{r boxplot-mcq}
+question("Based on the boxplot, which groups are most likely to be significantly different from each other, and why?",
+  answer("trt2 is significantly different from both other groups because the quartiles do not overlap", correct = TRUE),
+  answer("trt1 is significantly different from ctrl because trt1 has more outliers"),
+  answer("ctrl is different from trt2 because the boxes are the same width but have different medians"),
+  answer("None of the groups are likely to be different because the whiskers all touch"),
+  allow_retry = TRUE
+)
+```
+
 ```{r plot-question}
 question("Which group *appears* to have the highest median weight?",
   answer("ctrl"),
@@ -102,16 +112,30 @@ plant_growth %>%
 
 ## One-Way ANOVA using R
 
-We’ll use the `aov()` function to carry out an ANOVA. This will produce an ANOVA table with:
-- degrees of freedom
-- sum of squares
-- mean square
-- F value
-- p-value
+Let’s run a one-way ANOVA using the `aov()` function in R.
 
-```{r base-anova, exercise = TRUE}
+The general syntax is:
+
+```r
+aov(response_variable ~ explanatory_variable, data = dataset)
+```
+
+Think carefully: which variable is the outcome you're measuring (response)? Which defines the groups (explanatory)?
+
+Fill in the blanks to run your ANOVA:
+
+```{r fill-anova, exercise = TRUE}
+aov_result <- aov(___ ~ ___, data = plant_growth)
+summary(___)
+```
+
+```{r fill-anova-solution}
 aov_result <- aov(weight ~ group, data = plant_growth)
 summary(aov_result)
+```
+
+```{r fill-anova-check}
+gradethis::grade_this_code()
 ```
 
 ::: {.info-box}
@@ -143,13 +167,31 @@ Which values in the ANOVA output correspond to:
 - The F value?
 - The p-value?
 
-*Write a few notes here in your own words to help you understand how the table works.*
+*Write your interpretation as a comment in the code chunk below. Make sure to "run code" to submit your response!*
 
+```{r interpretation, exercise = TRUE}
+# insert interpretation here
+```
+
+
+```{r rsquared-setup, include=FALSE}
+aov_result <- aov(weight ~ group, data = plant_growth)
+summary(aov_result)
+```
 
 ## Estimate R-squared
 
 R² is the proportion of variation explained by the grouping variable:
 
+```{r rsquared, exercise = TRUE}
+r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
+r_squared
+```
+
+*Write your interpretation of the R² value as a comment in the code chunk below. Make sure to "run code" to submit your response!*
+
+```{r rsquared-interpretation, exercise = TRUE}
+# insert interpretation of R-squared here
 ```{r rsquared, exercise = TRUE}
 r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
 r_squared
