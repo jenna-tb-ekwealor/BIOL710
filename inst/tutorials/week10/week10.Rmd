@@ -161,7 +161,7 @@ ggplot(tooth_data, aes(x = factor(dose), y = len, fill = supp)) +
   theme(legend.position = "top")
 ```
 
-## Check your understanding
+### Check your understanding
 
 ```{r final-interpretation-question}
 question("Which of the following best summarizes the two-way ANOVA results?",
