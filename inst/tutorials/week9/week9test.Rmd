@@ -25,7 +25,7 @@ plant_growth <- PlantGrowth
 
 ## Getting Started
 
-In this pre-class lab, you'll explore **ANOVA** (Analysis of Variance), a method used to compare the means of **more than two groups**. If you're asking:
+In this pre-lab, you'll explore **ANOVA** (Analysis of Variance), a method used to compare the means of **more than two groups**. If you're asking:
 
 > Does *any* group differ in its mean compared to the others?
 
@@ -100,87 +100,61 @@ plant_growth %>%
   )
 ```
 
-## Hypothesis: Do group means differ?
+## One-Way ANOVA using R
 
-We’ll now test:
-- **Null hypothesis (H₀)**: All groups have the same mean.
-- **Alternative (H₁)**: At least one group has a different mean.
-
-### Step 1: Observed F statistic
-
-```{r obs-f, exercise = TRUE}
-obs_f <- plant_growth %>%
-  specify(weight ~ group) %>%
-  calculate(stat = "F")
-
-obs_f
-```
-
-### Step 2: Simulate the null distribution
-
-```{r null-dist, exercise = TRUE}
-null_f <- plant_growth %>%
-  specify(weight ~ group) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
-  calculate(stat = "F")
-```
-
-### Step 3: Visualize the null distribution
-
-```{r f-plot, exercise = TRUE}
-null_f %>%
-  ggplot(aes(x = stat)) +
-  geom_histogram(binwidth = 0.5, fill = "lightblue", color = "black") +
-  geom_vline(xintercept = obs_f$stat, color = "red", linetype = "dashed")
-```
-
-### Step 4: Calculate the p-value
-
-```{r p-value, exercise = TRUE}
-null_f %>%
-  get_p_value(obs_stat = obs_f, direction = "right")
-```
-
-What does the p-value tell you about differences in plant weights across groups?
-
-*Write your interpretation here.*
-
-
-## Fill-in-the-blank Practice
-
-Try completing the code below to compute summary statistics by group:
-
-```{r fill-summarise, exercise = TRUE}
-plant_growth %>%
-  group_by(group) %>%
-  summarise(
-    mean_weight = ___(weight),
-    sd_weight = ___(weight)
-  )
-```
-
-```{r fill-summarise-solution}
-plant_growth %>%
-  group_by(group) %>%
-  summarise(
-    mean_weight = mean(weight),
-    sd_weight = sd(weight)
-  )
-```
-
-```{r fill-summarise-check}
-gradethis::grade_this_code()
-```
-
-## Bonus: Run ANOVA with base R (optional)
+We’ll use the `aov()` function to carry out an ANOVA. This will produce an ANOVA table with:
+- degrees of freedom
+- sum of squares
+- mean square
+- F value
+- p-value
 
 ```{r base-anova, exercise = TRUE}
 aov_result <- aov(weight ~ group, data = plant_growth)
 summary(aov_result)
 ```
 
-Does the F statistic and p-value match what you got from the `infer` workflow?
+::: {.info-box}
+The F statistic is calculated as the ratio of the mean square for the groups (between-group variability) to the mean square for the residuals (within-group variability). A larger F indicates greater separation between groups.
+:::
+
+### Fill in the blanks: Run your own ANOVA
+
+```{r fill-anova, exercise = TRUE}
+aov_result <- aov(___ ~ ___, data = plant_growth)
+summary(___)
+```
+
+```{r fill-anova-solution}
+aov_result <- aov(weight ~ group, data = plant_growth)
+summary(aov_result)
+```
+
+```{r fill-anova-check}
+gradethis::grade_this_code()
+```
+
+
+## Interpreting the output
+
+Which values in the ANOVA output correspond to:
+- Degrees of freedom for groups and residuals?
+- Mean square for groups and error?
+- The F value?
+- The p-value?
+
+*Write a few notes here in your own words to help you understand how the table works.*
+
+
+## Estimate R-squared
+
+R² is the proportion of variation explained by the grouping variable:
+
+```{r rsquared, exercise = TRUE}
+r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
+r_squared
+```
+
 
 ## Submit checkpoint
 
