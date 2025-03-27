@@ -198,14 +198,8 @@ ggplot(plant_growth, aes(x = group, y = residual)) +
   geom_jitter(width = 0.1, alpha = 0.7) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
   labs(title = "Residuals by Group", subtitle = "How far each point is from its group mean")
-```{r rsq-plot, exercise = TRUE}
-grand_mean <- mean(plant_growth$weight)
-
-ggplot(plant_growth, aes(x = group, y = weight)) +
-  geom_boxplot() +
-  geom_hline(yintercept = grand_mean, color = "red", linetype = "dashed") +
-  labs(title = "Group Means and Grand Mean", subtitle = "Red dashed line = grand mean")
 ```
+
 
 ```{r rsquared, exercise = TRUE}
 r_squared <- 1 - (sum(aov_result$residuals^2) / sum((plant_growth$weight - mean(plant_growth$weight))^2))
