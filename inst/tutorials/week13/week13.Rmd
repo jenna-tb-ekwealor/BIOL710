@@ -48,6 +48,7 @@ library("ape")
 library("phangorn")
 library("phytools")
 library("geiger")
+library("plotrix")
 ```
 
 Knowing the package version is important for reproducing results and for ensuring your work is reproducible by reporting the version of each package you use. This becomes particularly important with fields that are rapidly changing with increased computational power, like in statistical phylogenetics. 
@@ -61,6 +62,8 @@ packageVersion("phangorn")
 packageVersion("phytools")
 
 packageVersion("geiger")
+
+packageVersion("plotrix")
 ```
 
 
@@ -271,6 +274,7 @@ anolis.tree <- read.tree(text = anole.tre)
 ```
 
 ```{r fan-anole, exercise = TRUE}
+library("plotrix")
 plotTree(anolis.tree, type = "fan", fsize = 0.7, lwd = 1,
     ftype = "i")
 ```

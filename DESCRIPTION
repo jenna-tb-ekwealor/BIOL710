@@ -30,7 +30,8 @@ Imports:
     ape,
 	phangorn,
 	phytools,
-	geiger
+	geiger,
+	plotrix
 Remotes: 
     rstudio-education/gradethis,
     rundel/learnrhash,
