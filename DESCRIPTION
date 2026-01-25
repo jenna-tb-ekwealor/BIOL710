@@ -1,41 +1,33 @@
 Package: BIOL710
-Title: learnr labs for BIOL 710 Advanced Biometry at SFSU
-Version: 0.01
+Type: Package
+Title: learnr labs for BIOL 710 at SFSU
+Version: 0.1.0
 Authors@R: 
-    person(given = "Jenna",
-           family = "Ekwealor",
-           role = c("aut", "cre"),
-           email = "ekwealor@sfsu.edu",
-           comment = c(ORCID = "0000-0001-9014-8786"))
-Description: learnr tutorials for BIOL 710 Advanced Biometry at SFSU (modified from Sara Stoudt and Open Intro labs)
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+    person("Jenna", "Ekwealor", role = c("aut", "cre"),
+           email = "ekwealor@sfsu.edu")
+Description: A collection of interactive learnr tutorials for BIOL 710,
+    covering data manipulation, statistical inference, visualization,
+    and phylogenetic analysis using R.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-Imports: 
-    gradethis (>= 0.1.0.9002),
-    openintro (>= 2.0.0),
+
+Depends:
+    R (>= 4.1),
+    tidyverse
+
+Imports:
+    learnr (>= 0.11.0),
+    gradethis (>= 0.2.0),
+    learnrhash (>= 0.2.0),
     infer (>= 0.5.4),
-    learnr (>= 0.10.1.9007),
-    learnrhash (>= 0.1.0.9000),
-    mosaic,
-    shiny,
-    leaflet,
+    openintro (>= 2.0.0),
     gapminder,
     kableExtra,
     viridisLite,
-    rphylopic,
+    plotrix,
     ape,
-	phangorn,
-	phytools,
-	geiger,
-	plotrix
-Remotes: 
-    rstudio-education/gradethis,
-    rundel/learnrhash,
-    rstudio/learnr,
-Depends: 
-    R (>= 2.10),
-    tidyverse
+    phytools,
+    phangorn,
+    geiger,
+    rphylopic
