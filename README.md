@@ -12,9 +12,7 @@ adapted from Sara Stoudt and labs for Open Intro ISRS by Jenna Ekwealor
 
 `install.packages("remotes")`
 
-`remove.packages("learnr") ## might not need this if you do not have learnr pre-installed`
-
-`remotes::install_github("rstudio/learnr")`
+`install.packages("learnr")`
 
 `remotes::install_github("rstudio-education/gradethis")`
 
