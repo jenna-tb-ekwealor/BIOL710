@@ -19,11 +19,9 @@ adapted from Sara Stoudt and labs for Open Intro ISRS by Jenna Ekwealor
 `remotes::install_github("jenna-tb-ekwealor/BIOL710")`
 
 
-2. After install is complete (I know this seems weird, but go with it):
-
-```remove.packages("htmltools")```
-
-```install.packages("htmltools")```
+2. You might need to install learnrhash
+`install.packages("devtools")`
+`devtools::install_github("rundel/learnrhash")`
 
 Exit RStudio and then open it again.
 
